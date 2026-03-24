@@ -12,6 +12,7 @@ Project planning is slow, manual, and often repeats the same mistakes. New proje
 
 - **Automatically extracting** deliverables, acceptance criteria, and constraints from any SOW PDF.
 - **Matching** the new project to the most relevant past projects (from your Snowflake `projects` table or uploaded CSVs).
+- **Estimation & velocity** data of estimated hrs from the historic project plans will help conclude the capacity required for each task without manual estimation by human
 - **Reusing** risks, test patterns, and timeline lessons from those past projects.
 - **Generating** a complete plan with RAID log, test cases, sprint board, and deployment strategy.
 
