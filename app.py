@@ -14,51 +14,84 @@ except ImportError:
 
 st.set_page_config(layout="wide", page_title="Cortex Project Intel", page_icon="📊")
 
-# ─────────────────────────────────────────────────────────────
-# THEME
-# ─────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
     :root {
-        --forest:#1a3a2a; --forest-deep:#112218; --forest-mid:#1f4633;
-        --forest-muted:#243d2f; --green-accent:#3d8c5e; --green-bright:#4caf78;
+        /* Main dark theme */
+        --forest:#1a3a2a; --forest-deep:#0e1e14; --forest-mid:#1f4633;
+        --forest-muted:#1c3628; --green-accent:#3d8c5e; --green-bright:#4caf78;
         --green-glow:rgba(76,175,120,0.18); --green-border:rgba(76,175,120,0.25);
         --white:#ffffff; --white-90:rgba(255,255,255,0.90); --white-60:rgba(255,255,255,0.60);
-        --white-06:rgba(255,255,255,0.05); --black:#080e0a; --black-soft:#0d1a11;
-        --border:rgba(255,255,255,0.08); --border-green:rgba(76,175,120,0.22);
-        --text-primary:#f0f5f2; --text-secondary:rgba(255,255,255,0.55); --text-muted:rgba(255,255,255,0.28);
+        --white-06:rgba(255,255,255,0.05); --black:#060d08; --black-soft:#0a1410;
+        --border:rgba(255,255,255,0.07); --border-green:rgba(76,175,120,0.22);
+        --text-primary:#eef4f0; --text-secondary:rgba(255,255,255,0.50); --text-muted:rgba(255,255,255,0.26);
         --radius-sm:6px; --radius-md:10px; --radius-lg:14px;
         --amber:rgba(240,165,0,1); --red:rgba(224,92,92,1);
+
+        /* Sidebar light theme */
+        --sb-bg1: #f0faf4;
+        --sb-bg2: #dff0e8;
+        --sb-text: #1a3a2a;
+        --sb-text-muted: #4a7a5e;
+        --sb-accent: #2d7a50;
+        --sb-accent-bright: #3d8c5e;
+        --sb-border: rgba(45,122,80,0.2);
+        --sb-card: rgba(255,255,255,0.8);
     }
+
     html,body,[class*="css"],.stApp,div,p,span,label,input,textarea,select,button {
-        font-family:'Plus Jakarta Sans',sans-serif !important; font-size:13px !important;
+        font-family:'DM Sans',sans-serif !important; font-size:13px !important;
     }
-    .stApp { background:var(--forest-deep) !important; color:var(--text-primary) !important; }
+
+    .stApp { background: var(--forest-deep) !important; color:var(--text-primary) !important; }
     .stApp::after {
         content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-        background-image:linear-gradient(rgba(76,175,120,0.03) 1px,transparent 1px),
-                         linear-gradient(90deg,rgba(76,175,120,0.03) 1px,transparent 1px);
-        background-size:32px 32px;
+        background-image:
+            radial-gradient(ellipse at 20% 20%, rgba(61,140,94,0.06) 0%, transparent 60%),
+            radial-gradient(ellipse at 80% 80%, rgba(76,175,120,0.04) 0%, transparent 50%),
+            linear-gradient(rgba(76,175,120,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(76,175,120,0.025) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
     }
+
     .stApp > header { display:none !important; }
     #root > div:first-child { padding-top:0 !important; }
     .block-container { padding-top:0.75rem !important; padding-bottom:2rem !important; max-width:100% !important; }
-    [data-testid="stSidebar"] { background:var(--black-soft) !important; border-right:1px solid var(--border) !important; }
-    [data-testid="stSidebar"] > div:first-child { padding-top:1.5rem !important; }
-    [data-testid="stSidebar"] label,[data-testid="stSidebar"] .stMarkdown p {
-        font-size:11px !important; color:var(--text-secondary) !important;
-        text-transform:uppercase !important; letter-spacing:0.08em !important; font-weight:600 !important;
+
+    /* ════════════════════════════════════════
+       SIDEBAR — Beautiful Light Theme
+       ════════════════════════════════════════ */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #f5fdf8 0%, #eaf7ef 35%, #dff0e8 100%) !important;
+        border-right: 1px solid rgba(45,122,80,0.18) !important;
+        box-shadow: 4px 0 32px rgba(0,0,0,0.1) !important;
+    }
+    [data-testid="stSidebar"] > div:first-child { padding-top: 0 !important; }
+
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] .stMarkdown p {
+        color: #2d5a3a !important;
+        font-size: 11px !important;
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+        font-weight: 500 !important;
     }
     [data-testid="stSidebar"] h3 {
-        font-size:10px !important; font-weight:700 !important; text-transform:uppercase !important;
-        letter-spacing:0.14em !important; color:var(--green-bright) !important;
-        margin-bottom:0.6rem !important; padding-bottom:0.45rem !important; border-bottom:1px solid var(--border) !important;
+        font-size: 9px !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.18em !important;
+        color: var(--sb-accent) !important;
+        margin-bottom: 0.6rem !important;
+        padding-bottom: 0.4rem !important;
+        border-bottom: 2px solid rgba(45,122,80,0.2) !important;
     }
     [data-testid="stSidebar"] .stCheckbox label p,
     [data-testid="stSidebar"] .stCheckbox span,
     [data-testid="stSidebar"] .stCheckbox label {
-        color: var(--text-primary) !important;
+        color: #1a3a2a !important;
         font-size: 12px !important;
         font-weight: 500 !important;
     }
@@ -68,28 +101,209 @@ st.markdown("""
     [data-testid="stSidebar"] .stTextInput label,
     [data-testid="stSidebar"] .stTextArea label,
     [data-testid="stSidebar"] .stFileUploader label {
-        color: var(--text-secondary) !important;
+        color: #3a6a4a !important;
+        font-weight: 600 !important;
     }
-    .stSelectbox label, .stMultiSelect label {
-        color: var(--text-primary) !important;
+    [data-testid="stSidebar"] .stTextInput input,
+    [data-testid="stSidebar"] .stTextArea textarea {
+        background: rgba(255,255,255,0.9) !important;
+        border: 1.5px solid rgba(45,122,80,0.22) !important;
+        border-radius: 8px !important;
+        color: #1a3a2a !important;
+        font-size: 12px !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
     }
+    [data-testid="stSidebar"] .stTextInput input:focus,
+    [data-testid="stSidebar"] .stTextArea textarea:focus {
+        border-color: #3d8c5e !important;
+        box-shadow: 0 0 0 3px rgba(61,140,94,0.15) !important;
+        outline: none !important;
+    }
+    [data-testid="stSidebar"] .stSelectbox > div > div,
+    [data-testid="stSidebar"] .stMultiSelect > div > div {
+        background: rgba(255,255,255,0.9) !important;
+        border: 1.5px solid rgba(45,122,80,0.22) !important;
+        border-radius: 8px !important;
+        color: #1a3a2a !important;
+    }
+    [data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] span,
+    [data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] div {
+        color: #1a3a2a !important;
+    }
+    [data-testid="stSidebar"] .stSlider > div > div > div { background: #3d8c5e !important; }
+    [data-testid="stSidebar"] .stAlert {
+        background: rgba(61,140,94,0.08) !important;
+        border-color: rgba(61,140,94,0.35) !important;
+        color: #1a4a2a !important;
+    }
+
+    /* Sidebar button - gradient pop */
+    [data-testid="stSidebar"] .stButton > button {
+        background: linear-gradient(135deg, #1f5c3a 0%, #2d7a50 50%, #3d8c5e 100%) !important;
+        color: #fff !important;
+        font-weight: 800 !important;
+        font-size: 11px !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 0.7rem 1.2rem !important;
+        box-shadow: 0 4px 20px rgba(45,122,80,0.35), 0 1px 4px rgba(0,0,0,0.1) !important;
+        transition: all 0.22s ease !important;
+        width: 100% !important;
+    }
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: linear-gradient(135deg, #2d7a50 0%, #4caf78 100%) !important;
+        box-shadow: 0 6px 28px rgba(61,140,94,0.5), 0 2px 8px rgba(0,0,0,0.15) !important;
+        transform: translateY(-2px) !important;
+    }
+
+    /* Sidebar card blocks */
+    .sb-card {
+        background: rgba(255,255,255,0.78);
+        border: 1.5px solid rgba(45,122,80,0.16);
+        border-radius: 12px;
+        padding: 0.9rem 1rem;
+        margin-bottom: 0.7rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .sb-card:hover {
+        border-color: rgba(61,140,94,0.32) !important;
+        box-shadow: 0 4px 20px rgba(61,140,94,0.1) !important;
+    }
+
+    /* Sidebar header banner */
+    .sb-header {
+        background: linear-gradient(135deg, #112218 0%, #1f4633 60%, #2d7a50 100%);
+        padding: 1.2rem 1.1rem 1rem;
+        margin-bottom: 0.75rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .sb-header::after {
+        content:'';
+        position: absolute;
+        top: -30px; right: -30px;
+        width: 100px; height: 100px;
+        background: radial-gradient(circle, rgba(76,175,120,0.25) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .sb-header-title {
+        font-size: 14px !important; font-weight: 800 !important; color: #fff !important;
+        letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 0.2rem !important;
+        text-transform: none !important;
+    }
+    .sb-header-sub {
+        font-size: 10px !important; color: rgba(255,255,255,0.45) !important;
+        font-weight: 500 !important; letter-spacing: 0.06em; text-transform: uppercase !important;
+    }
+
+    /* Health score widget */
+    .health-widget {
+        background: linear-gradient(135deg, #ffffff 0%, #f0faf4 100%);
+        border: 1.5px solid rgba(45,122,80,0.22);
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 0.7rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .health-title {
+        font-size: 9px !important; font-weight: 800 !important; color: #2d7a50 !important;
+        text-transform: uppercase !important; letter-spacing: 0.16em !important;
+        margin-bottom: 0.6rem !important; display: flex; align-items: center; gap: 0.35rem;
+    }
+    .health-row { margin-bottom: 0.4rem; }
+    .health-row-label {
+        display: flex; justify-content: space-between;
+        font-size: 10px !important; font-weight: 600 !important; color: #2d5a3a !important;
+        margin-bottom: 0.15rem; text-transform: none !important; letter-spacing: 0 !important;
+    }
+    .health-track {
+        height: 5px; background: rgba(0,0,0,0.08); border-radius: 999px; overflow: hidden;
+    }
+    .health-fill { height: 100%; border-radius: 999px; }
+
+    /* Effort estimator dark card */
+    .effort-card {
+        background: linear-gradient(135deg, #0e1e14 0%, #1a3a2a 100%);
+        border: 1px solid rgba(76,175,120,0.2);
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 0.7rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .effort-title {
+        font-size: 9px !important; font-weight: 800 !important; color: #4caf78 !important;
+        text-transform: uppercase !important; letter-spacing: 0.16em !important;
+        margin-bottom: 0.6rem !important;
+    }
+    .effort-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+        font-size: 11px !important;
+    }
+    .effort-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .effort-label { color: rgba(255,255,255,0.45) !important; font-weight: 500 !important; }
+    .effort-value { color: #4caf78 !important; font-weight: 700 !important; }
+
+    /* AI Tip card */
+    .ai-tip-card {
+        background: linear-gradient(135deg, #e8f7ee 0%, #d8f0e4 100%);
+        border: 1.5px solid rgba(45,122,80,0.28);
+        border-left: 4px solid #3d8c5e;
+        border-radius: 0 12px 12px 0;
+        padding: 0.8rem 0.9rem;
+        margin-bottom: 0.7rem;
+    }
+    .ai-tip-header {
+        font-size: 9px !important; font-weight: 800 !important; color: #2d7a50 !important;
+        text-transform: uppercase !important; letter-spacing: 0.14em !important;
+        margin-bottom: 0.3rem !important; display: flex; align-items: center; gap: 0.3rem;
+    }
+    .ai-tip-text {
+        font-size: 11px !important; color: #1a3a2a !important; line-height: 1.6 !important;
+        font-weight: 500 !important;
+    }
+
+    /* Methodology pill */
+    .method-pill {
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        background: rgba(45,122,80,0.12); border: 1.5px solid rgba(45,122,80,0.28);
+        border-radius: 20px; padding: 0.28rem 0.75rem;
+        font-size: 10px !important; font-weight: 700 !important; color: #1f5c3a !important;
+        letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    /* Role input on light bg */
+    [data-testid="stSidebar"] .stNumberInput input {
+        background: rgba(255,255,255,0.9) !important;
+        border: 1.5px solid rgba(45,122,80,0.22) !important;
+        color: #1a3a2a !important;
+        border-radius: 8px !important;
+    }
+
+    /* Main content elements (unchanged dark theme) */
+    .stSelectbox label, .stMultiSelect label { color: var(--text-primary) !important; }
     .stSelectbox [data-baseweb="select"] span,
-    .stSelectbox [data-baseweb="select"] div {
-        color: var(--text-primary) !important;
-    }
+    .stSelectbox [data-baseweb="select"] div { color: var(--text-primary) !important; }
+
     h1 { font-size:22px !important; font-weight:800 !important; color:var(--white) !important; margin:0 !important; }
     h2 { font-size:14px !important; font-weight:700 !important; color:var(--white-90) !important; margin:0 0 0.9rem 0 !important; }
     h3 { font-size:13px !important; font-weight:600 !important; color:var(--white-90) !important; margin-bottom:0.6rem !important; }
+
     [data-testid="stMetric"] {
         background:var(--forest-muted) !important; border-radius:var(--radius-md) !important;
         padding:1rem !important; border:1px solid var(--border) !important;
-        position:relative !important; overflow:hidden !important; transition:border-color 0.2s,box-shadow 0.2s !important;
+        position:relative !important; overflow:hidden !important;
+        transition:border-color 0.2s,box-shadow 0.2s !important;
     }
     [data-testid="stMetric"]::before { content:''; position:absolute; top:0; left:0; right:0; height:2px;
         background:linear-gradient(90deg,var(--green-bright),transparent); }
     [data-testid="stMetric"]:hover { border-color:var(--border-green) !important; box-shadow:0 0 16px var(--green-glow) !important; }
     [data-testid="stMetricValue"] { font-size:18px !important; font-weight:800 !important; color:var(--white) !important; line-height:1 !important; }
     [data-testid="stMetricLabel"] { font-size:10px !important; font-weight:600 !important; color:var(--text-muted) !important; text-transform:uppercase !important; letter-spacing:0.08em !important; }
+
     .stButton > button {
         background:var(--green-accent) !important; color:var(--white) !important;
         font-weight:700 !important; font-size:11px !important; letter-spacing:0.07em !important;
@@ -98,6 +312,7 @@ st.markdown("""
         transition:all 0.18s ease !important; width:100% !important;
     }
     .stButton > button:hover { background:var(--green-bright) !important; box-shadow:0 4px 20px rgba(76,175,120,0.45) !important; transform:translateY(-1px) !important; }
+
     .stTabs [data-baseweb="tab-list"] {
         background:var(--forest-muted) !important; border-radius:var(--radius-md) !important;
         border:1px solid var(--border) !important; padding:0.25rem !important; gap:0.15rem !important;
@@ -109,16 +324,17 @@ st.markdown("""
         background:var(--forest) !important; border:1px solid var(--border) !important;
         border-radius:0 0 var(--radius-lg) var(--radius-lg) !important; padding:1.25rem !important; margin-top:-1px !important;
     }
+
     .streamlit-expanderHeader {
         background:var(--forest-muted) !important; border-radius:var(--radius-sm) !important;
         border:1px solid var(--border) !important; padding:0.6rem 1rem !important;
         font-weight:600 !important; font-size:12px !important; color:var(--text-secondary) !important;
     }
-    .streamlit-expanderHeader:hover { border-color:var(--border-green) !important; color:var(--text-primary) !important; }
     .streamlit-expanderContent {
         background:var(--forest-muted) !important; border:1px solid var(--border) !important;
         border-top:none !important; border-radius:0 0 var(--radius-sm) var(--radius-sm) !important; padding:1rem !important;
     }
+
     .stAlert { background:rgba(76,175,120,0.08) !important; border:1px solid var(--border-green) !important;
                border-left:3px solid var(--green-bright) !important; border-radius:var(--radius-md) !important;
                color:var(--text-primary) !important; font-size:12px !important; }
@@ -133,9 +349,11 @@ st.markdown("""
     .stSlider > div > div > div { background:var(--green-accent) !important; }
     .stDataFrame { border:1px solid var(--border) !important; border-radius:var(--radius-md) !important; font-size:12px !important; }
     hr { border:none !important; height:1px !important; background:var(--border) !important; margin:1.5rem 0 !important; }
+
     .top-header {
-        position:sticky; top:0; z-index:999; background:rgba(17,34,24,0.92); backdrop-filter:blur(14px);
-        border-bottom:1px solid rgba(76,175,120,0.15); padding:0.6rem 1.5rem;
+        position:sticky; top:0; z-index:999;
+        background:rgba(14,30,20,0.94); backdrop-filter:blur(16px);
+        border-bottom:1px solid rgba(76,175,120,0.12); padding:0.65rem 1.5rem;
         margin:-0.75rem -1rem 1.5rem -1rem; display:flex; align-items:center; gap:1rem;
     }
     .live-pill { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(76,175,120,0.12);
@@ -145,10 +363,12 @@ st.markdown("""
     .live-dot::after { content:''; position:absolute; inset:-3px; border-radius:50%;
                        border:2px solid rgba(76,175,120,0.5); animation:live-ping 1.4s ease-out infinite; }
     @keyframes live-ping { 0%{transform:scale(0.8);opacity:1;} 100%{transform:scale(2.2);opacity:0;} }
+
     .panel { background:var(--forest); border:1px solid var(--border); border-radius:var(--radius-lg);
              padding:1.25rem 1.4rem; margin-bottom:1.1rem; position:relative; overflow:hidden; }
     .panel::before { content:''; position:absolute; top:0; left:0; right:0; height:1px;
-                     background:linear-gradient(90deg,transparent,var(--green-bright),transparent); opacity:0.4; }
+                     background:linear-gradient(90deg,transparent,var(--green-bright),transparent); opacity:0.35; }
+
     .section-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em;
                      color:var(--green-bright); margin-bottom:0.35rem; opacity:0.8; }
     .sb-block { background:rgba(255,255,255,0.03); border:1px solid var(--border);
@@ -156,21 +376,20 @@ st.markdown("""
     .tag { display:inline-block; background:var(--white-06); border:1px solid var(--border);
            color:var(--text-secondary); font-size:10px; font-weight:600; padding:0.15rem 0.55rem;
            border-radius:4px; margin-right:0.3rem; letter-spacing:0.04em; }
+
     .proj-card { background:var(--forest-mid); border:1px solid var(--border); border-radius:var(--radius-md);
                  padding:0.85rem 1rem; margin-bottom:0.5rem; transition:border-color 0.2s,box-shadow 0.2s; }
     .proj-card:hover { border-color:var(--border-green); box-shadow:0 0 12px var(--green-glow); }
     .proj-card-name { font-weight:700; font-size:12px; color:var(--white-90); margin-bottom:0.2rem; }
     .proj-card-desc { font-size:11px; color:var(--text-secondary); line-height:1.45; }
+
     .sprint-card { background:var(--forest-mid); border:1px solid var(--border-green); border-radius:var(--radius-md);
                    padding:0.9rem 1rem; margin-bottom:0.6rem; border-left:3px solid var(--green-bright); }
     .sprint-header { font-size:12px; font-weight:700; color:var(--green-bright); margin-bottom:0.35rem; }
     .sprint-goal { font-size:11px; color:var(--white-90); font-weight:600; margin-bottom:0.4rem; }
     .sprint-task { font-size:11px; color:var(--text-secondary); padding:0.2rem 0; border-bottom:1px solid rgba(255,255,255,0.04); }
     .sprint-task:last-child { border-bottom:none; }
-    .milestone-row { display:flex; gap:0.75rem; padding:0.45rem 0; border-bottom:1px solid var(--border); align-items:flex-start; }
-    .milestone-week { font-size:10px; font-weight:700; color:var(--green-bright); min-width:4.5rem; padding-top:0.1rem; }
-    .milestone-text { font-size:11px; color:var(--text-secondary); }
-    .plan-section-title { font-size:11px; font-weight:700; color:#4caf78; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem; }
+
     .pulse-loader { display:flex; flex-direction:column; align-items:center; justify-content:center;
                     gap:1.4rem; padding:3rem 2rem; background:var(--forest); border:1px solid var(--border);
                     border-radius:var(--radius-lg); margin-bottom:1.1rem; }
@@ -190,200 +409,59 @@ st.markdown("""
     .pulse-step.active .step-dot { background:#fff; box-shadow:0 0 6px rgba(255,255,255,0.6); animation:blink 0.9s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-    /* ── FIX 1: Full Plan section labels ── */
-    .plan-section-header {
-        font-size: 12px !important;
-        font-weight: 700 !important;
-        color: #4caf78 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        margin: 1.4rem 0 0.5rem 0 !important;
-        padding-bottom: 0.4rem !important;
-        border-bottom: 2px solid rgba(76,175,120,0.35) !important;
-        display: block !important;
-    }
-    .plan-prose-line {
-        color: rgba(255,255,255,0.72) !important;
-        font-size: 12px !important;
-        line-height: 1.8 !important;
-        margin-bottom: 0.2rem !important;
-        display: block !important;
-    }
-    .plan-bullet-line {
-        color: rgba(255,255,255,0.72) !important;
-        font-size: 12px !important;
-        line-height: 1.7 !important;
-        padding-left: 0.75rem !important;
-        display: block !important;
-    }
-    .plan-numbered-line {
-        color: rgba(255,255,255,0.72) !important;
-        font-size: 12px !important;
-        font-weight: 600 !important;
-        line-height: 1.7 !important;
-        display: block !important;
-    }
-    .plan-table-wrap {
-        overflow-x: auto !important;
-        margin: 0.6rem 0 1.5rem 0 !important;
-        border-radius: 8px !important;
-        border: 1.5px solid rgba(76,175,120,0.35) !important;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
-    }
-    .plan-table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        font-size: 11.5px !important;
-    }
-    .plan-th {
-        background: #0e2018 !important;
-        color: #4caf78 !important;
-        padding: 0.6rem 1rem !important;
-        text-align: left !important;
-        font-size: 10px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.09em !important;
-        text-transform: uppercase !important;
-        border-bottom: 2px solid rgba(76,175,120,0.4) !important;
-        border-right: 1px solid rgba(255,255,255,0.05) !important;
-        white-space: nowrap !important;
-    }
-    .plan-th:last-child { border-right: none !important; }
-    .plan-td {
-        padding: 0.5rem 1rem !important;
-        font-size: 11px !important;
-        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-        border-right: 1px solid rgba(255,255,255,0.04) !important;
-        vertical-align: top !important;
-        line-height: 1.6 !important;
-        color: rgba(255,255,255,0.82) !important;
-    }
-    .plan-td:last-child { border-right: none !important; }
-    .plan-td-even { background: #152a1e !important; }
-    .plan-td-odd  { background: #112218 !important; }
-    .plan-table tbody tr:hover .plan-td {
-        background: rgba(76,175,120,0.07) !important;
-    }
+    .plan-section-header { font-size:12px !important; font-weight:700 !important; color:#4caf78 !important;
+        text-transform:uppercase !important; letter-spacing:0.1em !important; margin:1.4rem 0 0.5rem 0 !important;
+        padding-bottom:0.4rem !important; border-bottom:2px solid rgba(76,175,120,0.35) !important; display:block !important; }
 
-    /* ── FIX 2: Q&A Conversation History ── */
-    .qa-section-label {
-        font-size: 10px !important;
-        font-weight: 700 !important;
-        color: rgba(255,255,255,0.35) !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.12em !important;
-        margin-bottom: 0.75rem !important;
-        padding-bottom: 0.35rem !important;
-        border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-        display: block !important;
-    }
-    .qa-question {
-        background: rgba(76,175,120,0.1) !important;
-        border: 1px solid rgba(76,175,120,0.3) !important;
-        border-left: 3px solid #4caf78 !important;
-        border-radius: 8px !important;
-        padding: 0.7rem 1rem !important;
-        margin-bottom: 0.35rem !important;
-        font-size: 12px !important;
-        color: #4caf78 !important;
-        font-weight: 600 !important;
-        display: block !important;
-    }
-    .qa-q-label {
-        font-size: 9px !important;
-        font-weight: 700 !important;
-        color: rgba(76,175,120,0.6) !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        margin-bottom: 0.25rem !important;
-        display: block !important;
-    }
-    .qa-q-text {
-        font-size: 12px !important;
-        color: #f0f5f2 !important;
-        font-weight: 600 !important;
-        display: block !important;
-    }
-    .qa-answer {
-        background: #1f3d2a !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
-        border-radius: 0 8px 8px 8px !important;
-        padding: 0.85rem 1rem !important;
-        margin-bottom: 1rem !important;
-        font-size: 12px !important;
-        color: rgba(255,255,255,0.82) !important;
-        line-height: 1.75 !important;
-        display: block !important;
-    }
-    .qa-a-label {
-        font-size: 9px !important;
-        font-weight: 700 !important;
-        color: rgba(255,255,255,0.28) !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.1em !important;
-        margin-bottom: 0.3rem !important;
-        display: block !important;
-    }
+    .plan-table-wrap { overflow-x:auto !important; margin:0.6rem 0 1.5rem 0 !important;
+        border-radius:8px !important; border:1.5px solid rgba(76,175,120,0.35) !important;
+        box-shadow:0 2px 16px rgba(0,0,0,0.35) !important; }
+    .plan-table { width:100% !important; border-collapse:collapse !important; font-size:11.5px !important; }
+    .plan-th { background:#0e2018 !important; color:#4caf78 !important; padding:0.6rem 1rem !important;
+        text-align:left !important; font-size:10px !important; font-weight:800 !important;
+        letter-spacing:0.09em !important; text-transform:uppercase !important;
+        border-bottom:2px solid rgba(76,175,120,0.4) !important; border-right:1px solid rgba(255,255,255,0.05) !important; }
+    .plan-td { padding:0.5rem 1rem !important; font-size:11px !important;
+        border-bottom:1px solid rgba(255,255,255,0.05) !important; border-right:1px solid rgba(255,255,255,0.04) !important;
+        vertical-align:top !important; line-height:1.6 !important; color:rgba(255,255,255,0.82) !important; }
+    .plan-td-even { background:#152a1e !important; }
+    .plan-td-odd  { background:#112218 !important; }
 
-    /* ── FIX 3: Preview plan text ── */
-    .plan-preview-wrap {
-        background: #0d1a11 !important;
-        border: 1px solid rgba(76,175,120,0.2) !important;
-        border-radius: 8px !important;
-        padding: 1rem 1.25rem !important;
-        max-height: 320px !important;
-        overflow-y: auto !important;
-    }
-    .plan-preview-wrap pre {
-        font-family: 'JetBrains Mono', 'Courier New', monospace !important;
-        font-size: 11px !important;
-        color: #e0f0e6 !important;
-        line-height: 1.75 !important;
-        white-space: pre-wrap !important;
-        word-break: break-word !important;
-        margin: 0 !important;
-        background: transparent !important;
-    }
+    .qa-question { background:rgba(76,175,120,0.1) !important; border:1px solid rgba(76,175,120,0.3) !important;
+        border-left:3px solid #4caf78 !important; border-radius:8px !important;
+        padding:0.7rem 1rem !important; margin-bottom:0.35rem !important;
+        font-size:12px !important; color:#4caf78 !important; font-weight:600 !important; display:block !important; }
+    .qa-answer { background:#1f3d2a !important; border:1px solid rgba(255,255,255,0.08) !important;
+        border-radius:0 8px 8px 8px !important; padding:0.85rem 1rem !important;
+        margin-bottom:1rem !important; font-size:12px !important; color:rgba(255,255,255,0.82) !important;
+        line-height:1.75 !important; display:block !important; }
 
-    /* ── FIX: CSV badge styling ── */
-    .csv-badge-imported {
-        display: inline-block !important;
-        background: rgba(76,175,120,0.15) !important;
-        border: 1px solid rgba(76,175,120,0.4) !important;
-        color: #4caf78 !important;
-        font-size: 9px !important;
-        font-weight: 700 !important;
-        padding: 0.1rem 0.45rem !important;
-        border-radius: 4px !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.06em !important;
-        margin-left: 0.4rem !important;
-    }
-    .csv-badge-pending {
-        display: inline-block !important;
-        background: rgba(240,165,0,0.1) !important;
-        border: 1px solid rgba(240,165,0,0.35) !important;
-        color: rgba(240,165,0,0.9) !important;
-        font-size: 9px !important;
-        font-weight: 700 !important;
-        padding: 0.1rem 0.45rem !important;
-        border-radius: 4px !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.06em !important;
-        margin-left: 0.4rem !important;
-    }
+    .plan-preview-wrap { background:#0d1a11 !important; border:1px solid rgba(76,175,120,0.2) !important;
+        border-radius:8px !important; padding:1rem 1.25rem !important; max-height:320px !important; overflow-y:auto !important; }
+    .plan-preview-wrap pre { font-family:'JetBrains Mono','Courier New',monospace !important;
+        font-size:11px !important; color:#e0f0e6 !important; line-height:1.75 !important;
+        white-space:pre-wrap !important; word-break:break-word !important; margin:0 !important; background:transparent !important; }
 
-    textarea:disabled, textarea[disabled] {
-        color: #e0f0e6 !important;
-        -webkit-text-fill-color: #e0f0e6 !important;
-        opacity: 1 !important;
-        background: #0d1a11 !important;
-    }
-    .stTextArea textarea { color: var(--text-primary) !important; }
+    .csv-badge-imported { display:inline-block !important; background:rgba(76,175,120,0.15) !important;
+        border:1px solid rgba(76,175,120,0.4) !important; color:#4caf78 !important;
+        font-size:9px !important; font-weight:700 !important; padding:0.1rem 0.45rem !important;
+        border-radius:4px !important; text-transform:uppercase !important; margin-left:0.4rem !important; }
+    .csv-badge-pending { display:inline-block !important; background:rgba(240,165,0,0.1) !important;
+        border:1px solid rgba(240,165,0,0.35) !important; color:rgba(240,165,0,0.9) !important;
+        font-size:9px !important; font-weight:700 !important; padding:0.1rem 0.45rem !important;
+        border-radius:4px !important; text-transform:uppercase !important; margin-left:0.4rem !important; }
+
+    textarea:disabled, textarea[disabled] { color:#e0f0e6 !important; -webkit-text-fill-color:#e0f0e6 !important;
+        opacity:1 !important; background:#0d1a11 !important; }
+    .stTextArea textarea { color:var(--text-primary) !important; }
 
     .ai-output { background:var(--black-soft); border-left:3px solid var(--green-bright);
                  border:1px solid var(--border-green); border-radius:var(--radius-md);
                  padding:1.25rem 1.4rem; font-size:12px; line-height:1.85; color:var(--white-90); }
+
+    .plan-section-title { font-size:11px; font-weight:700; color:#4caf78; text-transform:uppercase;
+                         letter-spacing:0.1em; margin-bottom:0.5rem; }
+
     .footer { text-align:center; margin-top:3rem; padding:1.5rem; color:var(--text-muted);
               font-size:11px; letter-spacing:0.05em; border-top:1px solid var(--border); }
     .footer span { color:var(--green-bright); }
@@ -438,43 +516,33 @@ for k, v in [("plan", None), ("plan_name", ""), ("qa_history", []),
              ("csv_projects", []), ("past_projects_df", None),
              ("wbs_structured", None), ("plan_methodology", "Agile / Scrum"),
              ("sow_requirements", None), ("past_patterns", None),
-             ("csv_imported", False),
-             # FIX: track imported CSV names so dropdown label is accurate
-             ("imported_csv_names", set())]:
+             ("csv_imported", False), ("imported_csv_names", set())]:
     if k not in st.session_state:
         st.session_state[k] = v
 
-# ── Helpers ───────────────────────────────────────────────────
 def safe_str(val):
     return '' if pd.isna(val) else str(val)
 
 def parse_date_safe(date_str):
-    if not date_str:
-        return ''
+    if not date_str: return ''
     try:
         dt = pd.to_datetime(date_str, errors='coerce')
-        if pd.notna(dt):
-            return dt.strftime('%Y-%m-%d')
-    except Exception:
-        pass
+        if pd.notna(dt): return dt.strftime('%Y-%m-%d')
+    except Exception: pass
     return ''
 
 def load_past_projects():
     try:
-        # Load all projects (Completed + any status) so uploaded CSVs and saved plans always appear
         df = session.sql("SELECT * FROM projects").to_pandas()
         if df.empty:
             return pd.DataFrame(columns=['project_id','project_name','description',
                                          'wbs_summary','risk_log_summary','test_cases_summary','deployment_plan'])
         id_candidates = ['project_id','id','projectid','PROJECT_ID','PROJECTID']
         found_id = next((c for c in id_candidates if c in df.columns), None)
-        if found_id:
-            df.rename(columns={found_id: 'project_id'}, inplace=True)
-        else:
-            df['project_id'] = df.index + 1
+        if found_id: df.rename(columns={found_id: 'project_id'}, inplace=True)
+        else: df['project_id'] = df.index + 1
         for col in ['project_name','description','wbs_summary','risk_log_summary','test_cases_summary','deployment_plan']:
-            if col not in df.columns:
-                df[col] = ''
+            if col not in df.columns: df[col] = ''
         df = df.drop_duplicates(subset=['project_name'])
         return df[['project_id','project_name','description','wbs_summary',
                    'risk_log_summary','test_cases_summary','deployment_plan']]
@@ -495,10 +563,8 @@ def parse_csv_as_project(uploaded_file):
             elif 'start date' in cl: col_map['start_date'] = col
             elif 'end date' in cl: col_map['end_date'] = col
             elif 'project name' in cl: col_map['project_name'] = col
-
         project_name = safe_str(df[col_map['project_name']].iloc[0]) if 'project_name' in col_map \
                        else uploaded_file.name.replace('.csv','').replace('_',' ').title()
-
         wbs_lines = []
         for _, row in df.iterrows():
             task    = safe_str(row.get(col_map.get('tasks',''), ''))
@@ -510,17 +576,13 @@ def parse_csv_as_project(uploaded_file):
                 if subtask: line += f" → {subtask}"
                 if start or end: line += f" (Start: {start}, End: {end})"
                 wbs_lines.append(line)
-
         start_date, end_date = '', ''
         if 'start_date' in col_map:
             for val in df[col_map['start_date']]:
-                if pd.notna(val) and val:
-                    start_date = parse_date_safe(safe_str(val)); break
+                if pd.notna(val) and val: start_date = parse_date_safe(safe_str(val)); break
         if 'end_date' in col_map:
             for val in df[col_map['end_date']]:
-                if pd.notna(val) and val:
-                    end_date = parse_date_safe(safe_str(val)); break
-
+                if pd.notna(val) and val: end_date = parse_date_safe(safe_str(val)); break
         return {"project_name": project_name,
                 "description": f"Imported from {uploaded_file.name}. {len(df)} rows.",
                 "wbs_summary": "\n".join(wbs_lines) or "No tasks found.",
@@ -530,364 +592,444 @@ def parse_csv_as_project(uploaded_file):
         return None
 
 def parse_wbs_into_sprints(plan_text, duration_weeks, methodology):
+    """
+    Extract real sprint/phase data from plan text.
+    Strategy 1: Ask Cortex to structure the existing plan text into JSON.
+    Strategy 2: Parse the DELIVERY TIMELINE pipe-delimited table directly from plan text.
+    Strategy 3: Parse any sprint/phase headings + bullet tasks from plain text.
+    Never falls back to dummy ["Define","Build","Test"] placeholders.
+    """
     is_agile = any(k in methodology.lower() for k in ['agile','scrum','safe'])
     sprint_len = 2
     num_sprints = max(1, duration_weeks // sprint_len)
+    unit = "Sprint" if is_agile else "Phase"
 
+    # ── Strategy 1: Cortex JSON extraction from the real plan text ──
     prompt = (
-        f"Extract the WBS from this project plan as structured JSON.\n\n"
-        f"Plan (excerpt):\n{plan_text[:3500]}\n\n"
-        f"Methodology: {methodology} | Duration: {duration_weeks} weeks\n"
-        f"{'Divide into ' + str(num_sprints) + ' Sprints of 2 weeks each.' if is_agile else 'Divide into phases.'}\n\n"
-        f"Return ONLY a valid JSON array, no markdown:\n"
-        f'[{{"sprint_num":1,"name":"Sprint 1: Title","weeks":"Week 1-2",'
-        f'"goal":"One sentence goal.","stories":["task1","task2","task3"],'
-        f'"deliverable":"What is delivered"}}]'
+        f"You are a PMO analyst. Read the project plan below and extract every sprint or phase "
+        f"into a JSON array. Use the ACTUAL task names and deliverables from the plan — "
+        f"do NOT invent generic placeholder text.\n\n"
+        f"Plan text:\n{plan_text[:4000]}\n\n"
+        f"Rules:\n"
+        f"- Extract {num_sprints} {unit}s covering the full {duration_weeks}-week timeline.\n"
+        f"- 'stories' must contain the REAL tasks from the plan (4-6 tasks per sprint).\n"
+        f"- 'goal' must be the REAL sprint objective from the plan.\n"
+        f"- 'deliverable' must be the REAL acceptance criterion or output.\n"
+        f"- Copy task names verbatim from the plan — no paraphrasing, no placeholders.\n\n"
+        f"Return ONLY a valid JSON array, no markdown fences, no extra text:\n"
+        f'[{{"sprint_num":1,"name":"{unit} 1: <real title>","weeks":"Week 1-2",'
+        f'"goal":"<real goal from plan>","stories":["<real task 1>","<real task 2>","<real task 3>","<real task 4>"],'
+        f'"deliverable":"<real deliverable from plan>"}}]'
     )
     try:
         safe = prompt.replace("'", "''")
         raw  = session.sql(f"SELECT cortex_complete('{safe}') as r").collect()[0][0]
-        raw  = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
+        # Strip any markdown fences
+        raw = raw.strip()
+        for fence in ["```json", "```JSON", "```"]:
+            if raw.startswith(fence): raw = raw[len(fence):]
+            if raw.endswith(fence):   raw = raw[:-len(fence)]
+        raw = raw.strip()
+        # Find JSON array bounds
+        start = raw.find('['); end = raw.rfind(']')
+        if start != -1 and end != -1: raw = raw[start:end+1]
         parsed = json.loads(raw)
-        if isinstance(parsed, list) and parsed:
-            return parsed
+        if isinstance(parsed, list) and len(parsed) > 0:
+            # Validate: reject if stories are still generic placeholders
+            first_stories = parsed[0].get('stories', [])
+            placeholders = {'define','build','test','task 1','task 2','task 3','<real task 1>'}
+            real_tasks = [s for s in first_stories if str(s).lower().strip() not in placeholders and len(str(s)) > 10]
+            if real_tasks:
+                return parsed
     except Exception:
         pass
+
+    # ── Strategy 2: Parse DELIVERY TIMELINE pipe table from plan text ──
+    sprints_from_timeline = {}
+    tl_section = re.search(
+        r'##\s*DELIVERY TIMELINE(.*?)(?=##\s+[A-Z]|\Z)',
+        plan_text, re.DOTALL | re.IGNORECASE
+    )
+    if tl_section:
+        for line in tl_section.group(1).split('\n'):
+            parts = [p.strip() for p in line.split('|') if p.strip()]
+            # Expect: WEEK | SPRINT/PHASE | MILESTONE | OWNER | STATUS | RISK FLAG
+            if len(parts) >= 3 and not all(set(p) <= set('-: ') for p in parts):
+                skip = {'week','sprint','phase','milestone','owner','status','risk','flag','---'}
+                if parts[0].lower() in skip: continue
+                week_lbl    = parts[0]
+                sprint_name = parts[1] if len(parts) > 1 else f"{unit} {len(sprints_from_timeline)+1}"
+                milestone   = parts[2] if len(parts) > 2 else ""
+                key = sprint_name
+                if key not in sprints_from_timeline:
+                    sprints_from_timeline[key] = {
+                        "sprint_num": len(sprints_from_timeline) + 1,
+                        "name": sprint_name,
+                        "weeks": week_lbl,
+                        "goal": milestone,
+                        "stories": [],
+                        "deliverable": milestone
+                    }
+                else:
+                    if milestone and milestone not in sprints_from_timeline[key]['stories']:
+                        sprints_from_timeline[key]['stories'].append(milestone)
+
+    if sprints_from_timeline:
+        result = list(sprints_from_timeline.values())
+        # Make sure each sprint has stories
+        for sp in result:
+            if not sp['stories'] and sp['goal']:
+                sp['stories'] = [sp['goal']]
+        return result
+
+    # ── Strategy 3: Parse sprint/phase headings + bullets from raw plan text ──
+    sprints_parsed = []
+    current_sprint = None
+    sprint_pattern = re.compile(
+        r'^(?:#{1,3}\s*)?(' + unit + r'\s*\d+[:\-–]?\s*.+)$', re.IGNORECASE
+    )
+    week_pattern = re.compile(r'[Ww]eek\s*\d+', re.IGNORECASE)
+
+    for line in plan_text.split('\n'):
+        s = line.strip()
+        if not s: continue
+        m = sprint_pattern.match(s)
+        if m:
+            if current_sprint and current_sprint['stories']:
+                sprints_parsed.append(current_sprint)
+            idx = len(sprints_parsed) + 1
+            wk_m = week_pattern.search(s)
+            current_sprint = {
+                "sprint_num": idx,
+                "name": s.lstrip('#').strip(),
+                "weeks": wk_m.group(0) if wk_m else f"Week {(idx-1)*sprint_len+1}–{idx*sprint_len}",
+                "goal": "",
+                "stories": [],
+                "deliverable": ""
+            }
+        elif current_sprint:
+            # Collect bullet tasks
+            if re.match(r'^[-*•🔵▸]\s+', s):
+                task = re.sub(r'^[-*•🔵▸]\s+', '', s).strip()
+                if task and len(task) > 5:
+                    current_sprint['stories'].append(task)
+            elif re.match(r'^\d+\.\s+', s):
+                task = re.sub(r'^\d+\.\s+', '', s).strip()
+                if task and len(task) > 5:
+                    current_sprint['stories'].append(task)
+            elif not current_sprint['goal'] and len(s) > 10 and not s.startswith('#'):
+                current_sprint['goal'] = s
+    if current_sprint and current_sprint['stories']:
+        sprints_parsed.append(current_sprint)
+
+    if sprints_parsed:
+        return sprints_parsed
+
+    # ── Strategy 4: Extract from SOW analysis sections as last resort ──
+    # Parse numbered deliverables from SOW text
+    deliverables = []
+    for line in plan_text.split('\n'):
+        s = line.strip()
+        m = re.match(r'^\d+\.\s+(.+)', s)
+        if m and len(m.group(1)) > 15:
+            deliverables.append(m.group(1))
+        elif re.match(r'^[-*•]\s+', s):
+            task = re.sub(r'^[-*•]\s+', '', s).strip()
+            if len(task) > 20:
+                deliverables.append(task)
+    deliverables = list(dict.fromkeys(deliverables))[:num_sprints * 5]  # dedupe
+
     sprints = []
-    for i in range(1, num_sprints + 1):
-        w_start = (i-1)*sprint_len + 1
-        w_end   = i*sprint_len
-        label   = f"Sprint {i}" if is_agile else f"Phase {i}"
+    tasks_per_sprint = max(3, len(deliverables) // max(num_sprints, 1))
+    for i in range(num_sprints):
+        w_start = i * sprint_len + 1
+        w_end   = (i + 1) * sprint_len
+        chunk   = deliverables[i*tasks_per_sprint:(i+1)*tasks_per_sprint]
+        if not chunk:
+            chunk = [f"Deliver {unit.lower()} {i+1} objectives"]
+        label = f"{unit} {i+1}"
+        phase_names = ["Discovery & Setup", "Architecture & Design", "Build & Integrate",
+                       "Test & Validate", "UAT & Sign-off", "Deploy & Handover"]
+        phase_label = phase_names[min(i, len(phase_names)-1)]
         sprints.append({
-            "sprint_num": i,
-            "name": f"{label}: {'Setup & Planning' if i==1 else 'Build & Develop' if i<=num_sprints//2+1 else 'Test & Deploy'}",
+            "sprint_num": i+1,
+            "name": f"{label}: {phase_label}",
             "weeks": f"Week {w_start}–{w_end}",
-            "goal": f"Deliver iteration {i} of the project.",
-            "stories": ["Define requirements", "Build core components", "Review and test"],
-            "deliverable": f"Iteration {i} complete"
+            "goal": chunk[0] if chunk else f"Complete {phase_label}",
+            "stories": chunk,
+            "deliverable": chunk[-1] if chunk else f"{phase_label} complete"
         })
     return sprints
 
 
 def build_excel(plan_text, plan_name, wbs_sprints, methodology):
-    import openpyxl
+    import openpyxl, re as _re
     from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
     from openpyxl.utils import get_column_letter
 
     wb = openpyxl.Workbook()
+    DK="0e1c12"; MG="163020"; AG="2d7a50"; BG_C="4caf78"; LG="e8f5ee"; LG2="f2faf5"
+    WH="FFFFFF"; GR="f5f8f5"; TK="132018"; TM="2d4a36"; AM="c07a00"; RD="c0392b"
+    BL="2d5fa8"; PU="6a3a9f"; BD="c8ddd0"
 
-    DK  = "0e1c12"; MG  = "163020"; AG  = "2d7a50"; BG  = "4caf78"
-    LG  = "e8f5ee"; LG2 = "f2faf5"; WH  = "FFFFFF"; GR  = "f5f8f5"
-    TK  = "132018"; TM  = "2d4a36"; AM  = "c07a00"; RD  = "c0392b"
-    BL  = "2d5fa8"; PU  = "6a3a9f"; BD  = "c8ddd0"
-
-    def F(color, bold=False, size=10):
-        return Font(name="Calibri", color=color, bold=bold, size=size)
-    def BG_fill(color):
-        return PatternFill("solid", fgColor=color)
-    def AL(h="left", v="center", wrap=False):
-        return Alignment(horizontal=h, vertical=v, wrap_text=wrap)
-    def border():
-        s = Side(style="thin", color=BD)
-        return Border(left=s, right=s, top=s, bottom=s)
-    def thick_bottom():
-        s = Side(style="thin", color=BD)
-        t = Side(style="medium", color=AG)
+    def F(color, bold=False, size=10): return Font(name="Calibri", color=color, bold=bold, size=size)
+    def BF(color): return PatternFill("solid", fgColor=color)
+    def AL(h="left", v="center", wrap=False): return Alignment(horizontal=h, vertical=v, wrap_text=wrap)
+    def bdr():
+        s = Side(style="thin", color=BD); return Border(left=s, right=s, top=s, bottom=s)
+    def thick_bot():
+        s = Side(style="thin", color=BD); t = Side(style="medium", color=AG)
         return Border(left=s, right=s, top=s, bottom=t)
 
     def safe_title(t):
-        import re
-        c = re.sub(r'[:/\\?*\[\]]', '', t)
-        c = c.encode('ascii', 'ignore').decode('ascii')
-        return c.strip()[:31] or "Sheet"
+        c = _re.sub(r'[:/\\?*\[\]]', '', t).encode('ascii', 'ignore').decode('ascii').strip()[:31]
+        return c or "Sheet"
 
     def xval(v):
-        if v is None:
-            return ""
-        if isinstance(v, (str, int, float, bool)):
-            return v
-        if isinstance(v, dict):
-            return v.get("name", v.get("task", v.get("story", str(v))))
-        if isinstance(v, list):
-            return "; ".join(xval(x) for x in v)
+        if v is None: return ""
+        if isinstance(v, (str, int, float, bool)): return v
+        if isinstance(v, dict): return v.get("name", v.get("task", v.get("story", str(v))))
+        if isinstance(v, list): return "; ".join(str(xval(x)) for x in v)
         return str(v)
 
-    def write_col_headers(ws, cols, row=2, bg=AG):
-        for c, (label, width) in enumerate(cols, 1):
-            cell = ws.cell(row=row, column=c, value=label)
-            cell.fill      = BG_fill(bg)
-            cell.font      = F(WH, bold=True, size=10)
-            cell.alignment = AL("center", "center")
-            cell.border    = thick_bottom()
-            ws.column_dimensions[get_column_letter(c)].width = width
+    def col_headers(ws, cols, row=2, bg=AG):
+        for c, (lbl, w) in enumerate(cols, 1):
+            cell = ws.cell(row=row, column=c, value=lbl)
+            cell.fill = BF(bg); cell.font = F(WH, bold=True, size=10)
+            cell.alignment = AL("center", "center"); cell.border = thick_bot()
+            ws.column_dimensions[get_column_letter(c)].width = w
         ws.row_dimensions[row].height = 22
 
-    def title_row(ws, text, cols_count, bg=DK, font_size=14):
-        ws.merge_cells(f"A1:{get_column_letter(cols_count)}1")
-        c = ws["A1"]
-        c.value      = text
-        c.fill       = BG_fill(bg)
-        c.font       = F(WH, bold=True, size=font_size)
-        c.alignment  = AL("center", "center")
-        c.border     = border()
-        ws.row_dimensions[1].height = 40
+    def title_row(ws, text, n, bg=DK, fsz=14):
+        ws.merge_cells(f"A1:{get_column_letter(n)}1")
+        c = ws["A1"]; c.value = text; c.fill = BF(bg)
+        c.font = F(WH, bold=True, size=fsz); c.alignment = AL("center", "center")
+        c.border = bdr(); ws.row_dimensions[1].height = 40
 
     is_agile = any(k in methodology.lower() for k in ['agile','scrum','safe'])
 
-    # Sheet 1 — Project Summary
-    ws1 = wb.active
-    ws1.title = safe_title("Project Summary")
-    ws1.sheet_view.showGridLines = False
-    ws1.sheet_view.zoomScale = 95
+    # ── Prepend mandatory Discovery Phase (first 2 weeks, universal) ──────────
+    DISCOVERY_SPRINT = {
+        "sprint_num": 0,
+        "name": "Discovery & Setup: Foundation Sprint",
+        "weeks": "Week 1–2",
+        "goal": "Project foundation, Snowflake environment setup, RBAC, and discovery sessions",
+        "sow_ref": "Standard — applies to all projects",
+        "stories": [
+            "Conduct Discovery Sessions with customer stakeholders",
+            "Snowflake environment provisioning and configuration",
+            "RBAC design and role hierarchy setup (SYSADMIN, USERADMIN, custom roles)",
+            "Data source inventory and connectivity assessment",
+            "Architecture Review Board (ARB) pack preparation",
+            "Project Review Board (PRB) pack preparation",
+            "Customer sign-off and acknowledgement of Discovery findings",
+            "Sprint 1 planning and backlog grooming",
+        ],
+        "deliverable": "ARB/PRB packs approved · Customer acknowledgement received · Snowflake env ready",
+    }
+    # Only prepend if not already there
+    first_name = str(wbs_sprints[0].get("name","")).lower() if wbs_sprints else ""
+    if "discovery" not in first_name and "foundation" not in first_name:
+        full_sprints = [DISCOVERY_SPRINT] + list(wbs_sprints)
+    else:
+        full_sprints = list(wbs_sprints)
+        # Ensure the first sprint has the mandatory tasks even if named Discovery
+        mandatory = DISCOVERY_SPRINT["stories"]
+        existing = [str(xval(s)).lower() for s in full_sprints[0].get("stories", [])]
+        for task in mandatory:
+            if not any(task.lower()[:20] in e for e in existing):
+                full_sprints[0].setdefault("stories", []).insert(0, task)
 
-    ws1.merge_cells("A1:F3")
-    h = ws1["A1"]
-    h.value = "PROJECT PLAN"
-    h.fill = BG_fill(DK); h.font = F(WH, bold=True, size=22)
-    h.alignment = AL("left", "center")
-    ws1.row_dimensions[1].height = 20
-    ws1.row_dimensions[2].height = 36
-    ws1.row_dimensions[3].height = 20
+    # ════════════════════════════════════════
+    # SHEET 1 — Project Summary
+    # ════════════════════════════════════════
+    ws1 = wb.active; ws1.title = safe_title("Project Summary")
+    ws1.sheet_view.showGridLines = False; ws1.sheet_view.zoomScale = 95
 
-    ws1.merge_cells("A4:F4")
-    s = ws1["A4"]
-    s.value = f"{plan_name}"
-    s.fill = BG_fill(MG); s.font = F(BG, bold=True, size=16)
-    s.alignment = AL("left", "center")
+    ws1.merge_cells("A1:F3"); h = ws1["A1"]; h.value = "PROJECT PLAN"
+    h.fill = BF(DK); h.font = F(WH, bold=True, size=22); h.alignment = AL("left","center")
+    for r in [1,2,3]: ws1.row_dimensions[r].height = 20 if r != 2 else 36
+
+    ws1.merge_cells("A4:F4"); s = ws1["A4"]; s.value = plan_name
+    s.fill = BF(MG); s.font = F(BG_C, bold=True, size=16); s.alignment = AL("left","center")
     ws1.row_dimensions[4].height = 30
 
-    ws1.merge_cells("A5:F5")
-    m = ws1["A5"]
-    m.value = (f"Cortex Project Intel  ·  {datetime.now().strftime('%d %B %Y')}"
-               f"  ·  Methodology: {methodology}")
-    m.fill = BG_fill(MG); m.font = F("a8d8b8", size=9)
-    m.alignment = AL("left", "center")
-    ws1.row_dimensions[5].height = 18
-    ws1.row_dimensions[6].height = 10
+    ws1.merge_cells("A5:F5"); m = ws1["A5"]
+    m.value = f"Cortex Project Intel  ·  {datetime.now().strftime('%d %B %Y')}  ·  Methodology: {methodology}"
+    m.fill = BF(MG); m.font = F("a8d8b8", size=9); m.alignment = AL("left","center")
+    ws1.row_dimensions[5].height = 18; ws1.row_dimensions[6].height = 10
 
-    info = [
-        ("Project Name",   plan_name),
-        ("Methodology",    methodology),
-        ("Generated",      datetime.now().strftime('%d %B %Y')),
-        ("Sprints / Phases", str(len(wbs_sprints))),
-        ("Source",         "Cortex Project Intel — Snowflake AI"),
-    ]
+    info = [("Project Name", plan_name), ("Methodology", methodology),
+            ("Generated", datetime.now().strftime('%d %B %Y')),
+            ("Total Sprints / Phases", str(len(full_sprints))),
+            ("Discovery Phase", "Week 1–2 (Standard — all projects)"),
+            ("Source", "Cortex Project Intel — Snowflake AI")]
     for i, (lbl, val) in enumerate(info, 7):
-        lc = ws1.cell(row=i, column=1, value=lbl)
-        vc = ws1.cell(row=i, column=2, value=val)
-        lc.fill = BG_fill(AG); lc.font = F(WH, bold=True, size=10)
-        lc.alignment = AL("right", "center"); lc.border = border()
-        vc.fill = BG_fill(LG); vc.font = F(TK, size=10)
-        vc.alignment = AL("left", "center"); vc.border = border()
+        lc = ws1.cell(row=i, column=1, value=lbl); vc = ws1.cell(row=i, column=2, value=val)
+        lc.fill = BF(AG); lc.font = F(WH, bold=True, size=10); lc.alignment = AL("right","center"); lc.border = bdr()
+        vc.fill = BF(LG); vc.font = F(TK, size=10); vc.alignment = AL("left","center"); vc.border = bdr()
         ws1.row_dimensions[i].height = 20
 
-    ws1.row_dimensions[12].height = 12
+    ws1.row_dimensions[13].height = 10
+    ws1.merge_cells("A14:F14"); ph = ws1["A14"]; ph.value = "FULL PLAN TEXT"
+    ph.fill = BF(AG); ph.font = F(WH, bold=True, size=10); ph.alignment = AL("center","center"); ph.border = bdr()
+    ws1.row_dimensions[14].height = 18
+    ws1.merge_cells("A15:F90"); pc = ws1["A15"]; pc.value = plan_text
+    pc.font = F(TK, size=9); pc.alignment = AL("left","top",wrap=True); pc.fill = BF(GR)
+    for r in range(15, 91): ws1.row_dimensions[r].height = 13
+    ws1.column_dimensions["A"].width = 22; ws1.column_dimensions["B"].width = 55
+    for col in ["C","D","E","F"]: ws1.column_dimensions[col].width = 14
 
-    ws1.merge_cells("A13:F13")
-    ph = ws1["A13"]
-    ph.value = "FULL PLAN TEXT"
-    ph.fill = BG_fill(AG); ph.font = F(WH, bold=True, size=10)
-    ph.alignment = AL("center", "center"); ph.border = border()
-    ws1.row_dimensions[13].height = 18
-
-    ws1.merge_cells("A14:F80")
-    pc = ws1["A14"]
-    pc.value = plan_text
-    pc.font = F(TK, size=9); pc.alignment = AL("left", "top", wrap=True)
-    pc.fill = BG_fill(GR)
-    for r in range(14, 81):
-        ws1.row_dimensions[r].height = 13
-
-    ws1.column_dimensions["A"].width = 22
-    ws1.column_dimensions["B"].width = 55
-    for col in ["C","D","E","F"]:
-        ws1.column_dimensions[col].width = 14
-
-    # Sheet 2 — WBS Sprint Board
+    # ════════════════════════════════════════
+    # SHEET 2 — WBS Sprint Board
+    # ════════════════════════════════════════
     ws2 = wb.create_sheet(safe_title("WBS Sprint Board"))
-    ws2.sheet_view.showGridLines = False
-    ws2.freeze_panes = "A3"
+    ws2.sheet_view.showGridLines = False; ws2.freeze_panes = "A3"
+    WBS_COLS = [("Sprint / Phase",24),("Weeks",11),("Sprint Goal",38),("Task / User Story",46),
+                ("Type",14),("Story Points",12),("Priority",12),("Assignee",18),("Deliverable",34),("Status",12)]
+    title_row(ws2, ("SPRINT BOARD" if is_agile else "WORK BREAKDOWN STRUCTURE") + f"  —  {plan_name}", 10)
+    col_headers(ws2, WBS_COLS)
 
-    title_row(ws2, ("SPRINT BOARD" if is_agile else "WORK BREAKDOWN STRUCTURE")
-                   + f"  —  {plan_name}", 10)
-
-    WBS_COLS = [
-        ("Sprint / Phase", 22), ("Weeks", 11), ("Sprint Goal", 36),
-        ("Task / User Story", 44), ("Type", 14),
-        ("Story Points", 12), ("Severity", 12),
-        ("Assignee", 18), ("Deliverable", 32), ("Status", 12),
-    ]
-    write_col_headers(ws2, WBS_COLS)
-
-    sp_pts   = [8, 8, 5, 5, 3, 3, 2]
-    sev_list = ["High","High","Medium","Medium","Low","Medium","Low"]
-    sev_col  = {"High": RD, "Medium": AM, "Low": AG}
-    sev_bg_  = {"High":"fdeaea","Medium":"fff8e6","Low":"e8f5ee"}
-
+    sp_pts = [8,8,5,5,3,3,2,3]; sev_list = ["High","High","Medium","Medium","Low","Medium","Low","Medium"]
+    sev_col = {"High":RD,"Medium":AM,"Low":AG}; sev_bg = {"High":"fdeaea","Medium":"fff8e6","Low":"e8f5ee"}
     row = 3
-    for s_idx, sprint in enumerate(wbs_sprints):
-        sprint_name  = xval(sprint.get("name",""))
-        weeks_lbl    = xval(sprint.get("weeks",""))
-        goal         = xval(sprint.get("goal",""))
-        deliverable  = xval(sprint.get("deliverable",""))
-        raw_tasks    = sprint.get("stories", sprint.get("tasks", []))
-        tasks = []
-        for t in (raw_tasks if isinstance(raw_tasks, list) else []):
-            sv = xval(t)
-            if sv and str(sv).strip():
-                tasks.append(str(sv).strip())
-        if not tasks:
-            tasks = ["Define requirements and acceptance criteria",
-                     "Build and integrate core components",
-                     "Test, review and sign off"]
-
-        hdr_bg = DK if s_idx % 2 == 0 else MG
+    for s_idx, sprint in enumerate(full_sprints):
+        sprint_name = str(xval(sprint.get("name",""))); weeks_lbl = str(xval(sprint.get("weeks","")))
+        goal = str(xval(sprint.get("goal",""))); deliverable = str(xval(sprint.get("deliverable","")))
+        raw_tasks = sprint.get("stories", sprint.get("tasks",[]))
+        tasks = [str(xval(t)).strip() for t in (raw_tasks if isinstance(raw_tasks, list) else []) if str(xval(t)).strip()]
+        if not tasks: tasks = [goal] if goal else ["Sprint deliverable"]
+        hdr_bg = "0a1a0e" if s_idx == 0 else (DK if s_idx % 2 == 0 else MG)  # Discovery = darkest
+        hdr_fg = BG_C if s_idx == 0 else BG_C
 
         ws2.merge_cells(f"A{row}:J{row}")
-        banner = ws2.cell(row=row, column=1,
-                          value=f"  {sprint_name}   |   {weeks_lbl}   |   {goal}")
-        banner.fill = BG_fill(hdr_bg); banner.font = F(BG, bold=True, size=11)
-        banner.alignment = AL("left", "center"); banner.border = border()
-        ws2.row_dimensions[row].height = 26
-        row += 1
+        banner = ws2.cell(row=row, column=1, value=f"  {sprint_name}   |   {weeks_lbl}   |   {goal}")
+        banner.fill = BF(hdr_bg); banner.font = F(hdr_fg, bold=True, size=11)
+        banner.alignment = AL("left","center"); banner.border = bdr()
+        ws2.row_dimensions[row].height = 26; row += 1
 
         for t_idx, task in enumerate(tasks):
-            row_bg = LG if t_idx % 2 == 0 else LG2
-            pts    = sp_pts[min(t_idx, len(sp_pts)-1)]
-            sev    = sev_list[min(t_idx, len(sev_list)-1)]
-            sc     = sev_col[sev]; sb = sev_bg_[sev]
+            row_bg = "e0f0e8" if s_idx == 0 and t_idx % 2 == 0 else \
+                     "d4eadc" if s_idx == 0 else \
+                     (LG if t_idx % 2 == 0 else LG2)
+            pts = sp_pts[min(t_idx, len(sp_pts)-1)]
+            sev = sev_list[min(t_idx, len(sev_list)-1)]
+            sc = sev_col[sev]; sb = sev_bg[sev]
             t_type = "User Story" if is_agile else "Task"
-            deliv  = xval(deliverable) if t_idx == 0 else ""
-
-            row_vals = [xval(sprint_name), xval(weeks_lbl), xval(goal),
-                        xval(task), t_type, pts, sev, "TBD", deliv, "To Do"]
+            deliv = deliverable if t_idx == 0 else ""
+            row_vals = [sprint_name, weeks_lbl, goal, task, t_type, pts, sev, "TBD", deliv, "To Do"]
             for c, val in enumerate(row_vals, 1):
-                cell = ws2.cell(row=row, column=c, value=val)
-                cell.border = border()
+                cell = ws2.cell(row=row, column=c, value=val); cell.border = bdr()
                 if c == 6:
-                    cell.fill = BG_fill("e8f0ff"); cell.font = F(BL, bold=True)
-                    cell.alignment = AL("center","center")
+                    cell.fill = BF("e8f0ff"); cell.font = F(BL, bold=True); cell.alignment = AL("center","center")
                 elif c == 7:
-                    cell.fill = BG_fill(sb); cell.font = F(sc, bold=True)
-                    cell.alignment = AL("center","center")
+                    cell.fill = BF(sb); cell.font = F(sc, bold=True); cell.alignment = AL("center","center")
                 elif c == 10:
-                    cell.fill = BG_fill("fff8e6"); cell.font = F(AM, bold=True, size=9)
-                    cell.alignment = AL("center","center")
+                    cell.fill = BF("fff8e6"); cell.font = F(AM, bold=True, size=9); cell.alignment = AL("center","center")
                 elif c == 9 and t_idx == 0:
-                    cell.fill = BG_fill(row_bg); cell.font = F(AG, bold=True)
-                    cell.alignment = AL("left","center", wrap=True)
+                    cell.fill = BF(row_bg); cell.font = F(AG, bold=True); cell.alignment = AL("left","center",wrap=True)
                 else:
-                    cell.fill = BG_fill(row_bg)
-                    cell.font = F(TK, bold=(c in [1,2] and t_idx==0))
-                    cell.alignment = AL("left","center", wrap=True)
-            ws2.row_dimensions[row].height = 19
-            row += 1
+                    cell.fill = BF(row_bg); cell.font = F(TK, bold=(c in [1,2] and t_idx == 0))
+                    cell.alignment = AL("left","center",wrap=True)
+            ws2.row_dimensions[row].height = 19; row += 1
+        for c in range(1, 11):
+            g = ws2.cell(row=row, column=c, value=""); g.fill = BF("ddeee5"); g.border = bdr()
+        ws2.row_dimensions[row].height = 5; row += 1
 
-        for c in range(1,11):
-            g = ws2.cell(row=row, column=c, value="")
-            g.fill = BG_fill("ddeee5"); g.border = border()
-        ws2.row_dimensions[row].height = 5
-        row += 1
-
-    # Sheet 3 — RAID Log
-    import re as _re
+    # ════════════════════════════════════════
+    # SHEET 3 — RAID Log
+    # ════════════════════════════════════════
     ws3 = wb.create_sheet(safe_title("RAID Log"))
-    ws3.sheet_view.showGridLines = False
-    ws3.freeze_panes = "A3"
-
-    RAID_COLS = [("ID",5), ("Category",15), ("Type",16),
-                 ("Description",46), ("Likelihood",13), ("Impact",12),
-                 ("Mitigation",44), ("Owner",20)]
+    ws3.sheet_view.showGridLines = False; ws3.freeze_panes = "A3"
+    RAID_COLS = [("ID",5),("Category",15),("Type",16),("Description",46),
+                 ("Likelihood",13),("Impact",12),("Mitigation",44),("Owner",20)]
     title_row(ws3, f"RAID LOG  —  {plan_name}", len(RAID_COLS))
-    write_col_headers(ws3, RAID_COLS)
+    col_headers(ws3, RAID_COLS)
 
     lh_c = {"High":RD,"Medium":AM,"Low":AG}
     lh_b = {"High":"fdeaea","Medium":"fff8e6","Low":"e8f5ee"}
-    cat_bg_ = {"Risk":"fdeaea","Assumption":"e8f0ff","Issue":"fff8e6","Dependency":"f0e8ff"}
-    cat_fg_ = {"Risk":RD,"Assumption":BL,"Issue":AM,"Dependency":PU}
+    cat_bg = {"Risk":"fdeaea","Assumption":"e8f0ff","Issue":"fff8e6","Dependency":"f0e8ff"}
+    cat_fg = {"Risk":RD,"Assumption":BL,"Issue":AM,"Dependency":PU}
 
+    # Parse RAID from plan text
     raid_data = []
-    sec = _re.search(r'RAID\s*LOG.*?(?=\n#{1,3}\s|\n\d+\.\s+[A-Z]|\Z)',
-                     plan_text, _re.DOTALL|_re.IGNORECASE)
+    sec = _re.search(r'##\s*RAID\s*LOG(.*?)(?=##\s+[A-Z]|\Z)', plan_text, _re.DOTALL|_re.IGNORECASE)
     if sec:
-        skip = {'','ID','TYPE','Type','DESCRIPTION','Description','LIKELIHOOD','Likelihood',
-                'IMPACT','Impact','MITIGATION','Mitigation','OWNER','Owner','Category','---'}
-        for line in sec.group(0).split('\n'):
-            parts = [p.strip() for p in line.split('|')]
-            if len(parts) >= 4 and not all(p in skip for p in parts):
-                raid_data.append(parts)
+        skip = {'','id','type','category','description','likelihood','impact','mitigation','owner','---'}
+        for line in sec.group(1).split('\n'):
+            parts = [p.strip() for p in line.split('|') if p.strip()]
+            if len(parts) >= 4 and not all(set(p) <= set('-: ') for p in parts):
+                if parts[0].lower() not in skip:
+                    raid_data.append(parts)
+
+    # Always include Discovery-phase standard RAID rows
+    discovery_raid = [
+        ["","Risk","Technical","Snowflake environment not provisioned before Week 1","High","High","Pre-provision environment Day 1; track in daily standup","Platform Engineer"],
+        ["","Risk","Process","ARB/PRB approval delayed beyond Week 2","High","High","Submit ARB/PRB packs by end of Day 3; escalate if no response by Day 8","Project Manager"],
+        ["","Assumption","Process","Customer stakeholders available for Discovery Sessions in Week 1–2","—","—","Confirm attendance list before project kick-off","Project Manager"],
+        ["","Dependency","External","Customer sign-off on Discovery findings required before Sprint 2","High","High","Schedule sign-off meeting end of Week 2","Project Manager"],
+        ["","Risk","Resource","RBAC roles not approved by InfoSec in time","Medium","High","Raise InfoSec request Week 1 Day 1; track daily","Platform Engineer"],
+    ]
 
     if not raid_data:
+        # Generic fallback RAID
         raid_data = [
-            ["","Risk","Technical","Data access permissions not provisioned","High","High",
-             "Pre-provision all Snowflake roles before Sprint 1","Platform Engineer"],
-            ["","Risk","Timeline","Scope creep from stakeholder change requests","Medium","High",
-             "Freeze scope after Sprint 2; route changes via CR process","Project Manager"],
-            ["","Risk","Resource","Key person dependency on lead architect","Medium","Medium",
-             "Cross-train 2 team members on architecture decisions","Tech Lead"],
-            ["","Risk","Budget","Compute cost overrun on large warehouse queries","Low","High",
-             "Set resource monitor alerts at 80% of credit budget","FinOps"],
-            ["","Assumption","Process","Team availability maintained at 80% throughout","—","—",
-             "Confirm resource allocation with line managers before start","PMO"],
-            ["","Assumption","Technical","Source APIs remain stable during integration","—","—",
-             "Document API versions; add version-check step","Data Engineer"],
-            ["","Dependency","External","InfoSec approval for external API access","High","High",
-             "Raise InfoSec request Week 1; track weekly","Project Manager"],
-            ["","Dependency","Data","Source data quality meets >90% DQ threshold","Medium","High",
-             "Run DQ profiling Sprint 1; escalate if score <90%","Data Engineer"],
-            ["","Issue","Process","Legacy data quality issues in source tables","—","Medium",
-             "Run cleansing pipeline in Sprint 1; document exceptions","Data Engineer"],
-            ["","Issue","Technical","Snowflake credit limitations on trial account","Low","Low",
-             "Monitor credit usage daily; upgrade account if needed","Platform Engineer"],
+            ["","Risk","Technical","Data access permissions not provisioned","High","High","Pre-provision all Snowflake roles before Sprint 1","Platform Engineer"],
+            ["","Risk","Timeline","Scope creep from stakeholder change requests","Medium","High","Freeze scope after Sprint 2; route changes via CR process","Project Manager"],
+            ["","Risk","Resource","Key person dependency on lead architect","Medium","Medium","Cross-train 2 team members on architecture decisions","Tech Lead"],
+            ["","Risk","Budget","Compute cost overrun on large warehouse queries","Low","High","Set resource monitor alerts at 80% of credit budget","FinOps"],
+            ["","Assumption","Process","Team availability maintained at 80% throughout","—","—","Confirm resource allocation with line managers before start","PMO"],
+            ["","Assumption","Technical","Source APIs remain stable during integration","—","—","Document API versions; add version-check step","Data Engineer"],
+            ["","Dependency","External","InfoSec approval for external API access","High","High","Raise InfoSec request Week 1; track weekly","Project Manager"],
+            ["","Dependency","Data","Source data quality meets >90% DQ threshold","Medium","High","Run DQ profiling Sprint 1; escalate if score <90%","Data Engineer"],
+            ["","Issue","Process","Legacy data quality issues in source tables","—","Medium","Run cleansing pipeline in Sprint 1; document exceptions","Data Engineer"],
+            ["","Issue","Technical","Snowflake credit limitations on trial account","Low","Low","Monitor credit usage daily; upgrade account if needed","Platform Engineer"],
         ]
 
-    for i, r in enumerate(raid_data[:25]):
-        while len(r) < 8: r.append("")
-        rn  = i + 3
-        cat = xval(r[1]).strip().title()
-        lh  = xval(r[4]).strip().title()
-        im  = xval(r[5]).strip().title()
-        rbg = LG if i % 2 == 0 else LG2
+    # Combine: discovery rows first, then plan rows
+    all_raid = discovery_raid + raid_data
 
+    for i, r in enumerate(all_raid[:30]):
+        while len(r) < 8: r.append("")
+        rn = i + 3
+        cat = str(r[1]).strip().title(); lh = str(r[4]).strip().title(); im = str(r[5]).strip().title()
+        rbg = "e0f0e8" if i < len(discovery_raid) else (LG if i % 2 == 0 else LG2)
         for c, val in enumerate(r[:8], 1):
-            cell = ws3.cell(row=rn, column=c, value=xval(val))
-            cell.border = border()
+            cell = ws3.cell(row=rn, column=c, value=str(xval(val))); cell.border = bdr()
             if c == 1:
-                cell.value = i+1; cell.fill = BG_fill(AG)
-                cell.font = F(WH, bold=True); cell.alignment = AL("center","center")
+                cell.value = i + 1; cell.fill = BF(AG); cell.font = F(WH, bold=True); cell.alignment = AL("center","center")
             elif c == 2:
-                cell.fill = BG_fill(cat_bg_.get(cat,"f5f8f5"))
-                cell.font = F(cat_fg_.get(cat,TK), bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(cat_bg.get(cat,"f5f8f5")); cell.font = F(cat_fg.get(cat,TK), bold=True); cell.alignment = AL("center","center")
             elif c == 3:
-                cell.fill = BG_fill("f0f0ff"); cell.font = F(BL)
-                cell.alignment = AL("center","center")
+                cell.fill = BF("f0f0ff"); cell.font = F(BL); cell.alignment = AL("center","center")
             elif c == 5:
                 bg = lh_b.get(lh,"f5f8f5") if lh not in ("—","") else GR
-                fg = lh_c.get(lh, TK)
-                cell.fill = BG_fill(bg); cell.font = F(fg, bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(bg); cell.font = F(lh_c.get(lh,TK), bold=True); cell.alignment = AL("center","center")
             elif c == 6:
                 bg = lh_b.get(im,"f5f8f5") if im not in ("—","") else GR
-                fg = lh_c.get(im, TK)
-                cell.fill = BG_fill(bg); cell.font = F(fg, bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(bg); cell.font = F(lh_c.get(im,TK), bold=True); cell.alignment = AL("center","center")
             else:
-                cell.fill = BG_fill(rbg); cell.font = F(TK)
-                cell.alignment = AL("left","center", wrap=True)
+                cell.fill = BF(rbg); cell.font = F(TK); cell.alignment = AL("left","center",wrap=True)
         ws3.row_dimensions[rn].height = 22
+    # Discovery section header annotation
+    ws3.cell(row=2, column=1).value  # already set
+    # Add a note row above discovery rows
+    ws3.insert_rows(3)
+    ws3.merge_cells(f"A3:{get_column_letter(len(RAID_COLS))}3")
+    note = ws3["A3"]; note.value = "  ★  DISCOVERY PHASE RISKS (Week 1–2 — Standard for all projects)  ★"
+    note.fill = BF("0a2a14"); note.font = F(BG_C, bold=True, size=10); note.alignment = AL("center","center")
+    ws3.row_dimensions[3].height = 18
 
-    # Sheet 4 — Test Cases
+    # ════════════════════════════════════════
+    # SHEET 4 — Test Cases
+    # ════════════════════════════════════════
     ws4 = wb.create_sheet(safe_title("Test Cases"))
-    ws4.sheet_view.showGridLines = False
-    ws4.freeze_panes = "A3"
-
-    TC_COLS = [("ID",8),("Priority",12),("Test Type",16),
-               ("Scenario",34),("Preconditions",28),
-               ("Test Steps",46),("Expected Result",36),
+    ws4.sheet_view.showGridLines = False; ws4.freeze_panes = "A3"
+    TC_COLS = [("ID",8),("Priority",12),("Test Type",16),("Scenario",34),
+               ("Preconditions",28),("Test Steps",46),("Expected Result",36),
                ("Actual Result",36),("Status",13)]
     title_row(ws4, f"TEST CASES  —  {plan_name}", len(TC_COLS))
-    write_col_headers(ws4, TC_COLS)
+    col_headers(ws4, TC_COLS)
 
     pri_c = {"High":RD,"Medium":AM,"Low":AG}
     pri_b = {"High":"fdeaea","Medium":"fff8e6","Low":"e8f5ee"}
@@ -896,161 +1038,120 @@ def build_excel(plan_text, plan_name, wbs_sprints, methodology):
     typ_f = {"Integration":BL,"Data Quality":AG,"Security":RD,
              "Performance":AM,"Functional":PU,"Regression":"555555","UAT":AG}
 
+    # Parse test cases from plan text
     tc_data = []
-    tcs = _re.search(r'TEST\s*CASES.*?(?=\n#{1,3}\s|\n\d+\.\s+[A-Z]|\Z)',
-                     plan_text, _re.DOTALL|_re.IGNORECASE)
+    tcs = _re.search(r'##\s*TEST\s*CASES(.*?)(?=##\s+[A-Z]|\Z)', plan_text, _re.DOTALL|_re.IGNORECASE)
     if tcs:
-        skip2 = {'','ID','Scenario','Steps','Expected Result','Pass Criteria',
-                 'SCENARIO','STEPS','EXPECTED','Priority','Test Type','---'}
-        for line in tcs.group(0).split('\n'):
-            parts = [p.strip() for p in line.split('|')]
-            if len(parts) >= 4 and not all(p in skip2 for p in parts):
-                tc_data.append(parts)
+        skip2 = {'','id','scenario','steps','expected result','pass criteria','priority','test type','type','---'}
+        for line in tcs.group(1).split('\n'):
+            parts = [p.strip() for p in line.split('|') if p.strip()]
+            if len(parts) >= 4 and not all(set(p) <= set('-: ') for p in parts):
+                if parts[0].lower() not in skip2:
+                    tc_data.append(parts)
+
+    # Mandatory Discovery Phase test cases
+    discovery_tc = [
+        ["DTC-01","High","Functional","Snowflake environment connectivity","Account provisioned","1.Login to Snowflake  2.Run SELECT CURRENT_VERSION()","Version returned; no errors","","Not Started"],
+        ["DTC-02","High","Security","RBAC roles correctly provisioned","Roles created per design","1.Login as each role  2.Test permitted objects  3.Test restricted objects","Permitted access granted; restricted access denied","","Not Started"],
+        ["DTC-03","High","Functional","ARB/PRB pack completeness review","Discovery sessions complete","1.Review ARB pack checklist  2.Review PRB pack checklist  3.Confirm customer sign-off","All sections complete; customer signed off","","Not Started"],
+        ["DTC-04","Medium","Functional","Discovery session outputs documented","Sessions conducted","1.Review meeting notes  2.Verify all data sources captured  3.Confirm scope agreed","All outputs documented; scope baseline confirmed","","Not Started"],
+    ]
 
     if not tc_data:
         tc_data = [
-            ["TC-01","High","Integration","End-to-end pipeline ingestion",
-             "Source data available; pipeline deployed",
-             "1. Stage source CSV  2. Execute pipeline  3. Query target table",
-             "Row count matches source; no nulls in key columns","","Not Started"],
-            ["TC-02","High","Data Quality","Schema and column type validation",
-             "Target table created with expected schema",
-             "1. Run schema check SQL  2. Validate types  3. Check PK uniqueness",
-             "Zero schema violations; zero duplicate PKs","","Not Started"],
-            ["TC-03","High","Security","Role-based access control",
-             "VIEWER and EDITOR roles provisioned",
-             "1. Login as VIEWER  2. Attempt INSERT  3. Verify permission error",
-             "INSERT denied; SELECT succeeds for VIEWER","","Not Started"],
-            ["TC-04","High","Functional","Cortex AI response validation",
-             "CORTEX_COMPLETE enabled on warehouse",
-             "1. Call CORTEX_COMPLETE  2. Parse JSON  3. Validate schema",
-             "Valid JSON; all fields present; latency < 5s","","Not Started"],
-            ["TC-05","Medium","Performance","Dashboard load time",
-             "App deployed; tables populated",
-             "1. Open app URL  2. Load main dashboard  3. Measure render time",
-             "Dashboard interactive within 3 seconds","","Not Started"],
-            ["TC-06","Medium","Data Quality","DQ rule execution",
-             "DQ rule set configured",
-             "1. Execute DQ rules  2. Check DQ score  3. Review error log",
-             "DQ score >= 95%; flagged rows in error log","","Not Started"],
-            ["TC-07","Medium","Regression","Pipeline idempotency",
-             "Pipeline run successfully at least once",
-             "1. Re-trigger pipeline  2. Query row count  3. Compare pre/post",
-             "Row count unchanged; zero duplicates","","Not Started"],
-            ["TC-08","Low","UAT","Business stakeholder sign-off",
-             "All TC-01 through TC-07 passed",
-             "1. Demo to business owner  2. Walk through KPIs  3. Capture sign-off",
-             "Business owner approves; sign-off document saved","","Not Started"],
+            ["TC-01","High","Integration","End-to-end pipeline ingestion","Source data available; pipeline deployed","1. Stage source CSV  2. Execute pipeline  3. Query target table","Row count matches source; no nulls in key columns","","Not Started"],
+            ["TC-02","High","Data Quality","Schema and column type validation","Target table created","1. Run schema check SQL  2. Validate types  3. Check PK uniqueness","Zero schema violations; zero duplicate PKs","","Not Started"],
+            ["TC-03","High","Security","Role-based access control","VIEWER and EDITOR roles provisioned","1. Login as VIEWER  2. Attempt INSERT  3. Verify permission error","INSERT denied; SELECT succeeds for VIEWER","","Not Started"],
+            ["TC-04","High","Functional","Cortex AI response validation","CORTEX_COMPLETE enabled","1. Call CORTEX_COMPLETE  2. Parse JSON  3. Validate schema","Valid JSON; all fields present; latency < 5s","","Not Started"],
+            ["TC-05","Medium","Performance","Dashboard load time","App deployed; tables populated","1. Open app URL  2. Load dashboard  3. Measure render time","Dashboard interactive within 3 seconds","","Not Started"],
+            ["TC-06","Medium","Data Quality","DQ rule execution","DQ rule set configured","1. Execute DQ rules  2. Check DQ score  3. Review error log","DQ score >= 95%; flagged rows in error log","","Not Started"],
+            ["TC-07","Medium","Regression","Pipeline idempotency","Pipeline run at least once","1. Re-trigger pipeline  2. Query row count  3. Compare pre/post","Row count unchanged; zero duplicates","","Not Started"],
+            ["TC-08","Low","UAT","Business stakeholder sign-off","All TC-01–07 passed","1. Demo to business owner  2. Walk through KPIs  3. Capture sign-off","Business owner approves; sign-off document saved","","Not Started"],
         ]
 
-    for i, rd in enumerate(tc_data[:20]):
+    all_tc = discovery_tc + tc_data
+    # Discovery section header
+    ws4.insert_rows(3) if False else None  # placeholder — add after loop
+    for i, rd in enumerate(all_tc[:25]):
         while len(rd) < 9: rd.append("")
-        rn   = i + 3
-        rbg  = LG if i % 2 == 0 else LG2
-        pri  = xval(rd[1]).strip()
-        tt   = xval(rd[2]).strip()
+        rn = i + 3; rbg = "e0f0e8" if i < len(discovery_tc) else (LG if i % 2 == 0 else LG2)
+        pri = str(rd[1]).strip().title(); tt = str(rd[2]).strip().title()
         for c, val in enumerate(rd[:9], 1):
-            cell = ws4.cell(row=rn, column=c, value=xval(val))
-            cell.border = border()
+            cell = ws4.cell(row=rn, column=c, value=str(xval(val))); cell.border = bdr()
             if c == 1:
-                cell.fill = BG_fill(AG); cell.font = F(WH, bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(AG if i >= len(discovery_tc) else "0a2a14")
+                cell.font = F(WH, bold=True); cell.alignment = AL("center","center")
             elif c == 2:
-                cell.fill = BG_fill(pri_b.get(pri,"fff8e6"))
-                cell.font = F(pri_c.get(pri,AM), bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(pri_b.get(pri,"fff8e6")); cell.font = F(pri_c.get(pri,AM), bold=True); cell.alignment = AL("center","center")
             elif c == 3:
-                cell.fill = BG_fill(typ_b.get(tt,"f5f8f5"))
-                cell.font = F(typ_f.get(tt,TK), bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF(typ_b.get(tt,"f5f5f5")); cell.font = F(typ_f.get(tt,TK), bold=True); cell.alignment = AL("center","center")
             elif c == 8:
-                cell.fill = BG_fill("fafcfb"); cell.font = F("bbbbbb", size=9)
-                cell.alignment = AL("left","top", wrap=True)
+                cell.fill = BF("fafcfb"); cell.font = F("bbbbbb", size=9); cell.alignment = AL("left","top",wrap=True)
                 if not cell.value: cell.value = "— fill after execution —"
             elif c == 9:
-                cell.fill = BG_fill("fff8e6"); cell.font = F(AM, bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF("fff8e6"); cell.font = F(AM, bold=True); cell.alignment = AL("center","center")
             else:
-                cell.fill = BG_fill(rbg); cell.font = F(TK)
-                cell.alignment = AL("left","top", wrap=True)
-        ws4.row_dimensions[rn].height = 48
+                cell.fill = BF(rbg); cell.font = F(TK); cell.alignment = AL("left","top",wrap=True)
+        ws4.row_dimensions[rn].height = 44
 
-    # Sheet 5 — Delivery Timeline
+    # ════════════════════════════════════════
+    # SHEET 5 — Delivery Timeline
+    # ════════════════════════════════════════
     ws5 = wb.create_sheet(safe_title("Delivery Timeline"))
-    ws5.sheet_view.showGridLines = False
-    ws5.freeze_panes = "A3"
-
-    TL_COLS = [("Week / Period",15),("Sprint / Phase",26),("Milestone",50),
+    ws5.sheet_view.showGridLines = False; ws5.freeze_panes = "A3"
+    TL_COLS = [("Week / Period",15),("Sprint / Phase",28),("Milestone",50),
                ("Tasks",44),("Owner",20),("Status",14),("Notes",28)]
     title_row(ws5, f"DELIVERY TIMELINE  —  {plan_name}", len(TL_COLS))
-    write_col_headers(ws5, TL_COLS)
+    col_headers(ws5, TL_COLS)
 
     st_col = {"Planned":"fff8e6","In Progress":"e8f0ff","Done":"e8f5ee","To Do":"f5f5f5"}
     st_fg  = {"Planned":AM,"In Progress":BL,"Done":AG,"To Do":"888888"}
 
     row = 3
-    for s_idx, sprint in enumerate(wbs_sprints):
-        sprint_name = xval(sprint.get("name",""))
-        weeks_lbl   = xval(sprint.get("weeks",""))
-        deliverable = xval(sprint.get("deliverable",""))
-        goal        = xval(sprint.get("goal",""))
-        raw_tasks   = sprint.get("stories", sprint.get("tasks", []))
-        tasks = [str(xval(t)).strip() for t in (raw_tasks if isinstance(raw_tasks, list) else [])
-                 if str(xval(t)).strip()]
-        if not tasks:
-            tasks = ["Define and build sprint deliverable", "Test and review output"]
+    for s_idx, sprint in enumerate(full_sprints):
+        sprint_name = str(xval(sprint.get("name",""))); weeks_lbl = str(xval(sprint.get("weeks","")))
+        deliverable = str(xval(sprint.get("deliverable",""))); goal = str(xval(sprint.get("goal","")))
+        raw_tasks = sprint.get("stories", sprint.get("tasks",[]))
+        tasks = [str(xval(t)).strip() for t in (raw_tasks if isinstance(raw_tasks, list) else []) if str(xval(t)).strip()]
+        if not tasks: tasks = [goal] if goal else ["Deliver sprint objectives"]
 
-        hdr_bg = DK if s_idx % 2 == 0 else MG
-        rbg    = LG if s_idx % 2 == 0 else LG2
+        is_disc = s_idx == 0 and "discovery" in sprint_name.lower() or "foundation" in sprint_name.lower()
+        hdr_bg = "0a1a0e" if is_disc else (DK if s_idx % 2 == 0 else MG)
+        rbg    = "d8eddf" if is_disc else (LG if s_idx % 2 == 0 else LG2)
 
         hdr = [weeks_lbl, sprint_name, f"Deliverable: {deliverable}", goal, "Project Team","Planned",""]
         for c, val in enumerate(hdr, 1):
-            cell = ws5.cell(row=row, column=c, value=xval(val))
-            cell.border = border()
+            cell = ws5.cell(row=row, column=c, value=str(xval(val))); cell.border = bdr()
             if c <= 2:
-                cell.fill = BG_fill(hdr_bg); cell.font = F(WH, bold=True, size=11)
-                cell.alignment = AL("left","center")
+                cell.fill = BF(hdr_bg); cell.font = F(BG_C, bold=True, size=11); cell.alignment = AL("left","center")
             elif c == 3:
-                cell.fill = BG_fill(rbg); cell.font = F(AG, bold=True)
-                cell.alignment = AL("left","center", wrap=True)
+                cell.fill = BF(rbg); cell.font = F(AG, bold=True); cell.alignment = AL("left","center",wrap=True)
             elif c == 6:
-                cell.fill = BG_fill("fff8e6"); cell.font = F(AM, bold=True)
-                cell.alignment = AL("center","center")
+                cell.fill = BF("fff8e6"); cell.font = F(AM, bold=True); cell.alignment = AL("center","center")
             else:
-                cell.fill = BG_fill(rbg); cell.font = F(TK)
-                cell.alignment = AL("left","center", wrap=True)
-        ws5.row_dimensions[row].height = 26
-        row += 1
+                cell.fill = BF(rbg); cell.font = F(TK); cell.alignment = AL("left","center",wrap=True)
+        ws5.row_dimensions[row].height = 26; row += 1
 
         for t_idx, task in enumerate(tasks):
-            tbg = "f7faf8" if s_idx%2==0 else "f2f7f3"
+            tbg = "eaf5ee" if is_disc else ("f7faf8" if s_idx%2==0 else "f2f7f3")
             tv = ["","", f"  • {task}","","TBD","To Do",""]
             for c, val in enumerate(tv, 1):
-                cell = ws5.cell(row=row, column=c, value=xval(val))
-                cell.border = border()
+                cell = ws5.cell(row=row, column=c, value=str(xval(val))); cell.border = bdr()
                 if c == 3:
-                    cell.fill = BG_fill(tbg); cell.font = F(TM, size=10)
-                    cell.alignment = AL("left","center", wrap=True)
+                    cell.fill = BF(tbg); cell.font = F(TM, size=10); cell.alignment = AL("left","center",wrap=True)
                 elif c == 6:
-                    status = "To Do"
-                    cell.fill = BG_fill(st_col.get(status,"f5f5f5"))
-                    cell.font = F(st_fg.get(status,"888888"), bold=True, size=9)
+                    cell.fill = BF(st_col.get("To Do","f5f5f5")); cell.font = F(st_fg.get("To Do","888888"), bold=True, size=9)
                     cell.alignment = AL("center","center")
                 else:
-                    cell.fill = BG_fill(tbg); cell.font = F(TK, size=9)
-                    cell.alignment = AL("left","center")
-            ws5.row_dimensions[row].height = 17
-            row += 1
+                    cell.fill = BF(tbg); cell.font = F(TK, size=9); cell.alignment = AL("left","center")
+            ws5.row_dimensions[row].height = 17; row += 1
 
-        for c in range(1,8):
-            g = ws5.cell(row=row, column=c, value="")
-            g.fill = BG_fill("ddeee5"); g.border = border()
-        ws5.row_dimensions[row].height = 4
-        row += 1
+        # Gap row
+        for c in range(1, 8):
+            g = ws5.cell(row=row, column=c, value=""); g.fill = BF("ddeee5"); g.border = bdr()
+        ws5.row_dimensions[row].height = 4; row += 1
 
-    output = io.BytesIO()
-    wb.save(output)
-    return output.getvalue()
+    output = io.BytesIO(); wb.save(output); return output.getvalue()
 
 
 # ── Load past projects ─────────────────────────────────────────
@@ -1063,13 +1164,29 @@ db_names_set = set(past_projects_df['project_name'].tolist())
 # SIDEBAR
 # ═══════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.markdown("""<div style="margin-bottom:1rem;">
-        <div style="font-size:13px;font-weight:800;color:#f0f5f2;">Project Configuration</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.28);margin-top:1px;">Define your project — Cortex selects the best templates automatically.</div>
-    </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div class='sb-block'>", unsafe_allow_html=True)
-    st.markdown("### 📄 Statement of Work (SOW)")
+    # ── Header Banner (dark strip on light sidebar) ─────────────
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,#112218 0%,#1f4633 60%,#2d7a50 100%);
+                padding:1.2rem 1.1rem 1rem;margin-bottom:0.75rem;position:relative;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.5rem;">
+            <div style="width:34px;height:34px;background:rgba(255,255,255,0.12);border-radius:9px;
+                        display:flex;align-items:center;justify-content:center;font-size:1rem;
+                        border:1px solid rgba(255,255,255,0.18);">📊</div>
+            <div>
+                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.12em;">Snowflake Cortex</div>
+                <div style="font-size:14px;font-weight:800;color:#fff;letter-spacing:-0.01em;line-height:1.2;">Project Intel</div>
+            </div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);line-height:1.5;">
+            Configure your project below. Cortex selects the best templates automatically.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── SOW Upload ─────────────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
+    st.markdown("### 📄 Statement of Work")
     sow_pdf  = st.file_uploader("Upload SOW PDF (mandatory)", type=["pdf"])
     sow_text = ""
     if sow_pdf is not None:
@@ -1081,24 +1198,14 @@ with st.sidebar:
             except Exception as e:
                 st.error(f"PDF read error: {e}")
         else:
-            st.warning("⚠️ PyPDF2 not installed — PDF extraction disabled.")
+            st.warning("⚠️ PyPDF2 not installed.")
     st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<div class='sb-block'>", unsafe_allow_html=True)
-    st.markdown("### 📂 Project Plans (CSV) — Multiple Allowed")
-    st.markdown(
-        "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;'>"
-        "Upload one or more CSV project plans. All will appear in the browse dropdown.</div>",
-        unsafe_allow_html=True
-    )
-    plans_csvs = st.file_uploader(
-        "Upload CSVs (hold Ctrl/Cmd to select multiple)",
-        type=["csv"],
-        accept_multiple_files=True
-    )
-
+    # ── CSV Projects ───────────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
+    st.markdown("### 📂 Project Plans (CSV)")
+    plans_csvs = st.file_uploader("Upload CSVs (multiple allowed)", type=["csv"], accept_multiple_files=True)
     existing_names = {p["project_name"] for p in st.session_state.csv_projects}
-
     if plans_csvs:
         newly_added = 0
         for f in plans_csvs:
@@ -1108,149 +1215,216 @@ with st.sidebar:
                 existing_names.add(proj["project_name"])
                 newly_added += 1
         if newly_added:
-            st.success(f"✅ {newly_added} new plan(s) added — {len(st.session_state.csv_projects)} total loaded.")
+            st.success(f"✅ {newly_added} new plan(s) added — {len(st.session_state.csv_projects)} total.")
         else:
             st.info(f"{len(st.session_state.csv_projects)} plan(s) already loaded.")
-
     if st.session_state.csv_projects:
-        st.markdown(
-            f"<div style='font-size:11px;color:#4caf78;font-weight:600;margin:.35rem 0;'>"
-            f"📎 {len(st.session_state.csv_projects)} plan(s) in memory</div>",
-            unsafe_allow_html=True
-        )
+        st.markdown(f"<div style='font-size:11px;color:#2d7a50;font-weight:700;margin:.35rem 0;'>📎 {len(st.session_state.csv_projects)} plan(s) in memory</div>", unsafe_allow_html=True)
         for idx_p, proj in enumerate(st.session_state.csv_projects):
             col_a, col_b = st.columns([3, 1])
             with col_a:
                 nm = proj['project_name']
                 already = nm in db_names_set or nm in st.session_state.imported_csv_names
                 badge = "✅" if already else "⏳"
-                st.markdown(
-                    f"<div style='font-size:11px;color:rgba(255,255,255,0.7);padding:.2rem 0;'>"
-                    f"📄 {proj['project_name']} <span style='color:{'#4caf78' if already else '#f0a500'};font-size:9px;'>{badge}</span></div>",
-                    unsafe_allow_html=True
-                )
+                name_color = "#2d7a50" if already else "#b07a00"
+                st.markdown(f"<div style='font-size:11px;color:#2d5a3a;padding:.2rem 0;'>📄 {proj['project_name']} <span style='color:{name_color};font-size:9px;'>{badge}</span></div>", unsafe_allow_html=True)
             with col_b:
-                btn_label = "Re-save" if already else "Import"
+                btn_label = "Re-save" if (proj['project_name'] in db_names_set or proj['project_name'] in st.session_state.imported_csv_names) else "Import"
                 if st.button(btn_label, key=f"import_csv_{idx_p}"):
                     try:
-                        pn  = proj["project_name"].replace("'","''")
-                        pd_ = proj["description"][:500].replace("'","''")
-                        wb_ = proj["wbs_summary"][:3000].replace("'","''")
-                        sd  = f"'{proj['start_date']}'" if proj["start_date"] else "NULL"
-                        ed  = f"'{proj['end_date']}'"   if proj["end_date"]   else "NULL"
-                        # DELETE existing row first so re-import works cleanly (UPSERT pattern)
-                        try:
-                            session.sql(
-                                f"DELETE FROM projects WHERE project_name = '{pn}' AND description LIKE '%CSV%'"
-                            ).collect()
-                        except Exception:
-                            pass
-                        session.sql(
-                            "INSERT INTO projects "
-                            "(project_name,description,start_date,end_date,status,lead_architect,"
-                            "technologies_used,wbs_summary,risk_log_summary,test_cases_summary,deployment_plan) "
-                            f"VALUES('{pn}','{pd_}',{sd},{ed},'Completed','','','{wb_}','','','')"
-                        ).collect()
+                        pn=proj["project_name"].replace("'","''")
+                        pd_=proj["description"][:500].replace("'","''")
+                        wb_=proj["wbs_summary"][:3000].replace("'","''")
+                        sd=f"'{proj['start_date']}'" if proj["start_date"] else "NULL"
+                        ed=f"'{proj['end_date']}'" if proj["end_date"] else "NULL"
+                        try: session.sql(f"DELETE FROM projects WHERE project_name='{pn}' AND description LIKE '%CSV%'").collect()
+                        except: pass
+                        session.sql(f"INSERT INTO projects (project_name,description,start_date,end_date,status,lead_architect,technologies_used,wbs_summary,risk_log_summary,test_cases_summary,deployment_plan) VALUES('{pn}','{pd_}',{sd},{ed},'Completed','','','{wb_}','','','')").collect()
                         st.session_state.imported_csv_names.add(proj["project_name"])
                         st.session_state.past_projects_df = load_past_projects()
-                        st.session_state.csv_imported = True
-                        st.success(f"✅ '{proj['project_name']}' saved to DB permanently.")
+                        st.success(f"✅ Saved '{proj['project_name']}'")
                         st.rerun()
                     except Exception as e:
                         st.error(f"Import failed: {e}")
-
         if st.button("🗑️ Clear All CSV Plans", key="clear_csvs"):
-            st.session_state.csv_projects = []
-            st.session_state.imported_csv_names = set()
-            st.rerun()
-
+            st.session_state.csv_projects = []; st.session_state.imported_csv_names = set(); st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<div class='sb-block'>", unsafe_allow_html=True)
+    # ── New Project Details ─────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
     st.markdown("### 🆕 New Project Details")
     new_project_name = st.text_input("Project Name", "Data Cataloging Initiative")
-    new_project_desc = st.text_area("Description",
-        "A new data cataloging initiative to index all data assets in Snowflake.",
-        height=90)
+    new_project_desc = st.text_area("Description", "A new data cataloging initiative to index all data assets in Snowflake.", height=80)
     new_project_tech = st.text_input("Key Technologies", "Snowflake, Streamlit, Python")
     customer_name    = st.text_input("Customer / Organisation", "Acme Corp")
-    project_type     = st.selectbox("Project Type",
-        ["Data Engineering", "Analytics / BI", "Data Science / ML",
-         "Data Platform Migration", "App Development", "Data Governance", "Other"])
+    project_type     = st.selectbox("Project Type", ["Data Engineering","Analytics / BI","Data Science / ML","Data Platform Migration","App Development","Data Governance","Other"])
     st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<div class='sb-block'>", unsafe_allow_html=True)
+    # ── Plan Settings ──────────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
     st.markdown("### ⚙️ Plan Settings")
     team_size      = st.slider("Team Size", 2, 20, 5)
     duration_weeks = st.slider("Target Duration (weeks)", 2, 52, 12)
     risk_appetite  = st.select_slider("Risk Appetite", ["Low","Medium","High"], value="Medium")
     methodology    = st.selectbox("Methodology", ["Agile / Scrum","Waterfall","Hybrid","SAFe"])
-
-    st.markdown("<div style='font-size:10px;font-weight:700;text-transform:uppercase;"
-                "letter-spacing:0.12em;color:#4caf78;margin:0.6rem 0 0.3rem;'>Delivery Focus</div>",
-                unsafe_allow_html=True)
-    delivery_priority = st.selectbox("Priority",
-        ["Balanced (scope, time, cost)",
-         "Time-boxed (fixed deadline)",
-         "Scope-driven (all requirements must be met)",
-         "Cost-constrained (fixed budget)"])
-
-    st.markdown("<div style='font-size:10px;font-weight:700;text-transform:uppercase;"
-                "letter-spacing:0.12em;color:#4caf78;margin:0.6rem 0 0.3rem;'>Team Profile</div>",
-                unsafe_allow_html=True)
-    team_experience = st.selectbox("Team Snowflake Experience",
-        ["Expert (3+ yrs)", "Intermediate (1-3 yrs)",
-         "Beginner (< 1 yr)", "Mixed levels"])
-
-    # ── Mandatory role headcounts ──────────────────────────
-    st.markdown(
-        "<div style='font-size:10px;color:rgba(255,255,255,0.4);margin:0.4rem 0 0.3rem;'>"
-        "Mandatory Roles — set headcount (0 = not on this project)</div>",
-        unsafe_allow_html=True
-    )
-    rc1, rc2 = st.columns(2)
-    with rc1:
-        role_pm  = st.number_input("👔 PM",  min_value=0, max_value=5, value=1, step=1)
-        role_sa  = st.number_input("🏗️ SA", min_value=0, max_value=5, value=1, step=1)
-        role_de  = st.number_input("⚙️ DE",    min_value=0, max_value=10, value=2, step=1)
-    with rc2:
-        role_ds  = st.number_input("🔬 DS",   min_value=0, max_value=5, value=1, step=1)
-        role_qa  = st.number_input("🧪 QA",  min_value=0, max_value=5, value=1, step=1)
-
-    # Derive legacy boolean flags for backward-compat with prompts
-    has_dedicated_pm = role_pm > 0
-    has_qa_resource  = role_qa > 0
-
-    # Build a structured team roster string used in Cortex prompts
-    team_roster = (
-        f"PM×{role_pm}, SA×{role_sa}, DE×{role_de}, DS×{role_ds}, QA×{role_qa}"
-    )
-    # Recompute team_size from roster total
-    team_size_from_roles = role_pm + role_sa + role_de + role_ds + role_qa
-    # Allow override if user set slider above the roster total
-    if team_size < team_size_from_roles:
-        team_size = team_size_from_roles
-
-    st.markdown("<div style='font-size:10px;font-weight:700;text-transform:uppercase;"
-                "letter-spacing:0.12em;color:#4caf78;margin:0.6rem 0 0.3rem;'>Compliance & Constraints</div>",
-                unsafe_allow_html=True)
-    compliance_reqs  = st.multiselect("Compliance Requirements",
-        ["GDPR", "HIPAA", "SOC 2", "PCI-DSS", "ISO 27001", "None"],
-        default=["None"])
-    has_data_sensitivity = st.selectbox("Data Sensitivity",
-        ["Public", "Internal", "Confidential", "Restricted / PII"])
+    delivery_priority = st.selectbox("Delivery Priority", ["Balanced (scope, time, cost)","Time-boxed (fixed deadline)","Scope-driven (all requirements)","Cost-constrained (fixed budget)"])
+    team_experience   = st.selectbox("Team Experience", ["Expert (3+ yrs)","Intermediate (1-3 yrs)","Beginner (< 1 yr)","Mixed levels"])
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # ── Roles ──────────────────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
+    st.markdown("### 👥 Team Roles")
+    rc1, rc2 = st.columns(2)
+    with rc1:
+        role_pm = st.number_input("👔 PM",  min_value=0, max_value=5, value=1)
+        role_sa = st.number_input("🏗️ SA", min_value=0, max_value=5, value=1)
+        role_de = st.number_input("⚙️ DE", min_value=0, max_value=10, value=2)
+    with rc2:
+        role_ds = st.number_input("🔬 DS",  min_value=0, max_value=5, value=1)
+        role_qa = st.number_input("🧪 QA", min_value=0, max_value=5, value=1)
+    has_dedicated_pm = role_pm > 0; has_qa_resource = role_qa > 0
+    team_roster = f"PM×{role_pm}, SA×{role_sa}, DE×{role_de}, DS×{role_ds}, QA×{role_qa}"
+    team_size_from_roles = role_pm + role_sa + role_de + role_ds + role_qa
+    if team_size < team_size_from_roles: team_size = team_size_from_roles
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # ── Compliance ─────────────────────────────────────────────
+    st.markdown("<div class='sb-card'>", unsafe_allow_html=True)
+    st.markdown("### 🔒 Compliance & Data")
+    compliance_reqs  = st.multiselect("Compliance", ["GDPR","HIPAA","SOC 2","PCI-DSS","ISO 27001","None"], default=["None"])
+    has_data_sensitivity = st.selectbox("Data Sensitivity", ["Public","Internal","Confidential","Restricted / PII"])
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # ════════════════════════════════════════
+    # VALUE-ADD WIDGETS
+    # ════════════════════════════════════════
+
+    # 1. Project Health Score
+    timeline_score = max(10, min(95, 100 - max(0, duration_weeks - 16) * 2))
+    team_score     = max(20, min(95, 60 + (team_size_from_roles * 4)))
+    risk_score     = {"Low": 90, "Medium": 68, "High": 42}.get(risk_appetite, 68)
+    compliance_penalty = 8 * max(0, len([c for c in compliance_reqs if c != "None"]) - 1)
+    risk_score = max(20, risk_score - compliance_penalty)
+    experience_score = {"Expert (3+ yrs)":88,"Intermediate (1-3 yrs)":70,"Beginner (< 1 yr)":45,"Mixed levels":62}.get(team_experience, 70)
+
+    def score_color(s):
+        if s >= 75: return "#2d9e5e", "#4caf78", "rgba(76,175,120,0.6)"
+        if s >= 50: return "#b07a00", "#f0a500", "rgba(240,165,0,0.5)"
+        return "#a02020", "#e05c5c", "rgba(224,92,92,0.5)"
+
+    bars = [("Timeline Health", timeline_score), ("Team Capacity", team_score),
+            ("Risk Posture", risk_score), ("Team Readiness", experience_score)]
+
+    bars_html = ""
+    for label, score in bars:
+        bg, fg, glow = score_color(score)
+        bars_html += (
+            "<div style='margin-bottom:0.45rem;'>"
+            "<div style='display:flex;justify-content:space-between;font-size:10px;font-weight:600;"
+            "color:#2d5a3a;margin-bottom:0.18rem;'>"
+            "<span>" + label + "</span>"
+            "<span style='color:" + fg + ";font-weight:700;'>" + str(score) + "%</span></div>"
+            "<div style='height:5px;background:rgba(0,0,0,0.1);border-radius:999px;overflow:hidden;'>"
+            "<div style='height:100%;width:" + str(score) + "%;border-radius:999px;"
+            "background:linear-gradient(90deg," + bg + "," + fg + ");box-shadow:0 0 6px " + glow + ";'></div>"
+            "</div></div>"
+        )
+
+    overall = int((timeline_score + team_score + risk_score + experience_score) / 4)
+    ov_bg, ov_fg, _ = score_color(overall)
+    ov_label = "Healthy" if overall >= 75 else "Moderate" if overall >= 50 else "At Risk"
+
+    health_html = (
+        "<div style='background:linear-gradient(135deg,#ffffff 0%,#f0faf4 100%);"
+        "border:1.5px solid rgba(45,122,80,0.22);border-radius:12px;"
+        "padding:0.85rem 1rem;margin-bottom:0.7rem;box-shadow:0 2px 12px rgba(0,0,0,0.05);'>"
+        "<div style='display:flex;align-items:center;gap:0.35rem;margin-bottom:0.6rem;'>"
+        "<span style='font-size:0.9rem;'>📈</span>"
+        "<span style='font-size:9px;font-weight:800;color:#2d7a50;text-transform:uppercase;letter-spacing:0.16em;'>Project Health Score</span>"
+        "<span style='margin-left:auto;background:linear-gradient(135deg," + ov_bg + "," + ov_fg + ");"
+        "color:#fff;font-size:10px;font-weight:800;padding:0.15rem 0.6rem;border-radius:12px;'>"
+        + str(overall) + "% — " + ov_label + "</span></div>"
+        + bars_html +
+        "</div>"
+    )
+    st.markdown(health_html, unsafe_allow_html=True)
+
+    # 2. Effort Estimator
+    story_points_per_sprint = {"Expert (3+ yrs)": 42, "Intermediate (1-3 yrs)": 30,
+                                "Beginner (< 1 yr)": 18, "Mixed levels": 26}.get(team_experience, 30)
+    num_sprints_est = max(1, duration_weeks // 2)
+    total_sp        = story_points_per_sprint * num_sprints_est
+    dev_days        = role_de * duration_weeks * 4
+    qa_days         = role_qa * duration_weeks * 3
+    pm_overhead_pct = 15 if role_pm > 0 else 8
+
+    st.markdown(f"""
+    <div style="background:linear-gradient(135deg,#0e1e14 0%,#1a3a2a 100%);border:1px solid rgba(76,175,120,0.2);border-radius:12px;padding:0.85rem 1rem;margin-bottom:0.7rem;box-shadow:0 2px 12px rgba(0,0,0,0.15);">
+        <div style="font-size:9px;font-weight:800;color:#4caf78;text-transform:uppercase;letter-spacing:0.16em;margin-bottom:0.6rem;">⚡ Effort Estimator</div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>Total Sprints</span><span style='color:#4caf78;font-weight:700;'>{num_sprints_est} × 2-week</span></div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>Story Points</span><span style='color:#4caf78;font-weight:700;'>~{total_sp} SP total</span></div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>Dev Effort</span><span style='color:#4caf78;font-weight:700;'>{dev_days} person-days</span></div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>QA Effort</span><span style='color:#4caf78;font-weight:700;'>{qa_days} person-days</span></div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>PM Overhead</span><span style='color:#4caf78;font-weight:700;'>{pm_overhead_pct}% of total</span></div>
+        <div style='display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px;'><span style='color:rgba(255,255,255,0.45);font-weight:500;'>Team Size</span><span style='color:#4caf78;font-weight:700;'>{team_size_from_roles} people</span></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # 3. Smart AI Tip
+    tips = {
+        "Agile / Scrum": ("🤖 Agile Tip", "For Snowflake projects, lock your schema contract in Sprint 1. Changing column types mid-sprint adds hidden rework — define a data contract first."),
+        "Waterfall":     ("📐 Waterfall Tip", "Allocate 25-30% of your timeline to UAT. Waterfall projects often underestimate the time needed for sign-off cycles with stakeholders."),
+        "Hybrid":        ("🔀 Hybrid Tip", "Use Agile for data pipeline work and Waterfall gates for stakeholder milestones. This balances delivery speed with governance requirements."),
+        "SAFe":          ("🏢 SAFe Tip", "Define your Solution Train dependencies in PI Planning Week 1. Cross-team blockers are the #1 SAFe delivery risk."),
+    }
+    tip_title, tip_text = tips.get(methodology, tips["Agile / Scrum"])
+    tip_html = (
+        "<div style='background:linear-gradient(135deg,#e8f7ee 0%,#d8f0e4 100%);"
+        "border:1.5px solid rgba(45,122,80,0.28);border-left:4px solid #3d8c5e;"
+        "border-radius:0 12px 12px 0;padding:0.8rem 0.9rem;margin-bottom:0.7rem;'>"
+        "<div style='font-size:9px;font-weight:800;color:#2d7a50;text-transform:uppercase;"
+        "letter-spacing:0.14em;margin-bottom:0.3rem;'>✨ " + tip_title + "</div>"
+        "<div style='font-size:11px;color:#1a3a2a;line-height:1.6;font-weight:500;'>" + tip_text + "</div>"
+        "</div>"
+    )
+    st.markdown(tip_html, unsafe_allow_html=True)
+
+    # 4. Methodology Quick Reference
+    method_info = {
+        "Agile / Scrum": {"icon":"🏃","color":"#2d7a50","cadence":"2-week sprints","ceremonies":"Daily standup, Sprint Review, Retro","best_for":"Iterative data products"},
+        "Waterfall":     {"icon":"📊","color":"#2d5fa8","cadence":"Sequential phases","ceremonies":"Phase gate reviews","best_for":"Fixed-scope migrations"},
+        "Hybrid":        {"icon":"🔀","color":"#6a3a9f","cadence":"Agile dev + Waterfall gates","ceremonies":"Sprint reviews + phase sign-offs","best_for":"Enterprise data programs"},
+        "SAFe":          {"icon":"🏢","color":"#b07a00","cadence":"PI (8-12 weeks)","ceremonies":"PI Planning, ART Sync","best_for":"Large multi-team programs"},
+    }
+    mi = method_info.get(methodology, method_info["Agile / Scrum"])
+    method_color = mi['color']
+    st.markdown(
+        "<div style='background:rgba(255,255,255,0.78);border:1.5px solid rgba(45,122,80,0.16);"
+        "border-left:3px solid " + method_color + ";border-radius:12px;"
+        "padding:0.9rem 1rem;margin-bottom:0.7rem;box-shadow:0 2px 10px rgba(0,0,0,0.05);'>"
+        "<div style='display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;'>"
+        "<span style='font-size:1.1rem;'>" + mi['icon'] + "</span>"
+        "<span style='font-size:10px;font-weight:800;color:" + method_color + ";text-transform:uppercase;letter-spacing:0.12em;'>" + methodology + "</span>"
+        "</div>"
+        "<div style='display:flex;flex-direction:column;gap:0.3rem;'>"
+        "<div style='font-size:10px;color:#3a6a4a;'><span style='font-weight:700;color:#1a3a2a;'>Cadence:</span> " + mi['cadence'] + "</div>"
+        "<div style='font-size:10px;color:#3a6a4a;'><span style='font-weight:700;color:#1a3a2a;'>Ceremonies:</span> " + mi['ceremonies'] + "</div>"
+        "<div style='font-size:10px;color:#3a6a4a;'><span style='font-weight:700;color:#1a3a2a;'>Best for:</span> " + mi['best_for'] + "</div>"
+        "</div></div>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown("---")
     generate_button = st.button("🚀 Generate Project Plan", type="primary")
+
 
 # ═══════════════════════════════════════════════════════════════
 # PAST PROJECTS PANEL
 # ═══════════════════════════════════════════════════════════════
-true_count      = len(past_projects_df)
-csv_count       = len(st.session_state.csv_projects)
-# FIX: names that exist in the DB (either always there or imported this session)
-db_names_set    = set(past_projects_df['project_name'].tolist())
-imported_names  = st.session_state.imported_csv_names  # names imported this session
+true_count     = len(past_projects_df)
+csv_count      = len(st.session_state.csv_projects)
+db_names_set   = set(past_projects_df['project_name'].tolist())
+imported_names = st.session_state.imported_csv_names
 
 if true_count > 0 or csv_count > 0:
     col_l, col_r = st.columns([2, 1])
@@ -1260,62 +1434,34 @@ if true_count > 0 or csv_count > 0:
         db_label  = f"{true_count} Completed Project{'s' if true_count!=1 else ''} in Database"
         csv_label = f" + {csv_count} CSV Plan{'s' if csv_count!=1 else ''}" if csv_count else ""
         st.markdown(f"<h2>📚 {db_label}{csv_label}</h2>", unsafe_allow_html=True)
-        st.markdown(
-            "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.6rem;'>"
-            "Cortex selects the most relevant past projects as templates. "
-            "Use the dropdown to browse any project for reference."
-            "</div>", unsafe_allow_html=True
-        )
+        st.markdown("<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.6rem;'>Cortex selects the most relevant past projects as templates.</div>", unsafe_allow_html=True)
 
         project_names = past_projects_df['project_name'].tolist()
-
-        # Build dropdown entries for CSV projects
-        csv_display = []
-        csv_map     = {}
+        csv_display   = []
+        csv_map       = {}
         for p in st.session_state.csv_projects:
-            nm  = p.get("project_name", "CSV Project")
-            # FIX: check BOTH db names AND imported_names for accurate badge
+            nm = p.get("project_name","CSV Project")
             is_in_db = (nm in db_names_set) or (nm in imported_names)
-            if is_in_db:
-                lbl = f"📎 {nm} ✓ Imported"
-            else:
-                lbl = f"📎 {nm} · Pending Import"
-            csv_display.append(lbl)
-            csv_map[lbl] = p
+            lbl = f"📎 {nm} ✓ Imported" if is_in_db else f"📎 {nm} · Pending Import"
+            csv_display.append(lbl); csv_map[lbl] = p
 
         browse_options = ["— Select to view —"] + csv_display + project_names
-
         if len(browse_options) == 1:
-            st.info("No projects loaded yet. Upload CSVs above or import to build institutional memory.")
+            st.info("No projects loaded yet.")
         else:
-            selected_proj = st.selectbox(
-                "Browse a project for reference:",
-                browse_options,
-                help="Select any project — CSV uploads and DB projects both appear here."
-            )
+            selected_proj = st.selectbox("Browse a project:", browse_options)
             if selected_proj and selected_proj != "— Select to view —":
                 if selected_proj in csv_map:
                     proj_data = csv_map[selected_proj]
                     nm = proj_data.get('project_name','CSV Project')
                     is_in_db = (nm in db_names_set) or (nm in imported_names)
-                    badge_html = (
-                        "<span class='csv-badge-imported'>✓ In Database</span>"
-                        if is_in_db else
-                        "<span class='csv-badge-pending'>Pending Import</span>"
-                    )
+                    badge_html = "<span class='csv-badge-imported'>✓ In Database</span>" if is_in_db else "<span class='csv-badge-pending'>Pending Import</span>"
                     with st.expander(f"📁 {nm}", expanded=True):
-                        st.markdown(
-                            f"<div style='font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:.5rem;'>"
-                            f"📎 CSV Upload {badge_html}</div>",
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(f"<div style='font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:.5rem;'>📎 CSV Upload {badge_html}</div>", unsafe_allow_html=True)
                         d1, d2 = st.columns(2)
-                        with d1:
-                            st.markdown(f"**Description:** {proj_data.get('description','N/A')}")
-                        with d2:
-                            st.markdown(f"**Start:** {proj_data.get('start_date','—')} &nbsp; **End:** {proj_data.get('end_date','—')}")
-                        st.markdown("**WBS Preview:**")
-                        st.code(proj_data.get("wbs_summary","")[:600], language=None)
+                        with d1: st.markdown(f"**Description:** {proj_data.get('description','N/A')}")
+                        with d2: st.markdown(f"**Start:** {proj_data.get('start_date','—')} &nbsp; **End:** {proj_data.get('end_date','—')}")
+                        st.markdown("**WBS Preview:**"); st.code(proj_data.get("wbs_summary","")[:600], language=None)
                 else:
                     match = past_projects_df[past_projects_df["project_name"] == selected_proj]
                     if not match.empty:
@@ -1346,12 +1492,12 @@ if generate_button:
         st.error("Please upload a SOW PDF before generating the plan.")
         st.stop()
 
-    st.session_state.qa_history       = []
-    st.session_state.wbs_structured   = None
+    st.session_state.qa_history     = []
+    st.session_state.wbs_structured = None
     st.session_state.plan_methodology = methodology
-    st.session_state.plan             = None
+    st.session_state.plan            = None
     st.session_state.sow_requirements = None
-    st.session_state.past_patterns    = None
+    st.session_state.past_patterns   = None
 
     loader = st.empty()
 
@@ -1369,253 +1515,167 @@ if generate_button:
             for i, s in enumerate(steps)
         ])
         loader.markdown(
-            '<div class="pulse-loader">'
-            '<div class="pulse-rings"><span></span><span></span><span></span><span></span></div>'
+            '<div class="pulse-loader"><div class="pulse-rings"><span></span><span></span><span></span><span></span></div>'
             '<div class="pulse-label">Cortex Project Intel</div>'
             '<div class="pulse-sublabel">' + (msg or "Processing...") + '</div>'
-            '<div class="pulse-steps">' + items + '</div>'
-            '</div>',
+            '<div class="pulse-steps">' + items + '</div></div>',
             unsafe_allow_html=True
         )
 
-    is_agile    = any(k in methodology.lower() for k in ['agile', 'scrum', 'safe'])
-    sprint_len  = 2
-    num_sprints = max(1, duration_weeks // sprint_len)
-    sprint_unit = "Sprint" if is_agile else "Phase"
-
+    is_agile = any(k in methodology.lower() for k in ['agile','scrum','safe'])
+    sprint_len = 2; num_sprints = max(1, duration_weeks // sprint_len)
     compliance_str = ", ".join(compliance_reqs) if compliance_reqs else "None"
-    pm_str    = f"PM×{role_pm}" if role_pm > 0 else "No dedicated PM"
-    qa_str    = f"QA×{role_qa}" if role_qa > 0 else "No dedicated QA"
     proj_context = (
-        f"Project: {new_project_name}\n"
-        f"Customer: {customer_name}\n"
-        f"Type: {project_type}\n"
-        f"Description: {new_project_desc[:300]}\n"
-        f"Technologies: {new_project_tech}\n"
-        f"Team: {team_size} people | Experience: {team_experience}\n"
-        f"Roles: {team_roster} (PM=Project Manager, SA=Solution Architect, "
-        f"DE=Data Engineer, DS=Data Scientist, QA=Quality Analyst)\n"
+        f"Project: {new_project_name}\nCustomer: {customer_name}\nType: {project_type}\n"
+        f"Description: {new_project_desc[:300]}\nTechnologies: {new_project_tech}\n"
+        f"Team: {team_size} people | Experience: {team_experience}\nRoles: {team_roster}\n"
         f"Duration: {duration_weeks} weeks | Methodology: {methodology}\n"
-        f"Delivery Priority: {delivery_priority}\n"
-        f"Risk Appetite: {risk_appetite}\n"
-        f"Data Sensitivity: {has_data_sensitivity}\n"
-        f"Compliance: {compliance_str}"
+        f"Delivery Priority: {delivery_priority}\nRisk Appetite: {risk_appetite}\n"
+        f"Data Sensitivity: {has_data_sensitivity}\nCompliance: {compliance_str}"
     )
 
-    # CALL 1 — SOW Analysis (deep extraction across 8 structured sections)
     show_step(0, "Reading " + sow_pdf.name + " ...")
     sow_call = (
-        "You are a senior business analyst and PMO consultant reading a Statement of Work (SOW).\n\n"
-        "Project context:\n" + proj_context + "\n\n"
-        "Perform a DEEP analysis of the SOW below. Output EXACTLY these 8 numbered sections.\n"
-        "Each section must be detailed — minimum 3-5 points each where applicable.\n\n"
-        "1. PROJECT OBJECTIVE\n"
-        "   Write 2-3 paragraphs: (a) what is being built and why, (b) the business problem it solves, "
-        "(c) expected business outcomes and value delivered to " + customer_name + ".\n\n"
-        "2. KEY DELIVERABLES\n"
-        "   Numbered list. For each deliverable state: name, description, and the team/system responsible. "
-        "Be specific — name every data pipeline, dashboard, model, integration, report, or platform component.\n\n"
-        "3. ACCEPTANCE CRITERIA\n"
-        "   For EACH deliverable from section 2, list measurable pass/fail criteria. "
-        "E.g. row counts, latency thresholds, test pass rates, stakeholder sign-offs.\n\n"
-        "4. FUNCTIONAL REQUIREMENTS\n"
-        "   Bullet list of every functional requirement stated or implied in the SOW. "
-        "Group by area (data ingestion, transformation, visualisation, security, etc.).\n\n"
-        "5. NON-FUNCTIONAL REQUIREMENTS\n"
-        "   Performance, scalability, availability, security, auditability, and maintainability requirements. "
-        "Include any SLAs, RTO/RPO targets, or data freshness requirements mentioned.\n\n"
-        "6. OUT OF SCOPE\n"
-        "   List everything the SOW explicitly excludes or does not mention that a stakeholder might assume. "
-        "Flag any grey areas that need clarification.\n\n"
-        "7. CONSTRAINTS & DEPENDENCIES\n"
-        "   (a) Budget constraints, (b) timeline / deadline constraints, "
-        "(c) technology constraints (must use " + new_project_tech + "), "
-        "(d) team constraints, (e) external dependencies (third-party systems, APIs, data sources), "
-        "(f) " + compliance_str + " compliance requirements, "
-        "(g) data sensitivity constraints (" + has_data_sensitivity + " data).\n\n"
-        "8. RISKS & ASSUMPTIONS IN THE SOW\n"
-        "   List any risks, assumptions, or open questions that the SOW itself raises. "
-        "Flag anything ambiguous that could cause scope disputes or delivery delays.\n\n"
-        "SOW TEXT:\n" + sow_text[:5000] + "\n\n"
-        "Be thorough and specific. Reference exact wording from the SOW where relevant. "
-        "If the SOW is silent on a topic, state 'Not specified in SOW — clarification recommended'."
+        "You are a senior business analyst reading a Statement of Work (SOW).\n\n"
+        "Project context:\n" + proj_context + "\n\nAnalyse the SOW below. Output EXACTLY these 8 numbered sections:\n\n"
+        "1. PROJECT OBJECTIVE\n2. KEY DELIVERABLES\n3. ACCEPTANCE CRITERIA\n"
+        "4. FUNCTIONAL REQUIREMENTS\n5. NON-FUNCTIONAL REQUIREMENTS\n6. OUT OF SCOPE\n"
+        "7. CONSTRAINTS & DEPENDENCIES\n8. RISKS & ASSUMPTIONS IN THE SOW\n\n"
+        "SOW TEXT:\n" + sow_text[:5000]
     )
     sow_analysis = cortex_call(sow_call, "SOW Analysis")
     st.session_state.sow_requirements = sow_analysis
 
-    # CALL 2 — Past Project Pattern Extraction
-    show_step(1, "Scanning " + str(true_count) + " past projects...")
-    candidates = [
-        {"id": int(r['project_id']), "name": r['project_name'],
-         "desc": str(r.get('description', ''))[:80]}
-        for _, r in past_projects_df.iterrows()
-    ]
+    show_step(1, "Scanning past projects...")
+    candidates = [{"id": int(r['project_id']), "name": r['project_name'], "desc": str(r.get('description',''))[:80]}
+                  for _, r in past_projects_df.iterrows()]
     for ci, cp in enumerate(st.session_state.csv_projects):
-        candidates.append({"id": -(ci + 1), "name": cp["project_name"],
-                            "desc": cp.get("description","")[:80]})
+        candidates.append({"id": -(ci+1), "name": cp["project_name"], "desc": cp.get("description","")[:80]})
 
-    sel_raw = cortex_call(
-        "Select up to 4 past projects most similar to:\n"
-        + proj_context[:400] + "\n"
-        "Candidates (JSON):\n" + json.dumps(candidates[:25])[:1200] + "\n\n"
-        "Return ONLY a JSON array of IDs: [1, 4, 7]",
-        "Template Selection"
-    )
+    sel_raw = cortex_call("Select up to 4 past projects most similar to:\n" + proj_context[:400] +
+                          "\nCandidates:\n" + json.dumps(candidates[:25])[:1200] +
+                          "\nReturn ONLY a JSON array of IDs: [1, 4, 7]", "Template Selection")
     selected_ids = []
     try:
-        raw_ids = json.loads(
-            sel_raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
-        )
+        raw_ids = json.loads(sel_raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip())
         selected_ids = [int(x) for x in raw_ids if str(x).strip().isdigit()][:4]
-    except Exception:
-        selected_ids = [c["id"] for c in candidates[:3]]
+    except: selected_ids = [c["id"] for c in candidates[:3]]
 
-    pattern_context = ""
-    used_projects   = []
+    pattern_context = ""; used_projects = []
     csv_id_map = {-(i+1): p for i, p in enumerate(st.session_state.csv_projects)}
-
     for pid in selected_ids:
         match = past_projects_df[past_projects_df['project_id'].astype(str) == str(pid)]
         if pid < 0 and pid in csv_id_map:
             p = csv_id_map[pid]
-            pattern_context += ("\n-- " + p['project_name'] + " (CSV) --\n"
-                                 "WBS: " + p['wbs_summary'][:300] + "\n")
+            pattern_context += "\n-- " + p['project_name'] + " (CSV) --\nWBS: " + p['wbs_summary'][:300] + "\n"
             used_projects.append(p['project_name'])
         elif not match.empty:
             r = match.iloc[0]
-            pattern_context += ("\n-- " + r['project_name'] + " --\n"
-                                 "RAID: " + str(r.get('risk_log_summary', ''))[:280] + "\n"
-                                 "Tests: " + str(r.get('test_cases_summary', ''))[:200] + "\n"
-                                 "Deployment: " + str(r.get('deployment_plan', ''))[:180] + "\n")
+            pattern_context += ("\n-- " + r['project_name'] + " --\nRAID: " + str(r.get('risk_log_summary',''))[:280] +
+                                "\nTests: " + str(r.get('test_cases_summary',''))[:200] +
+                                "\nDeployment: " + str(r.get('deployment_plan',''))[:180] + "\n")
             used_projects.append(r['project_name'])
 
-    if not pattern_context:
-        pattern_context = "No past project data. Use PMO best practices."
+    if not pattern_context: pattern_context = "No past project data. Use PMO best practices."
 
     patterns_call = (
-        "You are a PMO expert extracting reusable patterns from past Snowflake projects.\n\n"
-        "New project context:\n" + proj_context + "\n\n"
-        "Past project data:\n" + pattern_context[:3000] + "\n\n"
-        "Output EXACTLY these four sections with the EXACT headers shown. "
-        "Do not add extra text before or after each section header.\n\n"
-        "### A. TOP RISKS\n"
-        "Output exactly 8 pipe-delimited rows (no header row, no bullets, one risk per line).\n"
-        "Format per row: CATEGORY | TYPE | DESCRIPTION | LIKELIHOOD | IMPACT | MITIGATION | OWNER\n"
-        "CATEGORY must be one of: Risk, Assumption, Issue, Dependency\n"
-        "LIKELIHOOD and IMPACT must each be: High, Medium, or Low\n"
-        "Example row: Risk | Technical | Data pipeline fails on null values | High | High | Add null checks in transformation layer | Data Engineer\n\n"
-        "### B. TEST PATTERNS\n"
-        "Output exactly 8 pipe-delimited rows (no header row, no bullets, one test per line).\n"
-        "Format per row: ID | PRIORITY | TYPE | SCENARIO | PRECONDITIONS | STEPS | EXPECTED RESULT\n"
-        "PRIORITY must be: High, Medium, or Low\n"
-        "TYPE must be one of: Integration, Data Quality, Security, Performance, Functional, Regression, UAT\n"
-        "Example row: TC-01 | High | Integration | End-to-end data load | Source available | 1.Run pipeline 2.Query target | Row count matches source\n\n"
-        "### C. TIMELINE LESSONS\n"
-        "Output exactly 5 bullet points. Each bullet must be a specific, actionable lesson from past projects "
-        "with a concrete recommendation (e.g. 'Integration testing took 40% longer than planned — "
-        "add 3-day buffer after Sprint 3 integration tasks').\n\n"
-        "### D. TEAM STRUCTURE\n"
-        "Recommended roles for this project. Team roster: " + team_roster + " "
-        "(PM=Project Manager, SA=Solution Architect, DE=Data Engineer, DS=Data Scientist, QA=Quality Analyst). "
-        "Experience level: " + team_experience + ". "
-        "For each role output: Role Title | Headcount | Key Responsibilities | Skills Required\n"
-        "Output as pipe-delimited rows, one role per line.\n\n"
-        "Be specific. Reference past project names where relevant. "
-        "IMPORTANT: Output ONLY the four section headers and their content. No preamble, no conclusion."
+        "You are a PMO expert extracting reusable patterns.\n\nProject context:\n" + proj_context +
+        "\n\nPast project data:\n" + pattern_context[:3000] +
+        "\n\nOutput EXACTLY these four sections:\n"
+        "### A. TOP RISKS\nExactly 8 pipe-delimited rows: CATEGORY | TYPE | DESCRIPTION | LIKELIHOOD | IMPACT | MITIGATION | OWNER\n"
+        "### B. TEST PATTERNS\nExactly 8 pipe-delimited rows: ID | PRIORITY | TYPE | SCENARIO | PRECONDITIONS | STEPS | EXPECTED RESULT\n"
+        "### C. TIMELINE LESSONS\nExactly 5 bullet points with actionable lessons.\n"
+        "### D. TEAM STRUCTURE\nRoles as pipe-delimited rows: Role Title | Headcount | Key Responsibilities | Skills Required"
     )
     past_patterns = cortex_call(patterns_call, "Pattern Extraction")
     st.session_state.past_patterns = past_patterns
 
-    # CALL 3 — WBS from SOW
-    show_step(2, "Decomposing SOW into sprint deliverables...")
-    sprint_div = ("Divide into " + str(num_sprints) + " Sprints of 2 weeks each."
-                  if is_agile else "Divide into phases.")
+    show_step(2, "Decomposing SOW into deliverables...")
+    sprint_div = ("Divide into " + str(num_sprints) + " Sprints of 2 weeks each." if is_agile else "Divide into phases.")
     wbs_call = (
-        "You are a Snowflake Solutions Architect decomposing a SOW into a delivery plan.\n\n"
-        "Project context:\n" + proj_context + "\n\n"
-        "SOW Analysis:\n" + sow_analysis[:2300] + "\n\n"
+        "You are a PMO analyst creating a Work Breakdown Structure. "
+        "Read the SOW analysis below and produce a detailed sprint plan.\n\n"
+        "CRITICAL RULES:\n"
+        "- 'stories' must contain SPECIFIC, REAL tasks derived from the SOW deliverables — not generic text.\n"
+        "- Each story should be an action: 'Build X', 'Configure Y', 'Test Z', 'Deploy W'.\n"
+        "- Use EXACT deliverable names from the SOW analysis in goals and stories.\n"
+        "- Produce exactly " + str(num_sprints) + " " + ("sprints" if is_agile else "phases") + ".\n"
+        "- Do NOT use placeholder text like 'Task 1', 'Define', 'Build', 'Test' as standalone items.\n\n"
+        "Project: " + new_project_name + " | Customer: " + customer_name + "\n"
+        "Technologies: " + new_project_tech + "\n"
+        "Team: " + team_roster + "\n\n"
+        "SOW Analysis:\n" + sow_analysis[:2800] + "\n\n"
         + sprint_div + "\n\n"
-        "RULES:\n- Every task MUST map to a SOW deliverable.\n"
-        "- Do NOT add scope not in the SOW.\n\n"
-        "Return ONLY valid JSON array:\n"
-        '[{"sprint_num":1,"name":"Sprint 1: Title","weeks":"Week 1-2",'
-        '"goal":"Deliver SOW Deliverable 1.","sow_ref":"SOW Deliverable 1",'
-        '"stories":["Task 1","Task 2","Task 3","Task 4"],'
-        '"deliverable":"Acceptance criterion met"}]'
+        "Return ONLY a valid JSON array (no markdown, no extra text):\n"
+        '[{"sprint_num":1,"name":"Sprint 1: <specific title>","weeks":"Week 1-2",'
+        '"goal":"<specific deliverable from SOW>","sow_ref":"<SOW section referenced>",'
+        '"stories":["<specific task 1 from SOW>","<specific task 2>","<specific task 3>","<specific task 4>"],'
+        '"deliverable":"<specific acceptance criterion from SOW>"}]'
     )
     raw_wbs = cortex_call(wbs_call, "WBS Generation")
     wbs_sprints_gen = []
-    try:
-        clean = raw_wbs.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
-        wbs_sprints_gen = json.loads(clean)
-        if not isinstance(wbs_sprints_gen, list):
+    if raw_wbs:
+        try:
+            clean = raw_wbs.strip()
+            # Strip markdown fences
+            for fence in ["```json", "```JSON", "```"]:
+                if clean.startswith(fence): clean = clean[len(fence):]
+                if clean.endswith(fence):   clean = clean[:-len(fence)]
+            clean = clean.strip()
+            # Find JSON array bounds
+            start = clean.find('['); end = clean.rfind(']')
+            if start != -1 and end != -1:
+                clean = clean[start:end+1]
+            wbs_sprints_gen = json.loads(clean)
+            if not isinstance(wbs_sprints_gen, list):
+                wbs_sprints_gen = []
+            else:
+                # Validate quality — reject if stories are generic placeholders
+                placeholders = {'define','build','test','task 1','task 2','task 3','task 4',
+                                'specific task 1','specific task 2','tbd','n/a',''}
+                total_real = sum(
+                    1 for sp in wbs_sprints_gen
+                    for story in sp.get('stories', [])
+                    if str(story).lower().strip() not in placeholders and len(str(story)) > 10
+                )
+                if total_real < len(wbs_sprints_gen) * 2:
+                    # Too many placeholders — discard and re-extract from SOW analysis
+                    wbs_sprints_gen = []
+        except Exception:
             wbs_sprints_gen = []
-    except Exception:
-        pass
+
+    # If primary call failed or returned junk, extract from SOW analysis text
     if not wbs_sprints_gen:
         wbs_sprints_gen = parse_wbs_into_sprints(sow_analysis, duration_weeks, methodology)
     st.session_state.wbs_structured = wbs_sprints_gen
 
-    # CALL 4 — Full Plan Assembly
-    show_step(3, "Applying past project lessons to build RAID, tests and timeline...")
+    show_step(3, "Applying past project lessons...")
     wbs_for_prompt = "\n".join([
-        "  " + s.get('name', '') + " (" + s.get('weeks', '') + "): "
-        + s.get('goal', '') + " => " + s.get('deliverable', '')
+        "  " + s.get('name','') + " (" + s.get('weeks','') + "): " + s.get('goal','') + " => " + s.get('deliverable','')
         for s in wbs_sprints_gen
     ])[:1200]
-    show_step(4, "Assembling final plan document...")
 
+    show_step(4, "Assembling final plan document...")
     assembly_call = (
         "You are a senior PMO consultant writing the final project plan.\n\n"
-        "CRITICAL RULE: Every sprint, task, milestone, test case, and RAID item MUST directly trace back "
-        "to a named deliverable or requirement from the SOW. Do NOT invent tasks outside the SOW scope.\n\n"
         "Project context:\n" + proj_context + "\n\n"
-        "=== SOW SCOPE (USE AS PRIMARY SOURCE) ===\n" + sow_analysis[:1800] + "\n\n"
-        "=== WBS — SPRINT PLAN (aligned to SOW deliverables) ===\n" + wbs_for_prompt + "\n\n"
-        "=== PATTERNS FROM PAST PROJECTS (reference only) ===\n" + past_patterns[:1200] + "\n\n"
-        "Write EXACTLY these 7 sections using the EXACT ## headers below:\n\n"
-        "## EXECUTIVE SUMMARY\n"
-        "3 paragraphs: (1) what SOW deliverables this plan covers and business value for "
-        + customer_name + ", (2) how past project patterns reduce risk, (3) measurable KPIs and success criteria.\n\n"
-        "## RAID LOG\n"
-        "Min 10 rows. Every risk MUST reference a specific SOW deliverable or constraint.\n"
-        "CRITICAL: Output ONLY pipe-delimited data rows — NO header row, NO bullets, NO blank lines between rows.\n"
-        "Format: CATEGORY | TYPE | DESCRIPTION | LIKELIHOOD | IMPACT | MITIGATION | OWNER\n"
-        "CATEGORY must be: Risk, Assumption, Issue, or Dependency\n"
-        "LIKELIHOOD and IMPACT must be: High, Medium, or Low\n\n"
-        "## TEST CASES\n"
-        "Min 10 rows. Each test must map to a SOW acceptance criterion.\n"
-        "CRITICAL: Output ONLY pipe-delimited data rows — NO header row, NO bullets, NO blank lines between rows.\n"
-        "Format: ID | PRIORITY | TYPE | SCENARIO | PRECONDITIONS | STEPS | EXPECTED RESULT\n"
-        "PRIORITY must be: High, Medium, or Low. TYPE must be: Integration, Data Quality, Security, Performance, Functional, Regression, or UAT\n\n"
-        "## DELIVERY TIMELINE\n"
-        "One row per sprint/milestone from the WBS. Tie each milestone to a SOW deliverable.\n"
-        "CRITICAL: Output ONLY pipe-delimited data rows — NO header row, NO bullets, NO blank lines between rows.\n"
-        "Format: WEEK | SPRINT/PHASE | MILESTONE | OWNER | STATUS | RISK FLAG\n\n"
-        "## DEPLOYMENT STRATEGY\n"
-        "Prose only. Phased go-live plan tied to SOW acceptance criteria. Rollback plan. Sign-off gates. "
-        "Reference specific deliverables by name.\n\n"
-        "## SOW TRACEABILITY MATRIX\n"
-        "One row per SOW deliverable. Every deliverable from the SOW must appear here.\n"
-        "CRITICAL: Output ONLY pipe-delimited data rows — NO header row, NO bullets, NO blank lines between rows.\n"
-        "Format: SOW REQUIREMENT | SPRINT/PHASE | KEY TASKS | ACCEPTANCE CRITERIA | STATUS\n\n"
-        "## LESSONS FROM PAST PROJECTS\n"
-        "Bullet list. Each lesson must state: what happened in a past project and how it changed THIS plan.\n\n"
-        "ABSOLUTE RULE: Sections with pipe-delimited format must contain ONLY data rows. "
-        "No column headers, no section sub-titles, no bullet points, no blank lines within them."
+        "=== SOW SCOPE ===\n" + sow_analysis[:1800] + "\n\n"
+        "=== WBS ===\n" + wbs_for_prompt + "\n\n"
+        "=== PAST PROJECT PATTERNS ===\n" + past_patterns[:1200] + "\n\n"
+        "Write EXACTLY these 7 sections with EXACT ## headers:\n\n"
+        "## EXECUTIVE SUMMARY\n3 paragraphs covering deliverables, past patterns, and KPIs.\n\n"
+        "## RAID LOG\nMin 10 pipe-delimited rows: CATEGORY | TYPE | DESCRIPTION | LIKELIHOOD | IMPACT | MITIGATION | OWNER\n\n"
+        "## TEST CASES\nMin 10 pipe-delimited rows: ID | PRIORITY | TYPE | SCENARIO | PRECONDITIONS | STEPS | EXPECTED RESULT\n\n"
+        "## DELIVERY TIMELINE\nPipe-delimited rows: WEEK | SPRINT/PHASE | MILESTONE | OWNER | STATUS | RISK FLAG\n\n"
+        "## DEPLOYMENT STRATEGY\nProse. Phased go-live, rollback, sign-off gates.\n\n"
+        "## SOW TRACEABILITY MATRIX\nPipe-delimited rows: SOW REQUIREMENT | SPRINT/PHASE | KEY TASKS | ACCEPTANCE CRITERIA | STATUS\n\n"
+        "## LESSONS FROM PAST PROJECTS\nBullets. Each with past project reference and change made to this plan.\n\n"
+        "Sections with pipe-delimited format: data rows ONLY, no headers, no blanks within."
     )
     full_plan = cortex_call(assembly_call, "Plan Assembly")
-    if full_plan:
-        st.session_state.plan      = full_plan
-        st.session_state.plan_name = new_project_name
-    else:
-        st.session_state.plan = (
-            "Plan assembly failed. SOW analysis and WBS are still available — "
-            "check the SOW Analysis and WBS tabs."
-        )
-
-    loader.empty()
-    st.rerun()
+    st.session_state.plan      = full_plan or "Plan assembly failed. SOW analysis and WBS still available."
+    st.session_state.plan_name = new_project_name
+    loader.empty(); st.rerun()
 
 # ═══════════════════════════════════════════════════════════════
 # DISPLAY PLAN
@@ -1623,36 +1683,27 @@ if generate_button:
 if st.session_state.plan:
     plan      = st.session_state.plan
     plan_name = st.session_state.plan_name
-    meth      = st.session_state.plan_methodology or methodology
+    meth      = st.session_state.plan_methodology or "Agile / Scrum"
     sprints   = st.session_state.wbs_structured or []
     is_agile  = any(k in meth.lower() for k in ['agile','scrum','safe'])
 
-    # Impact metrics
     st.markdown("<div class='section-label'>Delivery Impact</div>", unsafe_allow_html=True)
     st.markdown("<div class='panel'>", unsafe_allow_html=True)
-    mc1, mc2, mc3, mc4 = st.columns(4)
+    mc1,mc2,mc3,mc4 = st.columns(4)
     with mc1: st.metric("Planning Time", "Weeks → Minutes", "90% reduction")
     with mc2: st.metric("Risk Identification", "Reactive → Predictive", "From past projects")
-    with mc3: st.metric("Templates Used", min(true_count, 4), "matched by Cortex")
+    with mc3: st.metric("Templates Used", min(len(past_projects_df), 4), "matched by Cortex")
     with mc4: st.metric("Sprint / Phase Count", len(sprints) if sprints else "—")
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='section-label' style='margin-top:0.25rem;'>Generated Project Plan</div>", unsafe_allow_html=True)
 
-    tab_plan, tab_wbs, tab_sow, tab_qa, tab_risks, tab_export = st.tabs([
-        "📋 Full Plan",
-        "🏃 WBS / Sprints",
-        "📄 SOW Analysis",
-        "💬 Ask the Plan",
-        "⚠️ Risk Analyser",
-        "📤 Export",
-    ])
+    tab_plan,tab_wbs,tab_sow,tab_qa,tab_risks,tab_export = st.tabs([
+        "📋 Full Plan","🏃 WBS / Sprints","📄 SOW Analysis","💬 Ask the Plan","⚠️ Risk Analyser","📤 Export"])
 
-    # ── TAB 1: Full Plan ──────────────────────────────────────
     with tab_plan:
         st.markdown(f"<h2>📋 {plan_name}</h2>", unsafe_allow_html=True)
 
-        # ── Full Plan renderer: colour-coded tables for every section ──
         def render_plan_with_tables(plan_text):
             LH_BG  = {"High":"rgba(224,92,92,0.15)","Medium":"rgba(240,165,0,0.12)","Low":"rgba(76,175,120,0.12)"}
             LH_COL = {"High":"#e05c5c","Medium":"#f0a500","Low":"#4caf78"}
@@ -1664,16 +1715,11 @@ if st.session_state.plan:
                       "Functional":"rgba(160,91,232,0.12)","Regression":"rgba(140,140,140,0.12)",
                       "Uat":"rgba(76,175,120,0.12)","UAT":"rgba(76,175,120,0.12)"}
             TT_COL = {"Integration":"#5b8ce8","Data Quality":"#4caf78","Security":"#e05c5c",
-                      "Performance":"#f0a500","Functional":"#a05be8","Regression":"#888",
-                      "Uat":"#4caf78","UAT":"#4caf78"}
+                      "Performance":"#f0a500","Functional":"#a05be8","Regression":"#888","Uat":"#4caf78","UAT":"#4caf78"}
             ST_BG  = {"To Do":"rgba(140,140,140,0.12)","Planned":"rgba(240,165,0,0.12)",
-                      "In Progress":"rgba(91,140,232,0.12)","Done":"rgba(76,175,120,0.12)",
-                      "Complete":"rgba(76,175,120,0.12)","Not Started":"rgba(140,140,140,0.12)",
-                      "Pending":"rgba(240,165,0,0.12)"}
-            ST_COL = {"To Do":"#888","Planned":"#f0a500","In Progress":"#5b8ce8",
-                      "Done":"#4caf78","Complete":"#4caf78","Not Started":"#888","Pending":"#f0a500"}
+                      "In Progress":"rgba(91,140,232,0.12)","Done":"rgba(76,175,120,0.12)"}
+            ST_COL = {"To Do":"#888","Planned":"#f0a500","In Progress":"#5b8ce8","Done":"#4caf78"}
 
-            # per-section config: icon, accent colour, headers list, column styler fn
             SECTIONS = {
                 "EXECUTIVE SUMMARY":  {"icon":"📋","col":"#4caf78","table":False,"headers":[]},
                 "RAID LOG":           {"icon":"⚠️","col":"#e05c5c","table":True,
@@ -1722,1172 +1768,257 @@ if st.session_state.plan:
 
             def make_table(sec_key, rows):
                 if not rows: return ""
-                sec     = SECTIONS.get(sec_key, {})
-                headers = sec.get("headers", [])
-                colfn   = sec.get("colfn", lambda ci, v: "background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.75);")
-                accent  = sec.get("col","#4caf78")
-                th = "".join(
-                    "<th style='padding:0.5rem 0.85rem;text-align:left;font-size:10px;"
-                    "font-weight:700;letter-spacing:0.07em;color:%s;white-space:nowrap;"
-                    "background:#0a1a10;border-bottom:2px solid %s44;"
-                    "border-right:1px solid rgba(255,255,255,0.04);'>%s</th>" % (accent, accent, h)
-                    for h in headers
-                )
+                sec = SECTIONS.get(sec_key, {}); headers = sec.get("headers", [])
+                colfn = sec.get("colfn", lambda ci, v: "background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.75);")
+                accent = sec.get("col","#4caf78")
+                th = "".join("<th style='padding:0.5rem 0.85rem;text-align:left;font-size:10px;font-weight:700;letter-spacing:0.07em;color:%s;white-space:nowrap;background:#0a1a10;border-bottom:2px solid %s44;border-right:1px solid rgba(255,255,255,0.04);'>%s</th>" % (accent,accent,h) for h in headers)
                 body = ""
                 for row in rows:
                     while len(row) < len(headers): row.append("")
                     row = row[:len(headers)]
                     cells = ""
                     for ci, cell in enumerate(row):
-                        v   = str(cell).strip()
-                        sty = colfn(ci, v)
-                        cells += (
-                            "<td style='padding:0.45rem 0.85rem;font-size:11px;"
-                            "vertical-align:top;line-height:1.6;"
-                            "border-bottom:1px solid rgba(255,255,255,0.04);"
-                            "border-right:1px solid rgba(255,255,255,0.04);%s'>%s</td>" % (sty, v)
-                        )
+                        v = str(cell).strip(); sty = colfn(ci, v)
+                        cells += "<td style='padding:0.45rem 0.85rem;font-size:11px;vertical-align:top;line-height:1.6;border-bottom:1px solid rgba(255,255,255,0.04);border-right:1px solid rgba(255,255,255,0.04);%s'>%s</td>" % (sty, v)
                     body += "<tr>%s</tr>" % cells
-                return (
-                    "<div style='overflow-x:auto;margin:0.6rem 0 1.5rem 0;"
-                    "border-radius:8px;border:1px solid %s33;'>"
-                    "<table style='width:100%%;border-collapse:collapse;'>"
-                    "<thead><tr>%s</tr></thead><tbody>%s</tbody>"
-                    "</table></div>" % (accent, th, body)
-                )
+                return "<div style='overflow-x:auto;margin:0.6rem 0 1.5rem 0;border-radius:8px;border:1px solid %s33;'><table style='width:100%%;border-collapse:collapse;'><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>" % (accent,th,body)
 
             def make_header(sec_key, title):
-                sec    = SECTIONS.get(sec_key, {"icon":"▸","col":"#4caf78"})
-                return (
-                    "<div style='display:flex;align-items:center;gap:0.55rem;"
-                    "margin:1.5rem 0 0.6rem 0;padding:0.55rem 0.9rem;"
-                    "background:rgba(255,255,255,0.025);border-radius:8px;"
-                    "border-left:3px solid %s;'>"
-                    "<span style='font-size:1rem;'>%s</span>"
-                    "<span style='font-size:12px;font-weight:800;color:%s;"
-                    "text-transform:uppercase;letter-spacing:0.1em;'>%s</span>"
-                    "</div>" % (sec["col"], sec["icon"], sec["col"], title)
-                )
+                sec = SECTIONS.get(sec_key, {"icon":"▸","col":"#4caf78"})
+                return "<div style='display:flex;align-items:center;gap:0.55rem;margin:1.5rem 0 0.6rem 0;padding:0.55rem 0.9rem;background:rgba(255,255,255,0.025);border-radius:8px;border-left:3px solid %s;'><span style='font-size:1rem;'>%s</span><span style='font-size:12px;font-weight:800;color:%s;text-transform:uppercase;letter-spacing:0.1em;'>%s</span></div>" % (sec["col"],sec["icon"],sec["col"],title)
 
-            lines        = plan_text.split("\n")
-            output       = ""
-            cur_sec      = None
-            tbl_rows     = []
-            in_tbl       = False
-
+            lines = plan_text.split("\n"); output = ""; cur_sec = None; tbl_rows = []; in_tbl = False
             for line in lines:
                 s = line.strip()
                 if s.startswith("##") or s.startswith("# "):
-                    if in_tbl and tbl_rows and cur_sec:
-                        output += make_table(cur_sec, tbl_rows)
+                    if in_tbl and tbl_rows and cur_sec: output += make_table(cur_sec, tbl_rows)
                     tbl_rows = []; in_tbl = False; cur_sec = None
                     title = s.lstrip("#").strip()
                     matched = next((k for k in SECTIONS if k in title.upper()), None)
-                    cur_sec = matched
-                    output += make_header(matched or title.upper(), title)
-                    if matched and SECTIONS[matched]["table"]:
-                        in_tbl = True
+                    cur_sec = matched; output += make_header(matched or title.upper(), title)
+                    if matched and SECTIONS[matched]["table"]: in_tbl = True
                 elif in_tbl and "|" in s:
                     parts = [p.strip() for p in s.split("|") if p.strip()]
                     if parts and not all(set(p) <= set("-: ") for p in parts):
-                        hdrs = SECTIONS.get(cur_sec, {}).get("headers", [])
-                        if parts[0].upper() not in [h.upper() for h in hdrs]:
-                            tbl_rows.append(parts)
+                        hdrs = SECTIONS.get(cur_sec,{}).get("headers",[])
+                        if parts[0].upper() not in [h.upper() for h in hdrs]: tbl_rows.append(parts)
                 elif in_tbl and s == "":
-                    if tbl_rows and cur_sec:
-                        output += make_table(cur_sec, tbl_rows)
-                        tbl_rows = []
+                    if tbl_rows and cur_sec: output += make_table(cur_sec, tbl_rows); tbl_rows = []
                     in_tbl = False
                 elif not in_tbl and s:
                     if s.startswith("- ") or s.startswith("* ") or s.startswith("• "):
                         c = re.sub(r"^[-*•]\s*","",s)
-                        output += ("<div style='display:flex;gap:0.5rem;padding:0.22rem 0.2rem;"
-                                   "color:rgba(255,255,255,0.75);font-size:12px;line-height:1.7;'>"
-                                   "<span style='color:#4caf78;flex-shrink:0;font-size:0.75rem;margin-top:0.1rem;'>▸</span>"
-                                   "<span>%s</span></div>" % c)
+                        output += "<div style='display:flex;gap:0.5rem;padding:0.22rem 0.2rem;color:rgba(255,255,255,0.75);font-size:12px;line-height:1.7;'><span style='color:#4caf78;flex-shrink:0;font-size:0.75rem;margin-top:0.1rem;'>▸</span><span>%s</span></div>" % c
                     elif re.match(r"^\d+\.\s", s):
                         m2 = re.match(r"^(\d+)\.\s*(.*)", s)
-                        if m2:
-                            output += ("<div style='display:flex;gap:0.5rem;padding:0.22rem 0.2rem;"
-                                       "color:rgba(255,255,255,0.78);font-size:12px;line-height:1.7;'>"
-                                       "<span style='color:#4caf78;font-weight:700;flex-shrink:0;min-width:1.4rem;'>%s.</span>"
-                                       "<span>%s</span></div>" % (m2.group(1), m2.group(2)))
+                        if m2: output += "<div style='display:flex;gap:0.5rem;padding:0.22rem 0.2rem;color:rgba(255,255,255,0.78);font-size:12px;line-height:1.7;'><span style='color:#4caf78;font-weight:700;flex-shrink:0;min-width:1.4rem;'>%s.</span><span>%s</span></div>" % (m2.group(1),m2.group(2))
                     else:
-                        output += ("<div style='color:rgba(255,255,255,0.7);font-size:12px;"
-                                   "line-height:1.85;padding:0.1rem 0.2rem;'>%s</div>" % s)
-
-            if in_tbl and tbl_rows and cur_sec:
-                output += make_table(cur_sec, tbl_rows)
+                        output += "<div style='color:rgba(255,255,255,0.7);font-size:12px;line-height:1.85;padding:0.1rem 0.2rem;'>%s</div>" % s
+            if in_tbl and tbl_rows and cur_sec: output += make_table(cur_sec, tbl_rows)
             return output
 
         rendered = render_plan_with_tables(plan)
-        st.markdown(
-            "<div style='background:#112218;border:1px solid rgba(76,175,120,0.2);"
-            "border-radius:12px;padding:1.5rem 1.75rem;'>"
-            + rendered +
-            "</div>",
-            unsafe_allow_html=True
-        )
+        st.markdown("<div style='background:#112218;border:1px solid rgba(76,175,120,0.2);border-radius:12px;padding:1.5rem 1.75rem;'>" + rendered + "</div>", unsafe_allow_html=True)
         st.success("✅ Plan generated — WBS from SOW · RAID & Tests from institutional memory.")
 
-    # ── TAB 2: Visual WBS / Sprints ────────────────────────────
     with tab_wbs:
         label = "Sprint Board" if is_agile else "Work Breakdown Structure"
         st.markdown(f"<h2>🏃 {label} — {plan_name}</h2>", unsafe_allow_html=True)
-        cadence_label = "2-week sprints" if is_agile else "Project phases"
-        unit_label    = "sprints"        if is_agile else "phases"
-        st.markdown(
-            f"<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;'>"
-            f"{cadence_label} · {len(sprints)} {unit_label} · {meth}</div>",
-            unsafe_allow_html=True
-        )
+
+        # ── Self-healing: if stored sprints have thin/placeholder stories, re-extract from plan ──
+        placeholders = {'define','build','test','task 1','task 2','task 3','tbd','n/a','iteration 1'}
+        def is_thin(sprint_list):
+            if not sprint_list: return True
+            total = sum(len(sp.get('stories',[])) for sp in sprint_list)
+            real  = sum(
+                1 for sp in sprint_list for s in sp.get('stories',[])
+                if str(s).lower().strip() not in placeholders and len(str(s)) > 10
+            )
+            return total == 0 or real < total * 0.5
+
+        if is_thin(sprints):
+            with st.spinner("Extracting detailed tasks from plan…"):
+                sprints = parse_wbs_into_sprints(plan, duration_weeks if 'duration_weeks' in dir() else 12, meth)
+                st.session_state.wbs_structured = sprints
 
         if not sprints:
-            st.info("No sprint data — regenerate the plan to see the structured WBS.")
+            st.info("No sprint data — regenerate the plan.")
         else:
             sum_cols = st.columns(min(len(sprints), 6))
             for i, sp in enumerate(sprints[:6]):
                 with sum_cols[i]:
-                    st.markdown(f"""
-                    <div style="background:rgba(76,175,120,0.08);border:1px solid rgba(76,175,120,0.25);
-                                border-radius:8px;padding:0.6rem;text-align:center;">
-                        <div style="font-size:9px;font-weight:700;color:#4caf78;text-transform:uppercase;
-                                    letter-spacing:0.1em;">{sp.get('weeks','')}</div>
-                        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.85);
-                                    margin-top:0.2rem;line-height:1.3;">{sp.get('name','').split(':')[0]}</div>
+                    sp_name_short = sp.get('name','').split(':')[0] if ':' in sp.get('name','') else sp.get('name','')
+                    st.markdown(f"""<div style="background:rgba(76,175,120,0.08);border:1px solid rgba(76,175,120,0.25);border-radius:8px;padding:0.6rem;text-align:center;">
+                        <div style="font-size:9px;font-weight:700;color:#4caf78;text-transform:uppercase;letter-spacing:0.1em;">{sp.get('weeks','')}</div>
+                        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.85);margin-top:0.2rem;line-height:1.3;">{sp_name_short}</div>
                     </div>""", unsafe_allow_html=True)
-
             st.markdown("<hr>", unsafe_allow_html=True)
-
             scol1, scol2 = st.columns(2)
             for i, sp in enumerate(sprints):
                 raw_tasks = sp.get("stories", sp.get("tasks", []))
                 display_tasks = []
                 for t in raw_tasks:
-                    if isinstance(t, dict):
-                        display_tasks.append(t.get("name", t.get("title", t.get("text", str(t)))))
-                    elif t:
-                        display_tasks.append(str(t))
+                    val = str(t.get("name", t.get("text", str(t)))) if isinstance(t, dict) else str(t)
+                    val = val.strip()
+                    if val and val.lower() not in placeholders and len(val) > 3:
+                        display_tasks.append(val)
                 with (scol1 if i % 2 == 0 else scol2):
-                    tasks_html = "".join([
-                        f"<div class='sprint-task'>{'🔵' if is_agile else '▸'} {t}</div>"
-                        for t in display_tasks
-                    ])
-                    deliverable = str(sp.get("deliverable",""))
-                    st.markdown(f"""
-                    <div class="sprint-card">
-                        <div class="sprint-header">{sp.get('name','')} &nbsp;·&nbsp; {sp.get('weeks','')}</div>
-                        <div class="sprint-goal">🎯 {sp.get('goal','')}</div>
-                        {tasks_html}
-                        {f'<div style="font-size:10px;color:#4caf78;margin-top:0.4rem;font-weight:600;">✓ Deliverable: {deliverable}</div>' if deliverable else ''}
-                    </div>""", unsafe_allow_html=True)
+                    bullet = '🔵' if is_agile else '▸'
+                    deliverable = str(sp.get("deliverable", ""))
+                    sow_ref     = str(sp.get("sow_ref", ""))
+                    sp_name     = str(sp.get("name", ""))
+                    sp_weeks    = str(sp.get("weeks", ""))
+                    sp_goal     = str(sp.get("goal", ""))
 
-    # ── TAB 3: SOW Analysis ────────────────────────────────────
-    with tab_sow:
-        st.markdown("<h2>📄 SOW Analysis — Deep Document Intelligence</h2>", unsafe_allow_html=True)
-        st.markdown(
-            "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:1rem;'>"
-            "Full structured breakdown extracted by Cortex from your SOW — 8 sections covering "
-            "objectives, deliverables, acceptance criteria, functional &amp; non-functional requirements, "
-            "constraints, and open risks."
-            "</div>", unsafe_allow_html=True
-        )
-
-        sow_req = st.session_state.sow_requirements or ""
-
-        # ── SOW section icon map ──────────────────────────────
-        SOW_ICONS = {
-            "PROJECT OBJECTIVE":              ("🎯", "#4caf78"),
-            "KEY DELIVERABLES":               ("📦", "#4caf78"),
-            "ACCEPTANCE CRITERIA":            ("✅", "#4caf78"),
-            "FUNCTIONAL REQUIREMENTS":        ("⚙️",  "#5bc8e8"),
-            "NON-FUNCTIONAL REQUIREMENTS":    ("🔧", "#5bc8e8"),
-            "OUT OF SCOPE":                   ("🚫", "#e08c5e"),
-            "CONSTRAINTS":                    ("⛓️",  "#e0c45e"),
-            "RISKS & ASSUMPTIONS":            ("⚠️",  "#e07070"),
-            "RISKS AND ASSUMPTIONS":          ("⚠️",  "#e07070"),
-        }
-
-        def render_sow_analysis(text):
-            if not text:
-                return ""
-            lines = text.split('\n')
-            html  = ""
-            in_section = False
-
-            for line in lines:
-                s = line.strip()
-                if not s:
-                    if in_section:
-                        html += "<div style='height:0.35rem;'></div>"
-                    continue
-
-                # Detect numbered section header: "1. SECTION NAME" or "## SECTION NAME"
-                is_header = False
-                header_text = ""
-                if re.match(r'^\d+\.', s):
-                    header_text = re.sub(r'^\d+\.\s*', '', s).strip()
-                    is_header = True
-                elif s.startswith('##') or s.startswith('# '):
-                    header_text = s.lstrip('#').strip()
-                    is_header = True
-
-                if is_header:
-                    # Close previous section
-                    if in_section:
-                        html += "</div>"
-
-                    # Find icon/colour
-                    ht_upper = header_text.upper()
-                    icon, color = "📌", "#4caf78"
-                    for key, (ic, co) in SOW_ICONS.items():
-                        if key in ht_upper:
-                            icon, color = ic, co
-                            break
-
-                    html += (
-                        f"<div style='margin-bottom:0.9rem;'>"
-                        f"<div style='display:flex;align-items:center;gap:0.55rem;"
-                        f"padding:0.6rem 0.9rem;margin-bottom:0.5rem;"
-                        f"background:rgba(255,255,255,0.03);border-radius:8px;"
-                        f"border-left:3px solid {color};'>"
-                        f"<span style='font-size:1rem;'>{icon}</span>"
-                        f"<span style='font-size:12px;font-weight:700;color:{color};"
-                        f"text-transform:uppercase;letter-spacing:0.09em;'>{header_text}</span>"
-                        f"</div>"
-                        f"<div style='padding-left:0.5rem;'>"
-                    )
-                    in_section = True
-
-                elif s.startswith('-') or s.startswith('•') or s.startswith('*'):
-                    content = re.sub(r'^[-•*]\s*', '', s)
-                    html += (
-                        f"<div style='display:flex;gap:0.5rem;padding:0.22rem 0;"
-                        f"color:rgba(255,255,255,0.78);font-size:12px;line-height:1.65;'>"
-                        f"<span style='color:#4caf78;flex-shrink:0;margin-top:0.1rem;'>▸</span>"
-                        f"<span>{content}</span></div>"
-                    )
-
-                elif re.match(r'^\d+\.', s) and not is_header:
-                    # Numbered sub-item inside a section
-                    num_match = re.match(r'^(\d+)\.\s*(.*)', s)
-                    if num_match:
-                        num = num_match.group(1)
-                        content = num_match.group(2)
-                        html += (
-                            f"<div style='display:flex;gap:0.5rem;padding:0.22rem 0;"
-                            f"color:rgba(255,255,255,0.78);font-size:12px;line-height:1.65;'>"
-                            f"<span style='color:#4caf78;font-weight:700;flex-shrink:0;"
-                            f"min-width:1.2rem;'>{num}.</span>"
-                            f"<span>{content}</span></div>"
-                        )
-
-                elif '|' in s:
-                    # Inline pipe-separated sub-table (e.g. in constraints)
-                    parts = [p.strip() for p in s.split('|') if p.strip()]
-                    if len(parts) >= 2:
-                        html += (
-                            "<div style='display:flex;gap:0.5rem;flex-wrap:wrap;"
-                            "padding:0.25rem 0;'>"
-                        )
-                        for p in parts:
-                            html += (
-                                f"<span style='background:rgba(76,175,120,0.1);"
-                                f"border:1px solid rgba(76,175,120,0.25);border-radius:4px;"
-                                f"padding:0.15rem 0.55rem;font-size:11px;"
-                                f"color:rgba(255,255,255,0.75);'>{p}</span>"
-                            )
-                        html += "</div>"
+                    # Build HTML as plain string concatenation — no nested f-strings or triple-quote issues
+                    card = "<div style='background:var(--forest-mid);border:1px solid var(--border-green);border-radius:var(--radius-md);padding:0.9rem 1rem;margin-bottom:0.6rem;border-left:3px solid var(--green-bright);'>"
+                    card += "<div style='font-size:12px;font-weight:700;color:var(--green-bright);margin-bottom:0.35rem;'>" + sp_name + " &nbsp;·&nbsp; " + sp_weeks + "</div>"
+                    if sow_ref:
+                        card += "<div style='font-size:9px;color:rgba(76,175,120,0.55);font-weight:600;margin-bottom:0.25rem;text-transform:uppercase;letter-spacing:0.08em;'>📎 " + sow_ref + "</div>"
+                    card += "<div style='font-size:11px;color:var(--white-90);font-weight:600;margin-bottom:0.5rem;'>🎯 " + sp_goal + "</div>"
+                    if display_tasks:
+                        for t in display_tasks:
+                            card += ("<div style='font-size:11px;color:var(--text-secondary);padding:0.22rem 0;"
+                                     "border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:0.5rem;align-items:flex-start;'>"
+                                     "<span style='color:var(--green-bright);flex-shrink:0;margin-top:0.05rem;'>" + bullet + "</span>"
+                                     "<span>" + t + "</span></div>")
                     else:
-                        html += (
-                            f"<div style='color:rgba(255,255,255,0.72);font-size:12px;"
-                            f"line-height:1.75;padding:0.12rem 0;'>{s}</div>"
-                        )
+                        card += "<div style='font-size:11px;color:rgba(255,255,255,0.25);font-style:italic;'>No tasks extracted</div>"
+                    if deliverable:
+                        card += ("<div style='font-size:10px;color:#4caf78;margin-top:0.5rem;font-weight:600;"
+                                 "padding-top:0.4rem;border-top:1px solid rgba(76,175,120,0.15);'>✓ " + deliverable + "</div>")
+                    card += "</div>"
+                    st.markdown(card, unsafe_allow_html=True)
 
-                else:
-                    # Plain prose
-                    html += (
-                        f"<div style='color:rgba(255,255,255,0.72);font-size:12px;"
-                        f"line-height:1.8;padding:0.12rem 0;'>{s}</div>"
-                    )
-
-            if in_section:
-                html += "</div></div>"
-            return html
-
+    with tab_sow:
+        st.markdown("<h2>📄 SOW Analysis</h2>", unsafe_allow_html=True)
+        sow_req = st.session_state.sow_requirements or ""
         if sow_req:
-            st.markdown(
-                "<div style='background:#112218;border:1px solid rgba(76,175,120,0.18);"
-                "border-radius:12px;padding:1.5rem 1.75rem;'>"
-                + render_sow_analysis(sow_req) +
-                "</div>",
-                unsafe_allow_html=True
-            )
+            SOW_ICONS = {
+                "PROJECT OBJECTIVE": ("🎯","#4caf78"), "KEY DELIVERABLES": ("📦","#4caf78"),
+                "ACCEPTANCE CRITERIA": ("✅","#4caf78"), "FUNCTIONAL REQUIREMENTS": ("⚙️","#5bc8e8"),
+                "NON-FUNCTIONAL REQUIREMENTS": ("🔧","#5bc8e8"), "OUT OF SCOPE": ("🚫","#e08c5e"),
+                "CONSTRAINTS": ("⛓️","#e0c45e"), "RISKS & ASSUMPTIONS": ("⚠️","#e07070"),
+                "RISKS AND ASSUMPTIONS": ("⚠️","#e07070"),
+            }
+            def render_sow_analysis(text):
+                lines = text.split('\n'); html = ""; in_section = False
+                for line in lines:
+                    s = line.strip()
+                    if not s:
+                        if in_section: html += "<div style='height:0.35rem;'></div>"
+                        continue
+                    is_header = False; header_text = ""
+                    if re.match(r'^\d+\.', s): header_text = re.sub(r'^\d+\.\s*','',s).strip(); is_header = True
+                    elif s.startswith('##') or s.startswith('# '): header_text = s.lstrip('#').strip(); is_header = True
+                    if is_header:
+                        if in_section: html += "</div>"
+                        ht_upper = header_text.upper()
+                        icon, color = "📌", "#4caf78"
+                        for key, (ic, co) in SOW_ICONS.items():
+                            if key in ht_upper: icon, color = ic, co; break
+                        html += (f"<div style='margin-bottom:0.9rem;'><div style='display:flex;align-items:center;gap:0.55rem;padding:0.6rem 0.9rem;margin-bottom:0.5rem;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid {color};'>"
+                                 f"<span style='font-size:1rem;'>{icon}</span><span style='font-size:12px;font-weight:700;color:{color};text-transform:uppercase;letter-spacing:0.09em;'>{header_text}</span></div><div style='padding-left:0.5rem;'>")
+                        in_section = True
+                    elif s.startswith('-') or s.startswith('•') or s.startswith('*'):
+                        content = re.sub(r'^[-•*]\s*','',s)
+                        html += (f"<div style='display:flex;gap:0.5rem;padding:0.22rem 0;color:rgba(255,255,255,0.78);font-size:12px;line-height:1.65;'>"
+                                 f"<span style='color:#4caf78;flex-shrink:0;margin-top:0.1rem;'>▸</span><span>{content}</span></div>")
+                    else:
+                        html += f"<div style='color:rgba(255,255,255,0.72);font-size:12px;line-height:1.8;padding:0.12rem 0;'>{s}</div>"
+                if in_section: html += "</div></div>"
+                return html
+            st.markdown("<div style='background:#112218;border:1px solid rgba(76,175,120,0.18);border-radius:12px;padding:1.5rem 1.75rem;'>" + render_sow_analysis(sow_req) + "</div>", unsafe_allow_html=True)
         else:
             st.info("SOW analysis not available — regenerate the plan.")
 
-        # ── SOW Workflow Diagram ───────────────────────────────
-        if sprints:
-            st.markdown("<hr>", unsafe_allow_html=True)
-            st.markdown(
-                "<h2>🗺️ Project Workflow Diagram</h2>",
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;'>"
-                "Visual end-to-end delivery flow — SOW intake through to deployment, "
-                "aligned to your sprint plan."
-                "</div>", unsafe_allow_html=True
-            )
-
-            def build_workflow_svg(sprint_list, methodology):
-                is_ag = any(k in methodology.lower() for k in ['agile','scrum','safe'])
-                # ── fixed pipeline stages ──
-                stages = [
-                    ("SOW\nIntake",    "#3d8c5e", "📄"),
-                    ("Discovery &\nRequirements", "#2d5fa8", "🔍"),
-                    ("Architecture\n& Design",    "#6a3a9f", "🏗️"),
-                    ("Development\n& Build",       "#c07a00", "⚙️"),
-                    ("Testing &\nQA",              "#5b8ce8", "🧪"),
-                    ("UAT &\nSign-off",             "#2d7a50", "✅"),
-                    ("Deployment\n& Handover",      "#4caf78", "🚀"),
-                ]
-                # map sprints to stages
-                n     = len(stages)
-                sw    = 120   # stage box width
-                sh    = 64    # stage box height
-                gap   = 52    # gap between boxes (arrow space)
-                pad_x = 30
-                pad_y = 110
-                total_w = pad_x * 2 + n * sw + (n - 1) * gap
-                total_h = pad_y + sh + 140   # room for sprint pills below
-
-                svg_parts = [
-                    f'<svg viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg" '
-                    f'style="width:100%;max-width:{total_w}px;font-family:Plus Jakarta Sans,sans-serif;">',
-                    # background
-                    f'<rect width="{total_w}" height="{total_h}" fill="#0d1a11" rx="12"/>',
-                    # subtle grid lines
-                ]
-                for gi in range(1, n):
-                    gx = pad_x + gi * (sw + gap) - gap // 2
-                    svg_parts.append(
-                        f'<line x1="{gx}" y1="20" x2="{gx}" y2="{total_h-20}" '
-                        f'stroke="rgba(255,255,255,0.04)" stroke-width="1"/>'
-                    )
-
-                # ── stage boxes + arrows ──
-                for i, (label, color, icon) in enumerate(stages):
-                    x  = pad_x + i * (sw + gap)
-                    y  = pad_y
-                    cx = x + sw // 2
-
-                    # arrow between boxes
-                    if i > 0:
-                        ax1 = x - gap + 4
-                        ax2 = x - 4
-                        ay  = y + sh // 2
-                        svg_parts.append(
-                            f'<line x1="{ax1}" y1="{ay}" x2="{ax2}" y2="{ay}" '
-                            f'stroke="#4caf78" stroke-width="2" stroke-dasharray="4 3" opacity="0.6"/>'
-                        )
-                        svg_parts.append(
-                            f'<polygon points="{ax2},{ay-5} {ax2+8},{ay} {ax2},{ay+5}" '
-                            f'fill="#4caf78" opacity="0.7"/>'
-                        )
-
-                    # box shadow / glow
-                    svg_parts.append(
-                        f'<rect x="{x+2}" y="{y+2}" width="{sw}" height="{sh}" '
-                        f'rx="8" fill="{color}" opacity="0.15"/>'
-                    )
-                    # box
-                    svg_parts.append(
-                        f'<rect x="{x}" y="{y}" width="{sw}" height="{sh}" '
-                        f'rx="8" fill="{color}" fill-opacity="0.18" '
-                        f'stroke="{color}" stroke-opacity="0.7" stroke-width="1.5"/>'
-                    )
-                    # icon
-                    svg_parts.append(
-                        f'<text x="{cx}" y="{y+22}" text-anchor="middle" '
-                        f'font-size="14" dominant-baseline="middle">{icon}</text>'
-                    )
-                    # label (multi-line)
-                    lines_lbl = label.split('\n')
-                    for li, ln in enumerate(lines_lbl):
-                        ly = y + 36 + li * 14
-                        svg_parts.append(
-                            f'<text x="{cx}" y="{ly}" text-anchor="middle" '
-                            f'font-size="9" font-weight="700" fill="{color}" '
-                            f'letter-spacing="0.04em">{ln}</text>'
-                        )
-
-                    # step number circle
-                    svg_parts.append(
-                        f'<circle cx="{x+14}" cy="{y+14}" r="9" fill="{color}" fill-opacity="0.8"/>'
-                    )
-                    svg_parts.append(
-                        f'<text x="{x+14}" y="{y+14}" text-anchor="middle" '
-                        f'dominant-baseline="middle" font-size="8" font-weight="800" fill="#fff">{i+1}</text>'
-                    )
-
-                # ── Sprint pills below stages ──
-                pill_y = pad_y + sh + 20
-                pill_h = 22
-
-                # distribute sprints across stage positions
-                sprint_colors = [
-                    "#4caf78","#5b8ce8","#a05be8","#f0a500","#e05c5c","#5bc8e8","#4caf78"
-                ]
-                n_sp   = len(sprint_list)
-                slot_w = (total_w - pad_x * 2) / max(n_sp, 1)
-
-                for si, sp in enumerate(sprint_list):
-                    sx      = pad_x + si * slot_w
-                    sxc     = sx + slot_w / 2
-                    sc      = sprint_colors[si % len(sprint_colors)]
-                    sp_name = str(sp.get('name', f'Sprint {si+1}')).split(':')[0].strip()
-                    sp_wk   = str(sp.get('weeks', ''))
-
-                    # connector dot from stage area
-                    stage_i = min(int(si * n / max(n_sp, 1)), n - 1)
-                    stage_cx = pad_x + stage_i * (sw + gap) + sw // 2
-
-                    svg_parts.append(
-                        f'<line x1="{stage_cx}" y1="{pad_y + sh}" x2="{sxc}" y2="{pill_y}" '
-                        f'stroke="{sc}" stroke-opacity="0.3" stroke-width="1" stroke-dasharray="3 3"/>'
-                    )
-                    # pill bg
-                    pill_w = min(slot_w - 8, total_w / n_sp - 4)
-                    svg_parts.append(
-                        f'<rect x="{sxc - pill_w/2}" y="{pill_y}" '
-                        f'width="{pill_w}" height="{pill_h}" '
-                        f'rx="11" fill="{sc}" fill-opacity="0.15" '
-                        f'stroke="{sc}" stroke-opacity="0.5" stroke-width="1"/>'
-                    )
-                    svg_parts.append(
-                        f'<text x="{sxc}" y="{pill_y + 8}" text-anchor="middle" '
-                        f'font-size="8" font-weight="700" fill="{sc}">{sp_name}</text>'
-                    )
-                    svg_parts.append(
-                        f'<text x="{sxc}" y="{pill_y + 18}" text-anchor="middle" '
-                        f'font-size="7" fill="rgba(255,255,255,0.4)">{sp_wk}</text>'
-                    )
-
-                # ── Legend row ──
-                leg_y = total_h - 24
-                leg_items = [
-                    ("#4caf78", "Sprint / Phase"),
-                    ("#5b8ce8", "Development Gate"),
-                    ("#f0a500", "Review Gate"),
-                    ("#e05c5c", "Risk Checkpoint"),
-                ]
-                lx = pad_x
-                for lc, lt in leg_items:
-                    svg_parts.append(
-                        f'<circle cx="{lx+5}" cy="{leg_y}" r="4" fill="{lc}" opacity="0.8"/>'
-                    )
-                    svg_parts.append(
-                        f'<text x="{lx+13}" y="{leg_y}" dominant-baseline="middle" '
-                        f'font-size="8" fill="rgba(255,255,255,0.4)">{lt}</text>'
-                    )
-                    lx += 130
-
-                svg_parts.append('</svg>')
-                return "".join(svg_parts)
-
-            wf_svg = build_workflow_svg(sprints, meth)
-            st.markdown(
-                "<div style='background:#0d1a11;border:1px solid rgba(76,175,120,0.18);"
-                "border-radius:12px;padding:1rem;overflow-x:auto;'>"
-                + wf_svg +
-                "</div>",
-                unsafe_allow_html=True
-            )
-
-        # ── Patterns from Past Projects ───────────────────────
-        past_p = st.session_state.past_patterns or ""
-        if past_p:
-            st.markdown("<hr>", unsafe_allow_html=True)
-            st.markdown(
-                "<h2>🧠 Patterns Applied from Past Projects</h2>",
-                unsafe_allow_html=True
-            )
-            st.markdown(
-                "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:1rem;'>"
-                "Risks, test patterns, timeline lessons and team structure extracted from matched past projects "
-                "and adapted for this project."
-                "</div>", unsafe_allow_html=True
-            )
-
-            def render_patterns(text):
-                """
-                Parse the 4 sections (### A. TOP RISKS, ### B. TEST PATTERNS,
-                ### C. TIMELINE LESSONS, ### D. TEAM STRUCTURE) and render each
-                with appropriate UI: risk cards, test table, bullet lessons, role table.
-                """
-
-                # Split into sections by ### A. / ### B. / ### C. / ### D.
-                section_re = re.compile(
-                    r'###\s*([A-D])\.\s*(.*?)(?=\n###\s*[A-D]\.|\Z)',
-                    re.DOTALL | re.IGNORECASE
-                )
-                sections = {m.group(1).upper(): (m.group(2).strip(), m.group(0))
-                            for m in section_re.finditer(text)}
-
-                # Also try plain "A. TOP RISKS" headers without ### prefix
-                if not sections:
-                    section_re2 = re.compile(
-                        r'^([A-D])\.\s+(TOP RISKS|TEST PATTERNS|TIMELINE LESSONS|TEAM STRUCTURE)(.*?)(?=^[A-D]\.\s+|\Z)',
-                        re.DOTALL | re.IGNORECASE | re.MULTILINE
-                    )
-                    sections = {m.group(1).upper(): (m.group(2).strip() + m.group(3), m.group(0))
-                                for m in section_re2.finditer(text)}
-
-                html = ""
-
-                # ── A. TOP RISKS ──────────────────────────────
-                lh_bg  = {"High":"rgba(224,92,92,0.12)","Medium":"rgba(240,165,0,0.1)","Low":"rgba(76,175,120,0.1)","—":"rgba(255,255,255,0.04)"}
-                lh_col = {"High":"#e05c5c","Medium":"#f0a500","Low":"#4caf78","—":"rgba(255,255,255,0.35)"}
-                cat_col = {"Risk":"#e05c5c","Assumption":"#5b8ce8","Issue":"#f0a500",
-                           "Dependency":"#a05be8","—":"rgba(255,255,255,0.5)"}
-                cat_bg  = {"Risk":"rgba(224,92,92,0.1)","Assumption":"rgba(91,140,232,0.1)",
-                           "Issue":"rgba(240,165,0,0.1)","Dependency":"rgba(160,91,232,0.1)","—":"transparent"}
-
-                a_content = sections.get("A", ("", ""))[0] if "A" in sections else ""
-                if not a_content:
-                    # fallback: search raw text
-                    m = re.search(r'(?:###?\s*A\.|A\.\s+TOP RISKS)(.*?)(?=###?\s*B\.|B\.\s+TEST|\Z)',
-                                  text, re.DOTALL | re.IGNORECASE)
-                    if m: a_content = m.group(1).strip()
-
-                risk_rows = []
-                for line in a_content.split('\n'):
-                    parts = [p.strip() for p in line.split('|')]
-                    parts = [p for p in parts if p]
-                    if len(parts) >= 4 and not all(set(p) <= set('-: ') for p in parts):
-                        skip_words = {'category','type','description','likelihood','impact',
-                                      'mitigation','owner','---','top risks'}
-                        if not any(p.lower() in skip_words for p in parts[:2]):
-                            risk_rows.append(parts)
-
-                html += (
-                    "<div style='margin-bottom:1.5rem;'>"
-                    "<div style='display:flex;align-items:center;gap:0.5rem;"
-                    "margin-bottom:0.75rem;padding-bottom:0.4rem;"
-                    "border-bottom:2px solid rgba(224,92,92,0.3);'>"
-                    "<span style='font-size:1rem;'>⚠️</span>"
-                    "<span style='font-size:12px;font-weight:700;color:#e05c5c;"
-                    "text-transform:uppercase;letter-spacing:0.1em;'>A. Top Risks</span>"
-                    f"<span style='font-size:10px;color:rgba(255,255,255,0.3);"
-                    f"margin-left:auto;'>{len(risk_rows)} risks identified</span>"
-                    "</div>"
-                )
-
-                if risk_rows:
-                    for r in risk_rows:
-                        while len(r) < 7: r.append("—")
-                        cat  = r[0].strip().title()
-                        rtype = r[1].strip()
-                        desc  = r[2].strip()
-                        lh    = r[3].strip().title()
-                        im    = r[4].strip().title()
-                        mit   = r[5].strip()
-                        owner = r[6].strip()
-                        cbg   = cat_bg.get(cat, "rgba(255,255,255,0.04)")
-                        ccol  = cat_col.get(cat, "rgba(255,255,255,0.5)")
-                        lbg   = lh_bg.get(lh, lh_bg["—"])
-                        lcol  = lh_col.get(lh, lh_col["—"])
-                        ibg   = lh_bg.get(im, lh_bg["—"])
-                        icol  = lh_col.get(im, lh_col["—"])
-
-                        html += (
-                            f"<div style='background:{lbg};border:1px solid {lcol}22;"
-                            f"border-left:3px solid {lcol};border-radius:8px;"
-                            f"padding:0.75rem 1rem;margin-bottom:0.5rem;'>"
-
-                            # Header row: category badge + type + likelihood + impact badges
-                            f"<div style='display:flex;align-items:flex-start;"
-                            f"gap:0.4rem;margin-bottom:0.4rem;flex-wrap:wrap;'>"
-                            f"<span style='background:{cbg};border:1px solid {ccol}44;"
-                            f"color:{ccol};font-size:9px;font-weight:700;padding:0.1rem 0.5rem;"
-                            f"border-radius:4px;text-transform:uppercase;'>{cat}</span>"
-                            f"<span style='background:rgba(255,255,255,0.06);border:1px solid "
-                            f"rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);font-size:9px;"
-                            f"font-weight:600;padding:0.1rem 0.5rem;border-radius:4px;'>{rtype}</span>"
-                            f"<span style='margin-left:auto;display:flex;gap:0.3rem;'>"
-                            f"<span style='background:{lh_bg.get(lh)};color:{lh_col.get(lh)};"
-                            f"border:1px solid {lh_col.get(lh)}44;font-size:9px;font-weight:700;"
-                            f"padding:0.1rem 0.45rem;border-radius:4px;text-transform:uppercase;'>L: {lh}</span>"
-                            f"<span style='background:{ibg};color:{icol};"
-                            f"border:1px solid {icol}44;font-size:9px;font-weight:700;"
-                            f"padding:0.1rem 0.45rem;border-radius:4px;text-transform:uppercase;'>I: {im}</span>"
-                            f"</span></div>"
-
-                            # Description
-                            f"<div style='font-size:12px;font-weight:600;"
-                            f"color:rgba(255,255,255,0.88);margin-bottom:0.35rem;'>{desc}</div>"
-
-                            # Mitigation + Owner
-                            f"<div style='display:flex;gap:1rem;flex-wrap:wrap;'>"
-                            f"<div style='font-size:11px;color:rgba(255,255,255,0.55);flex:1;'>"
-                            f"🛡️ <span style='color:rgba(255,255,255,0.72);'>{mit}</span></div>"
-                            f"<div style='font-size:10px;color:rgba(255,255,255,0.3);white-space:nowrap;'>"
-                            f"👤 {owner}</div>"
-                            f"</div>"
-                            f"</div>"
-                        )
-                else:
-                    html += "<div style='color:rgba(255,255,255,0.35);font-size:12px;'>No risk data parsed.</div>"
-
-                html += "</div>"
-
-                # ── B. TEST PATTERNS ──────────────────────────
-                b_content = sections.get("B", ("", ""))[0] if "B" in sections else ""
-                if not b_content:
-                    m = re.search(r'(?:###?\s*B\.|B\.\s+TEST PATTERNS)(.*?)(?=###?\s*C\.|C\.\s+TIMELINE|\Z)',
-                                  text, re.DOTALL | re.IGNORECASE)
-                    if m: b_content = m.group(1).strip()
-
-                test_rows = []
-                for line in b_content.split('\n'):
-                    parts = [p.strip() for p in line.split('|')]
-                    parts = [p for p in parts if p]
-                    if len(parts) >= 4 and not all(set(p) <= set('-: ') for p in parts):
-                        skip_words = {'id','priority','type','scenario','preconditions',
-                                      'steps','expected result','---','test patterns'}
-                        if not any(p.lower() in skip_words for p in parts[:2]):
-                            test_rows.append(parts)
-
-                pri_col = {"High":"#e05c5c","Medium":"#f0a500","Low":"#4caf78"}
-                pri_bg  = {"High":"rgba(224,92,92,0.12)","Medium":"rgba(240,165,0,0.1)","Low":"rgba(76,175,120,0.1)"}
-                typ_col = {"Integration":"#5b8ce8","Data Quality":"#4caf78","Security":"#e05c5c",
-                           "Performance":"#f0a500","Functional":"#a05be8","Regression":"#888888","UAT":"#4caf78"}
-                typ_bg  = {"Integration":"rgba(91,140,232,0.1)","Data Quality":"rgba(76,175,120,0.1)",
-                           "Security":"rgba(224,92,92,0.1)","Performance":"rgba(240,165,0,0.1)",
-                           "Functional":"rgba(160,91,232,0.1)","Regression":"rgba(128,128,128,0.1)",
-                           "UAT":"rgba(76,175,120,0.1)"}
-
-                html += (
-                    "<div style='margin-bottom:1.5rem;'>"
-                    "<div style='display:flex;align-items:center;gap:0.5rem;"
-                    "margin-bottom:0.75rem;padding-bottom:0.4rem;"
-                    "border-bottom:2px solid rgba(91,140,232,0.3);'>"
-                    "<span style='font-size:1rem;'>🧪</span>"
-                    "<span style='font-size:12px;font-weight:700;color:#5b8ce8;"
-                    "text-transform:uppercase;letter-spacing:0.1em;'>B. Test Patterns</span>"
-                    f"<span style='font-size:10px;color:rgba(255,255,255,0.3);"
-                    f"margin-left:auto;'>{len(test_rows)} test cases</span>"
-                    "</div>"
-                )
-
-                if test_rows:
-                    # Render as a styled table
-                    tc_headers = ["ID", "Priority", "Type", "Scenario", "Preconditions", "Steps", "Expected Result"]
-                    th_cells = "".join(
-                        f"<th style='background:#162840;color:#5b8ce8;padding:0.5rem 0.75rem;"
-                        f"text-align:left;font-size:10px;font-weight:700;letter-spacing:0.06em;"
-                        f"border:1px solid rgba(91,140,232,0.2);white-space:nowrap;'>{h}</th>"
-                        for h in tc_headers
-                    )
-                    rows_html = ""
-                    for i, r in enumerate(test_rows):
-                        while len(r) < 7: r.append("")
-                        r = r[:7]
-                        row_bg = "#1a2e42" if i % 2 == 0 else "#152438"
-                        pri    = r[1].strip().title()
-                        ttype  = r[2].strip().title()
-                        p_col  = pri_col.get(pri, "#888")
-                        p_bg   = pri_bg.get(pri, "rgba(255,255,255,0.05)")
-                        t_col  = typ_col.get(ttype, "#888")
-                        t_bg   = typ_bg.get(ttype, "rgba(255,255,255,0.05)")
-                        cells  = ""
-                        for ci, cell in enumerate(r):
-                            val = str(cell).strip()
-                            if ci == 0:
-                                style = (f"background:{row_bg};color:#5b8ce8;font-weight:700;"
-                                         f"font-size:10px;border:1px solid rgba(91,140,232,0.15);"
-                                         f"padding:0.4rem 0.6rem;white-space:nowrap;")
-                            elif ci == 1:
-                                style = (f"background:{p_bg};color:{p_col};font-weight:700;"
-                                         f"font-size:10px;text-align:center;"
-                                         f"border:1px solid rgba(91,140,232,0.15);padding:0.4rem 0.6rem;")
-                            elif ci == 2:
-                                style = (f"background:{t_bg};color:{t_col};font-weight:700;"
-                                         f"font-size:10px;text-align:center;"
-                                         f"border:1px solid rgba(91,140,232,0.15);padding:0.4rem 0.6rem;")
-                            else:
-                                style = (f"background:{row_bg};color:rgba(255,255,255,0.75);"
-                                         f"font-size:11px;vertical-align:top;line-height:1.5;"
-                                         f"border:1px solid rgba(91,140,232,0.15);padding:0.4rem 0.6rem;")
-                            cells += f"<td style='{style}'>{val}</td>"
-                        rows_html += f"<tr>{cells}</tr>"
-
-                    html += (
-                        "<div style='overflow-x:auto;border-radius:8px;"
-                        "border:1px solid rgba(91,140,232,0.25);margin-bottom:0.5rem;'>"
-                        "<table style='width:100%;border-collapse:collapse;'>"
-                        f"<thead><tr>{th_cells}</tr></thead>"
-                        f"<tbody>{rows_html}</tbody>"
-                        "</table></div>"
-                    )
-                else:
-                    html += "<div style='color:rgba(255,255,255,0.35);font-size:12px;'>No test pattern data parsed.</div>"
-
-                html += "</div>"
-
-                # ── C. TIMELINE LESSONS ───────────────────────
-                c_content = sections.get("C", ("", ""))[0] if "C" in sections else ""
-                if not c_content:
-                    m = re.search(r'(?:###?\s*C\.|C\.\s+TIMELINE LESSONS)(.*?)(?=###?\s*D\.|D\.\s+TEAM|\Z)',
-                                  text, re.DOTALL | re.IGNORECASE)
-                    if m: c_content = m.group(1).strip()
-
-                html += (
-                    "<div style='margin-bottom:1.5rem;'>"
-                    "<div style='display:flex;align-items:center;gap:0.5rem;"
-                    "margin-bottom:0.75rem;padding-bottom:0.4rem;"
-                    "border-bottom:2px solid rgba(240,165,0,0.3);'>"
-                    "<span style='font-size:1rem;'>📅</span>"
-                    "<span style='font-size:12px;font-weight:700;color:#f0a500;"
-                    "text-transform:uppercase;letter-spacing:0.1em;'>C. Timeline Lessons</span>"
-                    "</div>"
-                )
-
-                lesson_lines = [l.strip() for l in c_content.split('\n') if l.strip()]
-                if lesson_lines:
-                    for lesson in lesson_lines:
-                        content = re.sub(r'^[-•*\d\.]+\s*', '', lesson).strip()
-                        if not content:
-                            continue
-                        html += (
-                            f"<div style='display:flex;gap:0.65rem;padding:0.5rem 0.75rem;"
-                            f"margin-bottom:0.4rem;background:rgba(240,165,0,0.07);"
-                            f"border-left:3px solid rgba(240,165,0,0.5);"
-                            f"border-radius:0 6px 6px 0;'>"
-                            f"<span style='color:#f0a500;font-size:0.85rem;flex-shrink:0;"
-                            f"margin-top:0.05rem;'>⏱</span>"
-                            f"<span style='font-size:12px;color:rgba(255,255,255,0.78);"
-                            f"line-height:1.65;'>{content}</span>"
-                            f"</div>"
-                        )
-                else:
-                    html += "<div style='color:rgba(255,255,255,0.35);font-size:12px;'>No timeline lessons parsed.</div>"
-
-                html += "</div>"
-
-                # ── D. TEAM STRUCTURE ─────────────────────────
-                d_content = sections.get("D", ("", ""))[0] if "D" in sections else ""
-                if not d_content:
-                    m = re.search(r'(?:###?\s*D\.|D\.\s+TEAM STRUCTURE)(.*?)$',
-                                  text, re.DOTALL | re.IGNORECASE)
-                    if m: d_content = m.group(1).strip()
-
-                html += (
-                    "<div style='margin-bottom:1rem;'>"
-                    "<div style='display:flex;align-items:center;gap:0.5rem;"
-                    "margin-bottom:0.75rem;padding-bottom:0.4rem;"
-                    "border-bottom:2px solid rgba(76,175,120,0.3);'>"
-                    "<span style='font-size:1rem;'>👥</span>"
-                    "<span style='font-size:12px;font-weight:700;color:#4caf78;"
-                    "text-transform:uppercase;letter-spacing:0.1em;'>D. Team Structure</span>"
-                    "</div>"
-                )
-
-                role_rows = []
-                prose_lines = []
-                for line in d_content.split('\n'):
-                    s = line.strip()
-                    if not s:
-                        continue
-                    if '|' in s:
-                        parts = [p.strip() for p in s.split('|') if p.strip()]
-                        if len(parts) >= 2 and not all(set(p) <= set('-: ') for p in parts):
-                            skip_h = {'role title','headcount','key responsibilities',
-                                      'skills required','role','responsibilities','---'}
-                            if not any(p.lower() in skip_h for p in parts[:2]):
-                                role_rows.append(parts)
-                    else:
-                        prose_lines.append(s)
-
-                if role_rows:
-                    role_headers = ["Role Title", "Headcount", "Key Responsibilities", "Skills Required"]
-                    th_r = "".join(
-                        f"<th style='background:#162818;color:#4caf78;padding:0.5rem 0.75rem;"
-                        f"text-align:left;font-size:10px;font-weight:700;letter-spacing:0.06em;"
-                        f"border:1px solid rgba(76,175,120,0.2);white-space:nowrap;'>{h}</th>"
-                        for h in role_headers
-                    )
-                    rows_r = ""
-                    for i, r in enumerate(role_rows):
-                        while len(r) < 4: r.append("")
-                        r = r[:4]
-                        rbg = "#1a2e1f" if i % 2 == 0 else "#152318"
-                        cells_r = ""
-                        for ci, cell in enumerate(r):
-                            if ci == 0:
-                                style_r = (f"background:{rbg};color:#4caf78;font-weight:700;"
-                                           f"font-size:11px;border:1px solid rgba(76,175,120,0.15);"
-                                           f"padding:0.5rem 0.75rem;white-space:nowrap;")
-                            elif ci == 1:
-                                style_r = (f"background:{rbg};color:rgba(255,255,255,0.85);"
-                                           f"font-weight:700;font-size:11px;text-align:center;"
-                                           f"border:1px solid rgba(76,175,120,0.15);padding:0.5rem 0.75rem;")
-                            else:
-                                style_r = (f"background:{rbg};color:rgba(255,255,255,0.72);"
-                                           f"font-size:11px;vertical-align:top;line-height:1.5;"
-                                           f"border:1px solid rgba(76,175,120,0.15);padding:0.5rem 0.75rem;")
-                            cells_r += f"<td style='{style_r}'>{cell.strip()}</td>"
-                        rows_r += f"<tr>{cells_r}</tr>"
-
-                    html += (
-                        "<div style='overflow-x:auto;border-radius:8px;"
-                        "border:1px solid rgba(76,175,120,0.25);'>"
-                        "<table style='width:100%;border-collapse:collapse;'>"
-                        f"<thead><tr>{th_r}</tr></thead>"
-                        f"<tbody>{rows_r}</tbody>"
-                        "</table></div>"
-                    )
-                elif prose_lines:
-                    for pl in prose_lines:
-                        content = re.sub(r'^[-•*\d\.]+\s*', '', pl).strip()
-                        if content:
-                            html += (
-                                f"<div style='display:flex;gap:0.5rem;padding:0.25rem 0;"
-                                f"color:rgba(255,255,255,0.75);font-size:12px;line-height:1.65;'>"
-                                f"<span style='color:#4caf78;flex-shrink:0;'>▸</span>"
-                                f"<span>{content}</span></div>"
-                            )
-                else:
-                    html += "<div style='color:rgba(255,255,255,0.35);font-size:12px;'>No team structure data parsed.</div>"
-
-                html += "</div>"
-                return html
-
-            st.markdown(
-                "<div style='background:#112218;border:1px solid rgba(76,175,120,0.18);"
-                "border-radius:12px;padding:1.5rem 1.75rem;'>"
-                + render_patterns(past_p) +
-                "</div>",
-                unsafe_allow_html=True
-            )
-
-    # ── TAB 4: Q&A ─────────────────────────────────────────────
     with tab_qa:
         st.markdown("<h2>💬 Ask Cortex About This Plan</h2>", unsafe_allow_html=True)
-        st.markdown(
-            "<div style='font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;'>"
-            "Cortex answers using the full plan, SOW analysis, and WBS. "
-            "Ask anything — risks, tasks, emails, timelines, RACI."
-            "</div>", unsafe_allow_html=True
-        )
-
-        suggestions = [
-            "What are the top 3 risks for the steering committee?",
-            "Write a project kick-off email to the team.",
-            "What should Sprint 1 look like in detail?",
-            "Generate a RACI matrix for this project.",
-            "What compliance tasks are needed?",
-            "Rewrite the executive summary for a non-technical audience.",
-            "What is the critical path?",
-            "Suggest mitigation for the highest impact risks.",
-        ]
-        sc1, sc2, sc3 = st.columns(3)
+        suggestions = ["What are the top 3 risks?","Write a kick-off email.","Sprint 1 in detail?","Generate a RACI matrix.","What compliance tasks are needed?","Rewrite exec summary simply.","What is the critical path?","Suggest risk mitigations."]
+        sc1,sc2,sc3 = st.columns(3)
         for i, s in enumerate(suggestions):
-            col = [sc1, sc2, sc3][i % 3]
-            with col:
-                if st.button(s, key=f"sugg_{i}"):
-                    st.session_state['pending_question'] = s
-
+            with [sc1,sc2,sc3][i%3]:
+                if st.button(s, key=f"sugg_{i}"): st.session_state['pending_question'] = s
         st.markdown("<hr>", unsafe_allow_html=True)
-
-        if 'qa_input_value' not in st.session_state:
-            st.session_state['qa_input_value'] = ''
-
-        if st.session_state.get('pending_question'):
-            st.session_state['qa_input_value'] = st.session_state.pop('pending_question')
-
-        user_q = st.text_input(
-            "Your question:",
-            value=st.session_state['qa_input_value'],
-            placeholder="e.g. What dependencies could block Sprint 2?"
-        )
-
+        if 'qa_input_value' not in st.session_state: st.session_state['qa_input_value'] = ''
+        if st.session_state.get('pending_question'): st.session_state['qa_input_value'] = st.session_state.pop('pending_question')
+        user_q = st.text_input("Your question:", value=st.session_state['qa_input_value'], placeholder="e.g. What dependencies could block Sprint 2?")
         if st.button("🤖 Ask Cortex", key="ask_btn"):
             q = (user_q or '').strip()
-            if not q:
-                st.warning("Please type a question first.")
+            if not q: st.warning("Please type a question first.")
             else:
                 sow_ctx = (st.session_state.sow_requirements or "")[:600]
-                wbs_ctx = "\n".join([
-                    s.get('name','') + " (" + s.get('weeks','') + "): " + s.get('goal','')
-                    for s in (st.session_state.wbs_structured or [])
-                ])[:500]
-                qa_prompt = (
-                    "You are a senior PMO consultant. Answer the question using the project context.\n\n"
-                    "Project: " + plan_name + "\n"
-                    "SOW Summary:\n" + sow_ctx + "\n\n"
-                    "WBS Summary:\n" + wbs_ctx + "\n\n"
-                    "Plan (excerpt):\n" + plan[:1800] + "\n\n"
-                    "Question: " + q + "\n\n"
-                    "Answer specifically and practically. "
-                    "If the question asks for a document or template, produce it fully."
-                )
+                wbs_ctx = "\n".join([s.get('name','') + " (" + s.get('weeks','') + "): " + s.get('goal','') for s in (st.session_state.wbs_structured or [])])[:500]
+                qa_prompt = ("You are a senior PMO consultant. Answer using the project context.\n\nProject: " + plan_name +
+                             "\nSOW:\n" + sow_ctx + "\n\nWBS:\n" + wbs_ctx + "\n\nPlan:\n" + plan[:1800] + "\n\nQuestion: " + q +
+                             "\n\nAnswer specifically and practically.")
                 with st.spinner("Cortex is thinking…"):
                     ans = cortex_call(qa_prompt, "Q&A")
                 if ans:
                     st.session_state.qa_history.append({"q": q, "a": ans})
-                    st.session_state['qa_input_value'] = ''
-                    st.rerun()
-                else:
-                    st.error("No response — check Cortex connection.")
-
-        # ── Conversation History — structured render ──────────
+                    st.session_state['qa_input_value'] = ''; st.rerun()
+                else: st.error("No response.")
         if st.session_state.qa_history:
-            st.markdown(
-                "<div style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);"
-                "text-transform:uppercase;letter-spacing:0.12em;margin:0.75rem 0 0.5rem;padding-bottom:0.35rem;"
-                "border-bottom:1px solid rgba(255,255,255,0.06);'>💬 Conversation History</div>",
-                unsafe_allow_html=True
-            )
-
-            def render_qa_answer(text):
-                """Render a Cortex answer with proper structure — headings, bullets, numbered lists, tables, prose."""
-                lines  = text.split('\n')
-                out    = ""
-                for line in lines:
-                    s = line.strip()
-                    if not s:
-                        out += "<div style='height:0.4rem;'></div>"
-                        continue
-                    if s.startswith('###'):
-                        t = s.lstrip('#').strip()
-                        out += ("<div style='font-size:11px;font-weight:700;color:#5b8ce8;"
-                                "text-transform:uppercase;letter-spacing:0.08em;"
-                                "margin:0.8rem 0 0.3rem;padding-bottom:0.2rem;"
-                                "border-bottom:1px solid rgba(91,140,232,0.25);'>%s</div>" % t)
-                    elif s.startswith('##'):
-                        t = s.lstrip('#').strip()
-                        out += ("<div style='font-size:12px;font-weight:700;color:#4caf78;"
-                                "text-transform:uppercase;letter-spacing:0.08em;"
-                                "margin:0.8rem 0 0.3rem;padding:0.3rem 0.6rem;"
-                                "background:rgba(76,175,120,0.07);border-left:2px solid #4caf78;"
-                                "border-radius:0 4px 4px 0;'>%s</div>" % t)
-                    elif s.startswith('#'):
-                        t = s.lstrip('#').strip()
-                        out += ("<div style='font-size:13px;font-weight:800;color:#4caf78;"
-                                "margin:0.9rem 0 0.35rem;'>%s</div>" % t)
-                    elif s.startswith('- ') or s.startswith('* ') or s.startswith('• '):
-                        c = re.sub(r'^[-*•]\s*', '', s)
-                        out += ("<div style='display:flex;gap:0.5rem;padding:0.2rem 0;"
-                                "color:rgba(255,255,255,0.8);font-size:12px;line-height:1.65;'>"
-                                "<span style='color:#4caf78;flex-shrink:0;font-size:0.7rem;"
-                                "margin-top:0.2rem;'>▸</span><span>%s</span></div>" % c)
-                    elif re.match(r'^\d+\.\s', s):
-                        m2 = re.match(r'^(\d+)\.\s*(.*)', s)
-                        if m2:
-                            out += ("<div style='display:flex;gap:0.5rem;padding:0.2rem 0;"
-                                    "color:rgba(255,255,255,0.8);font-size:12px;line-height:1.65;'>"
-                                    "<span style='color:#4caf78;font-weight:700;flex-shrink:0;"
-                                    "min-width:1.4rem;'>%s.</span><span>%s</span></div>"
-                                    % (m2.group(1), m2.group(2)))
-                    elif '|' in s:
-                        # Mini inline table
-                        parts = [p.strip() for p in s.split('|') if p.strip()]
-                        if len(parts) >= 2 and not all(set(p) <= set('-: ') for p in parts):
-                            cells = "".join(
-                                "<td style='padding:0.35rem 0.65rem;font-size:11px;"
-                                "color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.06);"
-                                "background:rgba(255,255,255,0.03);vertical-align:top;'>%s</td>" % p
-                                for p in parts
-                            )
-                            out += ("<div style='overflow-x:auto;margin:0.3rem 0;'>"
-                                    "<table style='border-collapse:collapse;font-size:11px;'>"
-                                    "<tr>%s</tr></table></div>" % cells)
-                        else:
-                            out += "<div style='color:rgba(255,255,255,0.72);font-size:12px;line-height:1.8;'>%s</div>" % s
-                    elif s.startswith('**') and s.endswith('**'):
-                        t = s.strip('*')
-                        out += "<div style='color:rgba(255,255,255,0.9);font-size:12px;font-weight:700;padding:0.1rem 0;'>%s</div>" % t
-                    else:
-                        out += "<div style='color:rgba(255,255,255,0.72);font-size:12px;line-height:1.85;padding:0.05rem 0;'>%s</div>" % s
-                return out
-
+            st.markdown("<div style='font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.12em;margin:0.75rem 0 0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);'>💬 Conversation History</div>", unsafe_allow_html=True)
             for qa in reversed(st.session_state.qa_history):
-                # ── Question bubble ──
-                st.markdown(
-                    "<div style='background:rgba(76,175,120,0.08);border:1px solid rgba(76,175,120,0.25);"
-                    "border-left:3px solid #4caf78;border-radius:8px;"
-                    "padding:0.65rem 1rem;margin-bottom:0.3rem;'>"
-                    "<div style='font-size:9px;font-weight:700;color:rgba(76,175,120,0.55);"
-                    "text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem;'>You asked</div>"
-                    "<div style='font-size:12px;color:#f0f5f2;font-weight:600;'>❓ " + qa['q'] + "</div>"
-                    "</div>",
-                    unsafe_allow_html=True
-                )
-                # ── Cortex Answered bubble — fully structured ──
-                st.markdown(
-                    "<div style='background:#172a1e;border:1px solid rgba(255,255,255,0.07);"
-                    "border-left:3px solid #5b8ce8;border-radius:0 8px 8px 8px;"
-                    "padding:0.85rem 1.1rem;margin-bottom:1rem;'>"
-                    "<div style='font-size:9px;font-weight:700;color:rgba(91,140,232,0.6);"
-                    "text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;'>"
-                    "🤖 Cortex answered</div>"
-                    + render_qa_answer(qa['a']) +
-                    "</div>",
-                    unsafe_allow_html=True
-                )
-            if st.button("🗑️ Clear History", key="clear_qa"):
-                st.session_state.qa_history = []
-                st.rerun()
+                st.markdown("<div style='background:rgba(76,175,120,0.08);border:1px solid rgba(76,175,120,0.25);border-left:3px solid #4caf78;border-radius:8px;padding:0.65rem 1rem;margin-bottom:0.3rem;'><div style='font-size:9px;font-weight:700;color:rgba(76,175,120,0.55);text-transform:uppercase;margin-bottom:0.2rem;'>You asked</div><div style='font-size:12px;color:#f0f5f2;font-weight:600;'>❓ " + qa['q'] + "</div></div>", unsafe_allow_html=True)
+                st.markdown("<div style='background:#172a1e;border:1px solid rgba(255,255,255,0.07);border-left:3px solid #5b8ce8;border-radius:0 8px 8px 8px;padding:0.85rem 1.1rem;margin-bottom:1rem;'><div style='font-size:9px;font-weight:700;color:rgba(91,140,232,0.6);text-transform:uppercase;margin-bottom:0.5rem;'>🤖 Cortex</div><div style='font-size:12px;color:rgba(255,255,255,0.82);line-height:1.8;'>" + qa['a'].replace('\n','<br>') + "</div></div>", unsafe_allow_html=True)
+            if st.button("🗑️ Clear History", key="clear_qa"): st.session_state.qa_history = []; st.rerun()
 
-    # ── TAB 5: Risk Analyser ───────────────────────────────────
     with tab_risks:
         st.markdown("<h2>⚠️ Risk Analyser</h2>", unsafe_allow_html=True)
         if st.button("🔍 Extract & Score Risks with Cortex"):
-            rp = (
-                f"Extract all risks from this plan for \"{plan_name}\".\n"
-                f"Plan:\n{plan[:2500]}\n\n"
-                f"Return ONLY valid JSON array:\n"
-                f'[{{"risk":"title","type":"Technical/Resource/Timeline/Budget/Compliance",'
-                f'"likelihood":"High/Medium/Low","impact":"High/Medium/Low",'
-                f'"mitigation":"one sentence","owner":"role"}}]'
-            )
+            rp = (f"Extract all risks from this plan for \"{plan_name}\".\nPlan:\n{plan[:2500]}\n\n"
+                  f"Return ONLY valid JSON array:\n[{{\"risk\":\"title\",\"type\":\"Technical/Resource/Timeline/Budget/Compliance\","
+                  f"\"likelihood\":\"High/Medium/Low\",\"impact\":\"High/Medium/Low\",\"mitigation\":\"one sentence\",\"owner\":\"role\"}}]")
             with st.spinner(""):
                 raw = cortex_call(rp, "Risk Analyser")
                 try:
-                    raw = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
-                    risks = json.loads(raw)
-                except Exception:
-                    risks = [
-                        {"risk":"Data access permissions","type":"Technical","likelihood":"High","impact":"High","mitigation":"Pre-provision IAM roles before Sprint 1","owner":"Platform Engineer"},
-                        {"risk":"Scope creep","type":"Timeline","likelihood":"Medium","impact":"High","mitigation":"Lock scope after Sprint 2","owner":"Project Manager"},
-                        {"risk":"Key person dependency","type":"Resource","likelihood":"Medium","impact":"Medium","mitigation":"Cross-train 2 members per component","owner":"Tech Lead"},
-                    ]
-
-            lbg = {"High":"rgba(224,92,92,0.12)","Medium":"rgba(240,165,0,0.1)","Low":"rgba(76,175,120,0.1)"}
-            lco = {"High":"rgba(224,92,92,1)","Medium":"rgba(240,165,0,1)","Low":"#4caf78"}
+                    raw = raw.strip().lstrip("```json").lstrip("```").rstrip("```").strip(); risks = json.loads(raw)
+                except:
+                    risks = [{"risk":"Data access permissions","type":"Technical","likelihood":"High","impact":"High","mitigation":"Pre-provision IAM roles before Sprint 1","owner":"Platform Engineer"},
+                             {"risk":"Scope creep","type":"Timeline","likelihood":"Medium","impact":"High","mitigation":"Lock scope after Sprint 2","owner":"PM"},
+                             {"risk":"Key person dependency","type":"Resource","likelihood":"Medium","impact":"Medium","mitigation":"Cross-train 2 members","owner":"Tech Lead"}]
+            lbg={"High":"rgba(224,92,92,0.12)","Medium":"rgba(240,165,0,0.1)","Low":"rgba(76,175,120,0.1)"}
+            lco={"High":"rgba(224,92,92,1)","Medium":"rgba(240,165,0,1)","Low":"#4caf78"}
             for r in risks:
-                lh = r.get('likelihood','Medium'); im = r.get('impact','Medium')
-                bg = lbg.get(lh,lbg['Medium']); co = lco.get(lh,lco['Medium'])
-                st.markdown(f"""<div style='background:{bg};border:1px solid {co}33;border-radius:var(--radius-md);padding:0.85rem 1rem;margin-bottom:0.5rem;'>
-                    <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem;'>
-                        <div style='font-weight:700;font-size:12px;color:var(--white-90);'>{r.get('risk','')}</div>
-                        <div style='display:flex;gap:0.35rem;flex-shrink:0;margin-left:0.5rem;'>
-                            <span style='background:{lbg.get(lh)};color:{lco.get(lh)};border:1px solid {lco.get(lh)}44;font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;'>L:{lh}</span>
-                            <span style='background:{lbg.get(im)};color:{lco.get(im)};border:1px solid {lco.get(im)}44;font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;'>I:{im}</span>
-                            <span style='background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid var(--border);font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;'>{r.get('type','')}</span>
-                        </div>
-                    </div>
-                    <div style='font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:0.2rem;'>🛡️ {r.get('mitigation','')}</div>
-                    <div style='font-size:10px;color:rgba(255,255,255,0.3);'>Owner: {r.get('owner','')}</div>
-                </div>""", unsafe_allow_html=True)
+                lh=r.get('likelihood','Medium'); im=r.get('impact','Medium')
+                bg=lbg.get(lh,lbg['Medium']); co=lco.get(lh,lco['Medium'])
+                st.markdown(f"<div style='background:{bg};border:1px solid {co}33;border-radius:10px;padding:0.85rem 1rem;margin-bottom:0.5rem;'><div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem;'><div style='font-weight:700;font-size:12px;color:rgba(255,255,255,0.9);'>{r.get('risk','')}</div><div style='display:flex;gap:0.35rem;'><span style='background:{lbg.get(lh)};color:{lco.get(lh)};border:1px solid {lco.get(lh)}44;font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;'>L:{lh}</span><span style='background:{lbg.get(im)};color:{lco.get(im)};border:1px solid {lco.get(im)}44;font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;text-transform:uppercase;'>I:{im}</span><span style='background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);font-size:9px;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;'>{r.get('type','')}</span></div></div><div style='font-size:11px;color:rgba(255,255,255,0.6);margin-bottom:0.2rem;'>🛡️ {r.get('mitigation','')}</div><div style='font-size:10px;color:rgba(255,255,255,0.3);'>Owner: {r.get('owner','')}</div></div>", unsafe_allow_html=True)
 
-    # ── TAB 6: Export ──────────────────────────────────────────
     with tab_export:
         st.markdown("<h2>📤 Export & Save</h2>", unsafe_allow_html=True)
-
-        ec1, ec2, ec3 = st.columns(3)
-
+        ec1,ec2,ec3 = st.columns(3)
         with ec1:
             st.markdown("<div class='plan-section-title'>💾 Save to Snowflake</div>", unsafe_allow_html=True)
             save_status = st.selectbox("Status", ["In Progress","Planning","On Hold"])
-
-            # ── Review confirmation gate ───────────────────────
-            st.markdown(
-                "<div style='background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.3);"
-                "border-left:3px solid #f0a500;border-radius:8px;padding:0.7rem 0.9rem;"
-                "margin-bottom:0.6rem;'>"
-                "<div style='font-size:10px;font-weight:700;color:#f0a500;text-transform:uppercase;"
-                "letter-spacing:0.08em;margin-bottom:0.35rem;'>⚠️ Review Gate</div>"
-                "<div style='font-size:11px;color:rgba(255,255,255,0.75);'>"
-                "Has the Project Plan been reviewed and approved before saving?</div>"
-                "</div>",
-                unsafe_allow_html=True
-            )
-            review_confirmed = st.radio(
-                "Plan Reviewed?",
-                options=["— Select —", "✅ Yes — Plan is reviewed, save it", "❌ No — Not yet reviewed"],
-                index=0,
-                key="save_review_gate",
-                label_visibility="collapsed"
-            )
-
-            if review_confirmed == "✅ Yes — Plan is reviewed, save it":
+            st.markdown("<div style='background:rgba(240,165,0,0.08);border:1px solid rgba(240,165,0,0.3);border-left:3px solid #f0a500;border-radius:8px;padding:0.7rem 0.9rem;margin-bottom:0.6rem;'><div style='font-size:10px;font-weight:700;color:#f0a500;text-transform:uppercase;margin-bottom:0.35rem;'>⚠️ Review Gate</div><div style='font-size:11px;color:rgba(255,255,255,0.75);'>Has the Project Plan been reviewed before saving?</div></div>", unsafe_allow_html=True)
+            review_confirmed = st.radio("Plan Reviewed?", options=["— Select —","✅ Yes — Plan reviewed, save it","❌ No — Not yet reviewed"], index=0, key="save_review_gate", label_visibility="collapsed")
+            if review_confirmed == "✅ Yes — Plan reviewed, save it":
                 if st.button("💾 Save to Projects Table", key="save_btn"):
                     try:
-                        esc = (plan or '').replace("'","''")
-                        pn  = plan_name.replace("'","''")
-                        # Save full plan text as wbs_summary + deployment_plan for future reference
-                        wbs_part  = esc[:3000]
-                        depl_part = esc[3000:5000] if len(esc) > 3000 else ''
-                        session.sql(
-                            f"INSERT INTO projects "
-                            f"(project_name, description, status, wbs_summary, "
-                            f"risk_log_summary, test_cases_summary, deployment_plan) "
-                            f"VALUES('{pn}', 'AI-generated plan — reviewed & approved', "
-                            f"'{save_status}', '{wbs_part}', '', '', '{depl_part}')"
-                        ).collect()
-                        st.success("✅ Project saved to DB — will inform future plans.")
-                        st.session_state.past_projects_df = load_past_projects()
-                        st.session_state.imported_csv_names.add(plan_name)
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Save failed: {e}")
+                        esc=(plan or '').replace("'","''"); pn=plan_name.replace("'","''")
+                        wbs_part=esc[:3000]; depl_part=esc[3000:5000] if len(esc)>3000 else ''
+                        session.sql(f"INSERT INTO projects (project_name,description,status,wbs_summary,risk_log_summary,test_cases_summary,deployment_plan) VALUES('{pn}','AI-generated plan — reviewed','{save_status}','{wbs_part}','','','{depl_part}')").collect()
+                        st.success("✅ Project saved to DB.")
+                        st.session_state.past_projects_df = load_past_projects(); st.session_state.imported_csv_names.add(plan_name); st.rerun()
+                    except Exception as e: st.error(f"Save failed: {e}")
             elif review_confirmed == "❌ No — Not yet reviewed":
-                st.markdown(
-                    "<div style='background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,0.3);"
-                    "border-radius:8px;padding:0.6rem 0.9rem;margin-top:0.3rem;'>"
-                    "<div style='font-size:11px;color:#e05c5c;font-weight:600;'>🚫 Save blocked.</div>"
-                    "<div style='font-size:11px;color:rgba(255,255,255,0.6);margin-top:0.2rem;'>"
-                    "Please review the plan with your team before saving to the database.</div>"
-                    "</div>",
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(
-                    "<div style='font-size:11px;color:rgba(255,255,255,0.3);margin-top:0.3rem;'>"
-                    "Select Yes or No above to proceed.</div>",
-                    unsafe_allow_html=True
-                )
-
+                st.markdown("<div style='background:rgba(224,92,92,0.1);border:1px solid rgba(224,92,92,0.3);border-radius:8px;padding:0.6rem 0.9rem;'><div style='font-size:11px;color:#e05c5c;font-weight:600;'>🚫 Save blocked.</div><div style='font-size:11px;color:rgba(255,255,255,0.6);'>Please review before saving.</div></div>", unsafe_allow_html=True)
         with ec2:
             st.markdown("<div class='plan-section-title'>📄 Download Text</div>", unsafe_allow_html=True)
-            st.download_button("⬇ Download .txt", data=plan or "",
-                               file_name=f"{plan_name.replace(' ','_')}_plan.txt", mime="text/plain")
-
+            st.download_button("⬇ Download .txt", data=plan or "", file_name=f"{plan_name.replace(' ','_')}_plan.txt", mime="text/plain")
         with ec3:
             st.markdown("<div class='plan-section-title'>📊 Download Excel</div>", unsafe_allow_html=True)
-            st.markdown(
-                "<div style='font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;'>"
-                "5 sheets: Summary · WBS/Sprints · RAID Log · Test Cases · Timeline</div>",
-                unsafe_allow_html=True
-            )
+            st.markdown("<div style='font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;'>5 sheets: Summary · WBS/Sprints · RAID Log · Test Cases · Timeline</div>", unsafe_allow_html=True)
             if st.button("📎 Build Excel Workbook"):
                 with st.spinner("Building Excel..."):
-                    sp = sprints if sprints else parse_wbs_into_sprints(plan, duration_weeks, meth)
+                    sp = sprints if sprints else parse_wbs_into_sprints(plan, 12, meth)
                     excel_bytes = build_excel(plan, plan_name, sp, meth)
-                st.download_button(
-                    label="⬇ Download .xlsx",
-                    data=excel_bytes,
-                    file_name=f"{plan_name.replace(' ','_')}_ProjectPlan.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                )
-
-        # ── FIX: Preview plan text with proper monospace rendering ──
+                st.download_button(label="⬇ Download .xlsx", data=excel_bytes, file_name=f"{plan_name.replace(' ','_')}_ProjectPlan.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         with st.expander("🔍 Preview plan text"):
-            safe_plan = (
-                (plan or "")
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-            )
-            st.markdown(
-                "<div class='plan-preview-wrap'>"
-                "<pre>" + safe_plan + "</pre>"
-                "</div>",
-                unsafe_allow_html=True
-            )
+            safe_plan = (plan or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+            st.markdown("<div class='plan-preview-wrap'><pre>" + safe_plan + "</pre></div>", unsafe_allow_html=True)
 
 elif not generate_button:
     st.markdown("<div class='panel'>", unsafe_allow_html=True)
@@ -2902,7 +2033,4 @@ elif not generate_button:
     </div>""", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("""<div class='footer'>
-    Powered by <span>Snowflake Cortex</span> &nbsp;·&nbsp;
-    PMO Intelligence &nbsp;·&nbsp; Institutional Memory → Faster Delivery
-</div>""", unsafe_allow_html=True)
+st.markdown("""<div class='footer'>Powered by <span>Snowflake Cortex</span> &nbsp;·&nbsp; PMO Intelligence &nbsp;·&nbsp; Institutional Memory → Faster Delivery</div>""", unsafe_allow_html=True)
