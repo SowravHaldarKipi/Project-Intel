@@ -1,6 +1,6 @@
 ## 1. SOW Analysis Prompt
 
-"""
+```
 You are a senior business analyst and PMO consultant reading a Statement of Work (SOW).
 
 Project context:
@@ -49,26 +49,26 @@ SOW TEXT:
 
 Be thorough and specific. Reference exact wording from the SOW where relevant. 
 If the SOW is silent on a topic, state 'Not specified in SOW — clarification recommended'.
-"""
+```
 
 ### Purpose:
 Parses the uploaded Statement of Work (SOW) and extracts a structured, detailed analysis across eight sections: project objective, key deliverables, acceptance criteria, functional requirements, non-functional requirements, out of scope, constraints/dependencies, and risks/assumptions. This provides the foundation for the rest of the plan.
 
 ## 2. Past Project Selection Prompt
-"""
+```
 Select up to 4 past projects most similar to:
 {proj_context[:400]}
 Candidates (JSON):
 {json.dumps(candidates[:25])[:1200]}
 
 Return ONLY a JSON array of IDs: [1, 4, 7]
-"""
+```
 
 ### Purpose:
 Selects up to four past projects (from the database or imported CSVs) that are most relevant to the new project, based on project name, description, and type. The output is a JSON array of IDs used to retrieve those projects’ patterns.
 
 ## 3. Past Pattern Extraction Prompt
-"""
+```
 (
     "You are a PMO expert extracting reusable patterns from past Snowflake projects.\n\n"
     "New project context:\n" + proj_context + "\n\n"
@@ -100,12 +100,12 @@ Selects up to four past projects (from the database or imported CSVs) that are m
     "Be specific. Reference past project names where relevant. "
     "IMPORTANT: Output ONLY the four section headers and their content. No preamble, no conclusion."
 )
-"""
+```
 ### Purpose:
 Extracts reusable patterns from the selected past projects. It produces four structured sections: top risks (pipe-delimited), test patterns (pipe-delimited), timeline lessons (bullet points), and recommended team structure (pipe-delimited). These patterns are later injected into the final plan.
 
 ## 4. WBS Generation Prompt
-"""
+```
 (
     "You are a Snowflake Solutions Architect decomposing a SOW into a delivery plan.\n\n"
     "Project context:\n" + proj_context + "\n\n"
@@ -119,12 +119,12 @@ Extracts reusable patterns from the selected past projects. It produces four str
     '"stories":["Task 1","Task 2","Task 3","Task 4"],'
     '"deliverable":"Acceptance criterion met"}]'
 )
-"""
+```
 ### Purpose:
 Creates a structured Work Breakdown Structure (WBS) as a JSON array of sprints or phases. Each sprint includes a name, weeks, goal, reference to the SOW deliverable, tasks (stories), and a deliverable description. The prompt ensures strict mapping to the SOW to avoid scope creep.
 
 ## 5. Full Plan Assembly Prompt
-"""
+```
 (
     "You are a senior PMO consultant writing the final project plan.\n\n"
     "CRITICAL RULE: Every sprint, task, milestone, test case, and RAID item MUST directly trace back "
@@ -164,12 +164,12 @@ Creates a structured Work Breakdown Structure (WBS) as a JSON array of sprints o
     "ABSOLUTE RULE: Sections with pipe-delimited format must contain ONLY data rows. "
     "No column headers, no section sub-titles, no bullet points, no blank lines within them."
 )
-"""
+```
 ### Purpose:
 Assembles the final project plan from the SOW analysis, WBS, and past project patterns. It produces seven sections in a precise format (executive summary, RAID log, test cases, delivery timeline, deployment strategy, SOW traceability matrix, lessons from past projects). The prompt enforces traceability back to the SOW and uses pipe-delimited tables for structured data.
 
 ### 6. Risk Extractor Prompt (in Risk Analyser tab)
-"""
+```
 Extract all risks from this plan for "{plan_name}".
 Plan:
 {plan[:2500]}
@@ -178,13 +178,13 @@ Return ONLY valid JSON array:
 [{{"risk":"title","type":"Technical/Resource/Timeline/Budget/Compliance",
 "likelihood":"High/Medium/Low","impact":"High/Medium/Low",
 "mitigation":"one sentence","owner":"role"}}]
-"""
+```
 
 ### Purpose:
 Extracts risks from the generated plan and returns them as a structured JSON array. This is used to populate the “Risk Analyser” tab, where users can view and score risks.
 
 ## 7. Q&A Prompt (in Ask the Plan tab)
-"""
+```
 (
     "You are a senior PMO consultant. Answer the question using the project context.\n\n"
     "Project: " + plan_name + "\n"
@@ -195,7 +195,7 @@ Extracts risks from the generated plan and returns them as a structured JSON arr
     "Answer specifically and practically. "
     "If the question asks for a document or template, produce it fully."
 )
-"""
+```
 ### Purpose:
 Answers user‑posed questions about the generated project plan, SOW analysis, and WBS. It provides a conversational interface for clarifying plan details, generating emails, or extracting additional insights.
 
